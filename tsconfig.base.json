@@ -15,7 +15,8 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "weblancer-ui/editor-core": ["editor-core/src/index.ts"]
+      "@weblancer-ui/editor-connector": ["libs/editor-connector/src/index.ts"],
+      "@weblancer-ui/editor-core": ["libs/editor-core/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

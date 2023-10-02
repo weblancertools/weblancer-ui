@@ -5,7 +5,7 @@ import * as path from 'path';
 import { nxViteTsPaths } from '@nx/vite/plugins/nx-tsconfig-paths.plugin';
 
 export default defineConfig({
-  cacheDir: '../node_modules/.vite/editor-core',
+  cacheDir: '../../node_modules/.vite/editor-core',
 
   plugins: [
     react(),
