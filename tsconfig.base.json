@@ -18,7 +18,8 @@
       "@weblancer-ui/client-core": ["libs/client-core/src/index.ts"],
       "@weblancer-ui/editor-connector": ["libs/editor-connector/src/index.ts"],
       "@weblancer-ui/editor-core": ["libs/editor-core/src/index.ts"],
-      "@weblancer-ui/state-manager": ["libs/state-manager/src/index.ts"]
+      "@weblancer-ui/state-manager": ["libs/state-manager/src/index.ts"],
+      "@weblancer-ui/types": ["libs/types/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

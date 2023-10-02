@@ -1,7 +1,4 @@
-import {
-  Manager,
-  ManagerWithUiPlugin,
-} from '../../weblancerManager/interfaces/Manager';
+import { Manager, ManagerWithUiPlugin } from '@weblancer-ui/types';
 
 export const getRightMenus = (managers: Manager[]) => {
   const managersWithUiPlugin = [] as ManagerWithUiPlugin[];

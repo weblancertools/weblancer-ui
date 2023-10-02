@@ -1,5 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { Manager } from './interfaces/Manager';
+import { Manager } from '@weblancer-ui/types';
 
 export class WeblancerManager {
   private managers: Record<string, Manager> = {};

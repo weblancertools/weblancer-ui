@@ -3,8 +3,9 @@ import { IEditorUIPlugin } from './IEditorUIPlugin';
 
 export abstract class Manager {
   abstract name: string;
-  public store?: ReturnType<typeof configureStore>;
   abstract uiPlugin?: IEditorUIPlugin;
+
+  public store?: ReturnType<typeof configureStore>;
 
   public addStore(store: ReturnType<typeof configureStore>) {
     this.store = store;
@@ -14,5 +15,5 @@ export abstract class Manager {
 }
 
 export abstract class ManagerWithUiPlugin extends Manager {
-  abstract uiPlugin: IEditorUIPlugin;
+  abstract override uiPlugin: IEditorUIPlugin;
 }
