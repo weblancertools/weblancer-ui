@@ -1,5 +1,5 @@
 import { FunctionComponent } from 'react';
-import { Manager } from './weblancerManager/interfaces/Manager';
+import { Manager } from '@weblancer-ui/types';
 import { WeblancerContextProvider } from './context/weblancerContextProvider';
 import { getDefaultManagers } from './helpers/getDefaultManagers';
 import { configureStore } from '@reduxjs/toolkit';

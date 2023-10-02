@@ -1,4 +1,4 @@
-import { ManagerWithUiPlugin } from '../../../../weblancerManager/interfaces/Manager';
+import { ManagerWithUiPlugin } from '@weblancer-ui/types';
 import { FunctionComponent } from 'react';
 import layoutStyle from '../../../styles/editorLayout.module.scss';
 

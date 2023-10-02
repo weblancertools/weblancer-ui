@@ -6,11 +6,11 @@ import { getRightMenus } from './helpers/getRightMenus';
 import layoutStyle from './styles/editorLayout.module.scss';
 import styles from './editorUI.module.scss';
 import { RightMenus } from './components/layouts/rightMenus/rightMenus';
-import { LeftMenus } from './components/layouts/leftMenus/leftMenus';
 import { MiddleToolbars } from './components/layouts/middleToolbars/middleToolbars';
 import { ClientView } from './components/layouts/clientView/clientView';
 import classNames from 'classnames';
 import { Header } from './components/layouts/header/header';
+import { LeftMenus } from './components/layouts/leftMenus/leftMenus';
 
 export const EditorUI: FunctionComponent = () => {
   const { weblancerManager } = useWeblancerContext();
