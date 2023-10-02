@@ -1,17 +1,19 @@
-import React, { FunctionComponent, PropsWithChildren, useRef } from 'react';
+import { FunctionComponent, PropsWithChildren, useRef } from 'react';
 import WeblancerContext from './weblancerContext';
 import { WeblancerManager } from '../weblancerManager/weblancerManager';
-import { IManager } from '../weblancerManager/interfaces/IManager';
+import { Manager } from '../weblancerManager/interfaces/IManager';
+import { configureStore } from '@reduxjs/toolkit';
 
 export interface IWeblancerContextProvider extends PropsWithChildren {
-  managers: IManager[];
+  managers: Manager[];
+  store: ReturnType<typeof configureStore>;
 }
 
 export const WeblancerContextProvider: FunctionComponent<
   IWeblancerContextProvider
-> = ({ managers, children }) => {
+> = ({ store, managers, children }) => {
   const { current: weblancerManager } = useRef<WeblancerManager>(
-    new WeblancerManager(managers)
+    new WeblancerManager(managers, store)
   );
 
   return (

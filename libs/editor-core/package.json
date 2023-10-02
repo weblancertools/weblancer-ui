@@ -8,5 +8,9 @@
       "import": "./index.mjs",
       "require": "./index.js"
     }
+  },
+  "dependencies": {
+    "@reduxjs/toolkit": "^1.9.6",
+    "react-redux": "^8.1.3"
   }
 }
