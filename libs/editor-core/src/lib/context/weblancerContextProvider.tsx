@@ -7,13 +7,14 @@ import { configureStore } from '@reduxjs/toolkit';
 export interface IWeblancerContextProvider extends PropsWithChildren {
   managers: Manager[];
   store: ReturnType<typeof configureStore>;
+  type: 'editor' | 'client';
 }
 
 export const WeblancerContextProvider: FunctionComponent<
   IWeblancerContextProvider
-> = ({ store, managers, children }) => {
+> = ({ type, store, managers, children }) => {
   const { current: weblancerManager } = useRef<WeblancerManager>(
-    new WeblancerManager(managers, store)
+    new WeblancerManager(managers, store, type)
   );
 
   return (

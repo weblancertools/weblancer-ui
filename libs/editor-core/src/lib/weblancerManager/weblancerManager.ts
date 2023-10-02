@@ -7,7 +7,8 @@ export class WeblancerManager {
 
   constructor(
     managers: Manager[],
-    private store: ReturnType<typeof configureStore>
+    public store: ReturnType<typeof configureStore>,
+    private type: 'editor' | 'client'
   ) {
     managers.forEach((manager) => {
       this.addManager(manager);
@@ -52,5 +53,13 @@ export class WeblancerManager {
 
   public getManagers() {
     return Object.values(this.managers);
+  }
+
+  public isEditor() {
+    return this.type === 'editor';
+  }
+
+  public isClient() {
+    return this.type === 'client';
   }
 }

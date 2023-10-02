@@ -3,7 +3,14 @@ import { useWeblancerContext } from '../context/weblancerContext';
 import { getLeftMenus } from './helpers/getLeftMenus';
 import { getMiddleToolbars } from './helpers/getMiddleToolbars';
 import { getRightMenus } from './helpers/getRightMenus';
-import { LeftMenus } from './components/layouts/leftMenus/LeftMenus';
+import layoutStyle from './styles/editorLayout.module.scss';
+import styles from './editorUI.module.scss';
+import { RightMenus } from './components/layouts/rightMenus/rightMenus';
+import { LeftMenus } from './components/layouts/leftMenus/leftMenus';
+import { MiddleToolbars } from './components/layouts/middleToolbars/middleToolbars';
+import { ClientView } from './components/layouts/clientView/clientView';
+import classNames from 'classnames';
+import { Header } from './components/layouts/header/header';
 
 export const EditorUI: FunctionComponent = () => {
   const { weblancerManager } = useWeblancerContext();
@@ -28,8 +35,12 @@ export const EditorUI: FunctionComponent = () => {
   );
 
   return (
-    <div>
+    <div className={classNames(layoutStyle.root, styles.root)}>
+      <Header />
       <LeftMenus managers={leftMenus} />
+      <MiddleToolbars managers={middleToolbars} />
+      <RightMenus managers={rightMenus} />
+      <ClientView />
     </div>
   );
 };

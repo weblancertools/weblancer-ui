@@ -2,14 +2,16 @@ import { ManagerWithUiPlugin } from '../../../../weblancerManager/interfaces/Man
 import { FunctionComponent } from 'react';
 import layoutStyle from '../../../styles/editorLayout.module.scss';
 
-export interface ILeftMenusProps {
+export interface IRightMenusProps {
   managers: ManagerWithUiPlugin[];
 }
 
-export const LeftMenus: FunctionComponent<ILeftMenusProps> = ({ managers }) => {
+export const RightMenus: FunctionComponent<IRightMenusProps> = ({
+  managers,
+}) => {
   return (
-    <div className={layoutStyle.leftMenus}>
-      Left menus
+    <div className={layoutStyle.rightMenus}>
+      Right menus
       {managers.map(({ uiPlugin }) => {
         return <div key={uiPlugin.name}></div>;
       })}

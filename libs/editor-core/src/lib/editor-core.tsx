@@ -18,6 +18,7 @@ export const EditorCore: FunctionComponent<EditorCoreProps> = ({
     <WeblancerContextProvider
       store={store}
       managers={[...getDefaultManagers(), ...managers]}
+      type="editor"
     >
       <EditorUI />
     </WeblancerContextProvider>
