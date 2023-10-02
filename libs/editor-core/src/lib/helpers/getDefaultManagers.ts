@@ -1,5 +1,5 @@
-import { IManager } from '../weblancerManager/interfaces/IManager';
+import { Manager } from '../weblancerManager/interfaces/IManager';
 
-export function getDefaultManagers(): IManager[] {
+export function getDefaultManagers(): Manager[] {
   return [];
 }
