@@ -1,13 +1,17 @@
-import styles from './editor-core.module.scss';
+import { PropsWithChildren } from 'react';
+import { IManager } from './weblancerManager/interfaces/IManager';
+import { WeblancerContextProvider } from './context/weblancerContextProvider';
+import { getDefaultManagers } from './helpers/getDefaultManagers';
 
-/* eslint-disable-next-line */
-export interface EditorCoreProps {}
+export interface EditorCoreProps extends PropsWithChildren {
+  managers?: IManager[];
+}
 
-export function EditorCore(props: EditorCoreProps) {
+export function EditorCore({ managers = [], children }: EditorCoreProps) {
   return (
-    <div className={styles['container']}>
-      <h1>Welcome to EditorCore!</h1>
-    </div>
+    <WeblancerContextProvider managers={[...getDefaultManagers(), ...managers]}>
+      {children}
+    </WeblancerContextProvider>
   );
 }
 
