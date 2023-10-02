@@ -1,4 +1,4 @@
-import { createContext } from 'react';
+import { createContext, useContext } from 'react';
 import { WeblancerManager } from '../weblancerManager/weblancerManager';
 
 interface IWeblancerContext {
@@ -10,5 +10,8 @@ const initialState: IWeblancerContext = {
 };
 
 const WeblancerContext = createContext<IWeblancerContext>(initialState);
+
+export const useWeblancerContext = () =>
+  useContext<IWeblancerContext>(WeblancerContext);
 
 export default WeblancerContext;

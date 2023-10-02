@@ -1,10 +1,11 @@
-import { FunctionComponent, PropsWithChildren } from 'react';
-import { Manager } from './weblancerManager/interfaces/IManager';
+import { FunctionComponent } from 'react';
+import { Manager } from './weblancerManager/interfaces/Manager';
 import { WeblancerContextProvider } from './context/weblancerContextProvider';
 import { getDefaultManagers } from './helpers/getDefaultManagers';
 import { configureStore } from '@reduxjs/toolkit';
+import { EditorUI } from './ui/editorUI';
 
-export interface EditorCoreProps extends PropsWithChildren {
+export interface EditorCoreProps {
   managers?: Manager[];
   store: ReturnType<typeof configureStore>;
 }
@@ -12,14 +13,13 @@ export interface EditorCoreProps extends PropsWithChildren {
 export const EditorCore: FunctionComponent<EditorCoreProps> = ({
   store,
   managers = [],
-  children,
 }) => {
   return (
     <WeblancerContextProvider
       store={store}
       managers={[...getDefaultManagers(), ...managers]}
     >
-      {children}
+      <EditorUI />
     </WeblancerContextProvider>
   );
 };
