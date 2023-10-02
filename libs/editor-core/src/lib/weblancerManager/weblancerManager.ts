@@ -1,5 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { Manager } from './interfaces/IManager';
+import { Manager } from './interfaces/Manager';
 
 export class WeblancerManager {
   private managers: Record<string, Manager> = {};
@@ -7,7 +7,8 @@ export class WeblancerManager {
 
   constructor(
     managers: Manager[],
-    private store: ReturnType<typeof configureStore>
+    public store: ReturnType<typeof configureStore>,
+    private type: 'editor' | 'client'
   ) {
     managers.forEach((manager) => {
       this.addManager(manager);
@@ -48,5 +49,17 @@ export class WeblancerManager {
         this.initManager(manager);
       });
     }
+  }
+
+  public getManagers() {
+    return Object.values(this.managers);
+  }
+
+  public isEditor() {
+    return this.type === 'editor';
+  }
+
+  public isClient() {
+    return this.type === 'client';
   }
 }
