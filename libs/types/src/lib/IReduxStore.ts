@@ -1,3 +1,4 @@
 import { configureStore } from '@reduxjs/toolkit';
 
-export type IReduxStore = typeof configureStore;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type IReduxStore<TState = any> = typeof configureStore<TState>;

@@ -14,4 +14,5 @@ export interface IStateManagerActions {
   setState(key: string, value?: unknown): void;
   createState(key: string, typeInfo: ITypeInfo, defaultValue?: unknown): void;
   getStateSelector(key: string): ReturnType<IReduxSelector>;
+  getAllStates(): IStateManagerSlice;
 }
