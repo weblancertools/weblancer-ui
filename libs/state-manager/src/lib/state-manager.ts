@@ -3,18 +3,17 @@ import { IStateManagerSlice, createState, setState } from './slice/stateSlice';
 import { createDraftSafeSelector } from '@reduxjs/toolkit';
 import { STATE_MANAGER_NAME } from './constants';
 import { IReduxSelector, IStateManagerActions, IStoreRootState } from './types';
+import { injectable } from 'inversify';
+import { weblancerContainer } from '@weblancer-ui/editor-core';
 
+@injectable()
 export class StateManager
-  extends IManager<IStateManagerActions, IStoreRootState>
+  extends IManager<IStoreRootState>
   implements IStateManagerActions
 {
   public name = STATE_MANAGER_NAME;
   public uiPlugin?: IEditorUIPlugin;
   private selectorCache: Record<string, ReturnType<IReduxSelector>> = {};
-
-  public init(): void {
-    // Nothing
-  }
 
   public createState(key: string, typeInfo: ITypeInfo, defaultValue?: unknown) {
     this.store?.dispatch(createState({ key, typeInfo, defaultValue }));
@@ -41,4 +40,13 @@ export class StateManager
 
     throw new Error('Call getAllStates after initialization');
   }
+
+  static getInstance() {
+    return weblancerContainer.get<StateManager>(StateManager);
+  }
 }
+
+weblancerContainer
+  .bind<IStateManagerActions>(StateManager)
+  .toSelf()
+  .inSingletonScope();
