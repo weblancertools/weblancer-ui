@@ -1,5 +1,4 @@
-import { configureStore } from '@reduxjs/toolkit';
-import { IManager } from '@weblancer-ui/types';
+import { IManager, IReduxStore } from '@weblancer-ui/types';
 
 export class WeblancerManager {
   private managers: Record<string, IManager> = {};
@@ -7,7 +6,7 @@ export class WeblancerManager {
 
   constructor(
     managers: IManager[],
-    public store: ReturnType<typeof configureStore>,
+    public store: ReturnType<IReduxStore>,
     private type: 'editor' | 'client'
   ) {
     managers.forEach((manager) => {

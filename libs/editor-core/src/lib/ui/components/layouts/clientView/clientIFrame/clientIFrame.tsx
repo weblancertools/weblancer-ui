@@ -1,15 +1,14 @@
 import { getDefaultManagers } from '../../../../../helpers/getDefaultManagers';
 import { WeblancerContextProvider } from '../../../../../context/weblancerContextProvider';
 import { FunctionComponent } from 'react';
-import { IManager } from '@weblancer-ui/types';
-import { configureStore } from '@reduxjs/toolkit';
+import { IManager, IReduxStore } from '@weblancer-ui/types';
 import { ClientCore } from '@weblancer-ui/client-core';
 import Frame from 'react-frame-component';
 import styles from './clientIFrame.module.scss';
 
 export interface IClientIFrameProps {
   managers: IManager[];
-  store: ReturnType<typeof configureStore>;
+  store: ReturnType<IReduxStore>;
 }
 
 export const ClientIFrame: FunctionComponent<IClientIFrameProps> = ({

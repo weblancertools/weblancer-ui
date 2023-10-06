@@ -1,13 +1,13 @@
-import { configureStore } from '@reduxjs/toolkit';
 import { IEditorUIPlugin } from './IEditorUIPlugin';
+import { IReduxStore } from './IReduxStore';
 
 export abstract class IManager<TManagerActions = unknown> {
   abstract name: string;
   abstract uiPlugin?: IEditorUIPlugin;
 
-  public store?: ReturnType<typeof configureStore>;
+  public store?: ReturnType<IReduxStore>;
 
-  public addStore(store: ReturnType<typeof configureStore>) {
+  public addStore(store: ReturnType<IReduxStore>) {
     this.store = store;
   }
 

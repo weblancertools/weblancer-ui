@@ -1,13 +1,12 @@
 import { FunctionComponent } from 'react';
-import { IManager } from '@weblancer-ui/types';
+import { IManager, IReduxStore } from '@weblancer-ui/types';
 import { WeblancerContextProvider } from './context/weblancerContextProvider';
 import { getDefaultManagers } from './helpers/getDefaultManagers';
-import { configureStore } from '@reduxjs/toolkit';
 import { EditorUI } from './ui/editorUI';
 
 export interface EditorCoreProps {
   managers?: IManager[];
-  store: ReturnType<typeof configureStore>;
+  store: ReturnType<IReduxStore>;
 }
 
 export const EditorCore: FunctionComponent<EditorCoreProps> = ({
