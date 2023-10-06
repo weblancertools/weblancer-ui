@@ -1,7 +1,6 @@
-export interface ITypeInfo {
+export interface ITypeInfo<TValue = unknown> {
   typeName: string;
   isRequired?: boolean;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  defaultValue?: any;
-  properties?: ITypeInfo[]; // Change 'props' to 'properties'
+  defaultValue?: TValue;
+  properties?: ITypeInfo[];
 }

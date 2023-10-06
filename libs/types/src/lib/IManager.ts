@@ -7,9 +7,9 @@ export abstract class IManager<
 > {
   abstract name: string;
 
-  public store?: ReturnType<IReduxStore<TStoreState>>;
+  public store?: IReduxStore<TStoreState>;
 
-  public addStore(store: ReturnType<IReduxStore>) {
+  public addStore(store: IReduxStore) {
     this.store = store;
   }
 

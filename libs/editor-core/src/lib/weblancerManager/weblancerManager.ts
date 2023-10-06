@@ -6,7 +6,7 @@ export class WeblancerManager {
 
   constructor(
     managers: IManager[],
-    public store: ReturnType<IReduxStore>,
+    public store: IReduxStore,
     private type: 'editor' | 'client'
   ) {
     managers.forEach((manager) => {

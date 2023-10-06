@@ -6,7 +6,7 @@ import { EditorUI } from './ui/editorUI';
 
 export interface EditorCoreProps {
   managers?: IManager[];
-  store: ReturnType<IReduxStore>;
+  store: IReduxStore;
 }
 
 export const EditorCore: FunctionComponent<EditorCoreProps> = ({

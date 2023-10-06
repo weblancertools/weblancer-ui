@@ -8,7 +8,7 @@ import styles from './clientIFrame.module.scss';
 
 export interface IClientIFrameProps {
   managers: IManager[];
-  store: ReturnType<IReduxStore>;
+  store: IReduxStore;
 }
 
 export const ClientIFrame: FunctionComponent<IClientIFrameProps> = ({

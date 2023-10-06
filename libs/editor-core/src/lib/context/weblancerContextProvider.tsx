@@ -5,7 +5,7 @@ import { IManager, IReduxStore } from '@weblancer-ui/types';
 
 export interface IWeblancerContextProvider extends PropsWithChildren {
   managers: IManager[];
-  store: ReturnType<IReduxStore>;
+  store: IReduxStore;
   type: 'editor' | 'client';
 }
 
