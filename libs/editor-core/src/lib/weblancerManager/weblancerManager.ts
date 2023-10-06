@@ -1,3 +1,5 @@
+import 'reflect-metadata';
+
 import { IManager, IReduxStore } from '@weblancer-ui/types';
 
 export class WeblancerManager {
@@ -28,7 +30,6 @@ export class WeblancerManager {
 
   private initManager(manager: IManager) {
     manager.addStore(this.store);
-    manager.init(Object.values(this.managers));
   }
 
   private addManager(manager: IManager) {
