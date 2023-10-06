@@ -2,7 +2,7 @@ import { IEditorUIPlugin, ITypeInfo, IManager } from '@weblancer-ui/types';
 import { createState, setState } from './slice/stateSlice';
 import { createDraftSafeSelector } from '@reduxjs/toolkit';
 import { STATE_MANAGER_NAME } from './constants';
-import { IStateManagerActions, IStoreRootState } from './types';
+import { IReduxSelector, IStateManagerActions, IStoreRootState } from './types';
 
 export class StateManager
   extends IManager<IStateManagerActions>
@@ -10,10 +10,7 @@ export class StateManager
 {
   public name = STATE_MANAGER_NAME;
   public uiPlugin?: IEditorUIPlugin;
-  private selectorCache: Record<
-    string,
-    ReturnType<typeof createDraftSafeSelector>
-  > = {};
+  private selectorCache: Record<string, ReturnType<IReduxSelector>> = {};
 
   public init(): void {
     // Nothing

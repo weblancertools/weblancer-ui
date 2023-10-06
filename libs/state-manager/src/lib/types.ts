@@ -8,8 +8,10 @@ export interface IStoreRootState {
   [key: string]: unknown;
 }
 
+export type IReduxSelector = typeof createDraftSafeSelector;
+
 export interface IStateManagerActions {
   setState(key: string, value?: unknown): void;
   createState(key: string, typeInfo: ITypeInfo, defaultValue?: unknown): void;
-  getStateSelector(key: string): ReturnType<typeof createDraftSafeSelector>;
+  getStateSelector(key: string): ReturnType<IReduxSelector>;
 }
