@@ -10,7 +10,7 @@ export class StateManager
 {
   public name = STATE_MANAGER_NAME;
   public uiPlugin?: IEditorUIPlugin;
-  public selectorCache: Record<
+  private selectorCache: Record<
     string,
     ReturnType<typeof createDraftSafeSelector>
   > = {};
