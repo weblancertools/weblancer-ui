@@ -1,9 +1,9 @@
-import { ManagerWithUiPlugin } from '@weblancer-ui/types';
+import { IManagerWithUiPlugin } from '@weblancer-ui/types';
 import { FunctionComponent } from 'react';
 import layoutStyle from '../../../styles/editorLayout.module.scss';
 
 export interface IMiddleToolbarsProps {
-  managers: ManagerWithUiPlugin[];
+  managers: IManagerWithUiPlugin[];
 }
 
 export const MiddleToolbars: FunctionComponent<IMiddleToolbarsProps> = ({

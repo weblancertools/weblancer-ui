@@ -1,10 +1,10 @@
-import { IEditorUIPlugin, ITypeInfo, Manager } from '@weblancer-ui/types';
+import { IEditorUIPlugin, ITypeInfo, IManager } from '@weblancer-ui/types';
 import { createState, setState } from './slice/stateSlice';
 import { createDraftSafeSelector } from '@reduxjs/toolkit';
 import { STATE_MANAGER_NAME } from './constants';
 import { IStoreRootState } from './types';
 
-export class StateManager extends Manager {
+export class StateManager extends IManager {
   public name = STATE_MANAGER_NAME;
   public uiPlugin?: IEditorUIPlugin;
 

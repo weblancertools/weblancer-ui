@@ -1,12 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { Manager } from '@weblancer-ui/types';
+import { IManager } from '@weblancer-ui/types';
 
 export class WeblancerManager {
-  private managers: Record<string, Manager> = {};
+  private managers: Record<string, IManager> = {};
   private initialized = false;
 
   constructor(
-    managers: Manager[],
+    managers: IManager[],
     public store: ReturnType<typeof configureStore>,
     private type: 'editor' | 'client'
   ) {
@@ -27,19 +27,19 @@ export class WeblancerManager {
     this.initialized = true;
   }
 
-  private initManager(manager: Manager) {
+  private initManager(manager: IManager) {
     manager.addStore(this.store);
     manager.init(Object.values(this.managers));
   }
 
-  private addManager(manager: Manager) {
+  private addManager(manager: IManager) {
     if (this.managers[manager.name])
       console.warn(`Added existing manager named: "${manager.name}"`);
 
     this.managers[manager.name] = manager;
   }
 
-  public addManagers(managers: Manager[]) {
+  public addManagers(managers: IManager[]) {
     managers.forEach((manager) => {
       this.addManager(manager);
     });

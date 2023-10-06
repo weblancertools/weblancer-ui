@@ -1,7 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { IEditorUIPlugin } from './IEditorUIPlugin';
 
-export abstract class Manager {
+export abstract class IManager {
   abstract name: string;
   abstract uiPlugin?: IEditorUIPlugin;
 
@@ -11,9 +11,9 @@ export abstract class Manager {
     this.store = store;
   }
 
-  abstract init(managers: Manager[]): void;
+  abstract init(managers: IManager[]): void;
 }
 
-export abstract class ManagerWithUiPlugin extends Manager {
+export abstract class IManagerWithUiPlugin extends IManager {
   abstract override uiPlugin: IEditorUIPlugin;
 }
