@@ -1,7 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { IEditorUIPlugin } from './IEditorUIPlugin';
 
-export abstract class IManager {
+export abstract class IManager<TManagerActions = unknown> {
   abstract name: string;
   abstract uiPlugin?: IEditorUIPlugin;
 
@@ -11,9 +11,16 @@ export abstract class IManager {
     this.store = store;
   }
 
-  abstract init(managers: IManager[]): void;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  abstract init(managers: IManager<unknown>[]): void;
+
+  public getActions(): TManagerActions {
+    return this as unknown as TManagerActions;
+  }
 }
 
-export abstract class IManagerWithUiPlugin extends IManager {
+export abstract class IManagerWithUiPlugin<
+  TManagerActions = unknown
+> extends IManager<TManagerActions> {
   abstract override uiPlugin: IEditorUIPlugin;
 }

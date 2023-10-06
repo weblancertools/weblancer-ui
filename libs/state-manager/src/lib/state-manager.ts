@@ -2,9 +2,12 @@ import { IEditorUIPlugin, ITypeInfo, IManager } from '@weblancer-ui/types';
 import { createState, setState } from './slice/stateSlice';
 import { createDraftSafeSelector } from '@reduxjs/toolkit';
 import { STATE_MANAGER_NAME } from './constants';
-import { IStoreRootState } from './types';
+import { IStateManagerActions, IStoreRootState } from './types';
 
-export class StateManager extends IManager {
+export class StateManager
+  extends IManager<IStateManagerActions>
+  implements IStateManagerActions
+{
   public name = STATE_MANAGER_NAME;
   public uiPlugin?: IEditorUIPlugin;
 
@@ -12,13 +15,11 @@ export class StateManager extends IManager {
     // TODO
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  public createState(key: string, typeInfo: ITypeInfo, defaultValue?: any) {
+  public createState(key: string, typeInfo: ITypeInfo, defaultValue?: unknown) {
     this.store?.dispatch(createState({ key, typeInfo, defaultValue }));
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  public setState(key: string, value?: any) {
+  public setState(key: string, value?: unknown) {
     this.store?.dispatch(setState({ key, value }));
   }
 
