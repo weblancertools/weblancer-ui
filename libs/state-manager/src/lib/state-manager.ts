@@ -10,9 +10,13 @@ export class StateManager
 {
   public name = STATE_MANAGER_NAME;
   public uiPlugin?: IEditorUIPlugin;
+  public selectorCache: Record<
+    string,
+    ReturnType<typeof createDraftSafeSelector>
+  > = {};
 
   public init(): void {
-    // TODO
+    // Nothing
   }
 
   public createState(key: string, typeInfo: ITypeInfo, defaultValue?: unknown) {
@@ -24,9 +28,13 @@ export class StateManager
   }
 
   public getStateSelector(key: string) {
-    return createDraftSafeSelector(
-      (store: IStoreRootState) => store[STATE_MANAGER_NAME][key]?.value,
-      (value) => value
-    );
+    if (!this.selectorCache[key]) {
+      this.selectorCache[key] = createDraftSafeSelector(
+        (store: IStoreRootState) => store[STATE_MANAGER_NAME][key]?.value,
+        (value) => value
+      );
+    }
+
+    return this.selectorCache[key];
   }
 }

@@ -3,7 +3,7 @@ import type { PayloadAction } from '@reduxjs/toolkit';
 import type { ITypeInfo } from '@weblancer-ui/types';
 import { STATE_MANAGER_NAME } from '../constants';
 
-export interface IStateSlice {
+export interface IStateManagerSlice {
   [key: string]: {
     key: string;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -12,7 +12,7 @@ export interface IStateSlice {
   };
 }
 
-const initialState: IStateSlice = {};
+const initialState: IStateManagerSlice = {};
 
 export const stateSlice = createSlice({
   name: STATE_MANAGER_NAME,
