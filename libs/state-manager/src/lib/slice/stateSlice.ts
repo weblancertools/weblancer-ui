@@ -1,16 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import type { ITypeInfo } from '@weblancer-ui/types';
+import type { IStateManagerSlice, ITypeInfo } from '@weblancer-ui/types';
 import { STATE_MANAGER_NAME } from '../constants';
-
-export interface IStateManagerSlice {
-  [key: string]: {
-    key: string;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    value?: any;
-    typeInfo: ITypeInfo;
-  };
-}
 
 const initialState: IStateManagerSlice = {};
 
