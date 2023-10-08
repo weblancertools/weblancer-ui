@@ -1,4 +1,4 @@
-import { IStateManagerSlice } from '@weblancer-ui/types';
+import { IStateManagerSlice } from '@weblancer-ui/manager-registry';
 import { STATE_MANAGER_NAME } from './constants';
 
 export interface IStoreRootState {
