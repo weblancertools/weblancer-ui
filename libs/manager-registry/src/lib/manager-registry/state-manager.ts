@@ -1,6 +1,6 @@
 import { IReduxSelector, ITypeInfo } from '@weblancer-ui/types';
 
-export const StateManagerService = Symbol('StateManager');
+export const StateManagerService = 'StateManager';
 
 export interface IStateManagerSlice {
   [key: string]: {

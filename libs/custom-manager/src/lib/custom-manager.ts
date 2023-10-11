@@ -1,13 +1,11 @@
 import { IEditorUIPlugin, IManager } from '@weblancer-ui/types';
-import { inject, injectable } from 'inversify';
-import { weblancerContainer } from '@weblancer-ui/editor-core';
+import { injectable } from 'inversify';
 import { CUSTOM_MANAGER_NAME } from './constants';
 import { IStoreRootState } from './types';
 import {
   CustomManagerService,
   ICustomManagerActions,
-  IStateManagerActions,
-  StateManagerService,
+  weblancerRegistry,
 } from '@weblancer-ui/manager-registry';
 
 @injectable()
@@ -18,7 +16,7 @@ export class CustomManager
   public name = CUSTOM_MANAGER_NAME;
   public uiPlugin?: IEditorUIPlugin;
 
-  constructor(@inject(StateManagerService) stateManager: IStateManagerActions) {
+  constructor() {
     super();
     // TODO
   }
@@ -28,11 +26,18 @@ export class CustomManager
   }
 
   static getInstance() {
-    return weblancerContainer.get<CustomManager>(CustomManagerService);
+    return weblancerRegistry.getManagerInstance<CustomManager>(
+      CustomManagerService
+    );
   }
 }
 
-weblancerContainer
-  .bind<ICustomManagerActions>(CustomManagerService)
-  .toSelf()
-  .inSingletonScope();
+weblancerRegistry.registerManager<ICustomManagerActions>(
+  CustomManager,
+  CustomManagerService
+);
+
+// weblancerContainer
+//   .bind<ICustomManagerActions>(CustomManagerService)
+//   .toSelf()
+//   .inSingletonScope();
