@@ -1,4 +1,4 @@
-export const CustomManagerService = Symbol('CustomManager');
+export const CustomManagerService = 'CustomManager';
 
 export interface ICustomManagerActions {
   test(): void;

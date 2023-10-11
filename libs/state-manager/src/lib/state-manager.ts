@@ -8,14 +8,12 @@ import { createState, setState } from './slice/stateSlice';
 import { createDraftSafeSelector } from '@reduxjs/toolkit';
 import { STATE_MANAGER_NAME } from './constants';
 import { IStoreRootState } from './types';
-import { injectable, inject } from 'inversify';
-import { weblancerContainer } from '@weblancer-ui/editor-core';
+import { injectable } from 'inversify';
 import {
-  CustomManagerService,
-  ICustomManagerActions,
   IStateManagerActions,
   IStateManagerSlice,
   StateManagerService,
+  weblancerRegistry,
 } from '@weblancer-ui/manager-registry';
 
 @injectable()
@@ -27,9 +25,7 @@ export class StateManager
   public uiPlugin?: IEditorUIPlugin;
   private selectorCache: Record<string, ReturnType<IReduxSelector>> = {};
 
-  constructor(
-    @inject(CustomManagerService) customManager: ICustomManagerActions
-  ) {
+  constructor() {
     super();
     // TODO
   }
@@ -61,11 +57,12 @@ export class StateManager
   }
 
   static getInstance() {
-    return weblancerContainer.get<StateManager>(StateManagerService);
+    return weblancerRegistry.getManagerInstance<StateManager>(
+      StateManagerService
+    );
   }
 }
 
-weblancerContainer
-  .bind<IStateManagerActions>(StateManagerService)
-  .toSelf()
+weblancerRegistry
+  .registerManager<IStateManagerActions>(StateManager, StateManagerService)
   .inSingletonScope();
