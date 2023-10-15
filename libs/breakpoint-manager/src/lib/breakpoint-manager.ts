@@ -13,6 +13,7 @@ import {
 import breakpointSlice, {
   addBreakpoint,
   removeBreakpoint,
+  setCurrentBreakpoint,
   updateBreakpoint,
 } from './slice/breakpointSlice';
 import { getSortedBreakpoints } from './helpers';
@@ -30,11 +31,24 @@ export class BreakpointManager
     super();
 
     this.storeManager.injectSlice(breakpointSlice);
+
+    this.init();
   }
+
+  private init() {
+    window.addEventListener('resize', () => {
+      this.setCurrentBreakpoint(window.innerWidth);
+    });
+  }
+
   private getAllBreakpoints() {
     return this.storeManager.getState<IStoreRootState>()[
       BreakpointManagerService
     ].breakpoints;
+  }
+
+  setCurrentBreakpoint(width: number): void {
+    this.storeManager.dispatch(setCurrentBreakpoint(width));
   }
 
   getSortedBreakpoints(): IBreakpoint[] {

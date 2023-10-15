@@ -7,6 +7,9 @@ import { BreakpointManagerService } from '../constants';
 const initialState: IBreakpointManagerSlice = {
   breakpoints: defaultBreakpoints,
   currentBreakpoint: defaultBreakpoints['large'],
+  editor: {
+    width: 1001,
+  },
 };
 
 export const breakpointSlice = createSlice({
@@ -16,6 +19,9 @@ export const breakpointSlice = createSlice({
     addBreakpoint: (state, action: PayloadAction<IBreakpoint>) => {
       const breakpoint = action.payload;
       state.breakpoints[breakpoint.id] = breakpoint;
+    },
+    setEditorWidth: (state, action: PayloadAction<number>) => {
+      state.editor.width = action.payload;
     },
     removeBreakpoint: (state, action: PayloadAction<string>) => {
       delete state.breakpoints[action.payload];
@@ -43,6 +49,7 @@ export const {
   removeBreakpoint,
   setCurrentBreakpoint,
   updateBreakpoint,
+  setEditorWidth,
 } = breakpointSlice.actions;
 
 export default breakpointSlice.reducer;
