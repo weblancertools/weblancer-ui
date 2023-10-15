@@ -14,7 +14,7 @@ export const EditorCore: FunctionComponent<EditorCoreProps> = ({
   plugins = [],
 }) => {
   return (
-    <WeblancerContextProvider store={store} type="editor">
+    <WeblancerContextProvider store={store} type="editor" plugins={plugins}>
       <Provider store={store}>
         <EditorUI />
       </Provider>

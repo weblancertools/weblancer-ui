@@ -13,6 +13,9 @@ export interface IBreakpoint {
 export interface IBreakpointManagerSlice {
   breakpoints: Record<string, IBreakpoint>;
   currentBreakpoint: IBreakpoint;
+  editor: {
+    width: number;
+  };
 }
 
 export interface IBreakpointManagerActions {
@@ -21,4 +24,5 @@ export interface IBreakpointManagerActions {
   updateBreakpoint(breakpoint: IBreakpoint): void;
   getSortedBreakpoints(): IBreakpoint[];
   getCurrentBreakpoint(): IBreakpoint;
+  setCurrentBreakpoint(width: number): void;
 }

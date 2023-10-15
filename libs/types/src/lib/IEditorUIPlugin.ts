@@ -1,21 +1,21 @@
-import { ReactNode } from 'react';
+import { JSX } from 'react';
 
 export interface IEditorUIPlugin {
   name: string;
 
   leftMenu?: {
     label: string;
-    icon: ReactNode;
+    icon: JSX.Element;
   };
-  leftDrawer?: ReactNode;
-  leftDialog?: ReactNode;
+  leftDrawer?: JSX.Element;
+  leftDialog?: JSX.Element;
 
   rightMenu?: {
     label: string;
-    icon: ReactNode;
+    icon: JSX.Element;
   };
-  rightDrawer?: ReactNode;
-  rightDialog?: ReactNode;
+  rightDrawer?: JSX.Element;
+  rightDialog?: JSX.Element;
 
-  middleToolbar?: ReactNode;
+  middleToolbar?: JSX.Element;
 }
