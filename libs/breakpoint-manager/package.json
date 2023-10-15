@@ -1,8 +1,12 @@
 {
   "name": "@weblancer-ui/breakpoint-manager",
   "version": "0.0.1",
-  "dependencies": {},
   "main": "./index.js",
-  "module": "./index.mjs",
-  "typings": "./index.d.ts"
+  "types": "./index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./index.mjs",
+      "require": "./index.js"
+    }
+  }
 }

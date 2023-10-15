@@ -3,26 +3,29 @@
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/breakpoint-manager/src",
   "projectType": "library",
+  "tags": [],
   "targets": {
-    "build": {
-      "executor": "@nx/vite:build",
-      "outputs": ["{options.outputPath}"],
-      "options": {
-        "outputPath": "dist/libs/breakpoint-manager"
-      }
-    },
-    "publish": {
-      "command": "node tools/scripts/publish.mjs breakpoint-manager {args.ver} {args.tag}",
-      "dependsOn": ["build"]
-    },
     "lint": {
       "executor": "@nx/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": [
-          "libs/breakpoint-manager/**/*.ts",
-          "libs/breakpoint-manager/package.json"
-        ]
+        "lintFilePatterns": ["libs/breakpoint-manager/**/*.{ts,tsx,js,jsx}"]
+      }
+    },
+    "build": {
+      "executor": "@nx/vite:build",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "outputPath": "dist/libs/breakpoint-manager"
+      },
+      "configurations": {
+        "development": {
+          "mode": "development"
+        },
+        "production": {
+          "mode": "production"
+        }
       }
     },
     "test": {
@@ -39,6 +42,5 @@
         }
       }
     }
-  },
-  "tags": []
+  }
 }
