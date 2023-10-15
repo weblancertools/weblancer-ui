@@ -7,3 +7,8 @@ export interface IStoreManagerActions {
   dispatch: Dispatch<AnyAction>;
   injectSlice<TSliceState>(slice: Reducer<TSliceState>): void;
 }
+
+export type InjectableStore = {
+  injectReducer: (key: string, reducer: Reducer) => void;
+  asyncReducers: Record<string, Reducer>;
+};

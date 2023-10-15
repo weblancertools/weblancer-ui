@@ -1,5 +1,6 @@
-import { configureStore } from '@reduxjs/toolkit';
 // ...
+
+import { configureStore } from '@weblancer-ui/store-manager';
 
 export const store = configureStore({
   reducer: {},

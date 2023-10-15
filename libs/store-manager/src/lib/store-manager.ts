@@ -1,6 +1,10 @@
 import { IManager } from '@weblancer-ui/types';
 import { Reducer, Store } from '@reduxjs/toolkit';
-import { IStoreManagerActions, StoreManagerService } from './types';
+import {
+  IStoreManagerActions,
+  InjectableStore,
+  StoreManagerService,
+} from './types';
 import { inject, injectable } from 'inversify';
 import {
   StoreService,
@@ -11,14 +15,8 @@ import {
 export class StoreManager extends IManager implements IStoreManagerActions {
   public name = StoreManagerService;
 
-  constructor(@inject(StoreService) private store: Store) {
+  constructor(@inject(StoreService) private store: Store & InjectableStore) {
     super();
-
-    this.makeStoreInjectable();
-  }
-
-  private makeStoreInjectable() {
-    // TODO
   }
 
   public getState<TExpectedRootState>(): TExpectedRootState {
@@ -27,8 +25,8 @@ export class StoreManager extends IManager implements IStoreManagerActions {
 
   public dispatch = this.store.dispatch;
 
-  public injectSlice<TSliceState>(slice: Reducer<TSliceState>): void {
-    // throw new Error('injectStore Method not implemented.');
+  public injectSlice<TSliceState>(sliceReducer: Reducer<TSliceState>): void {
+    this.store.injectReducer(sliceReducer.name, sliceReducer);
   }
 }
 
