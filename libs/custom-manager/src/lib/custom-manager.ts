@@ -1,43 +1,27 @@
 import { IEditorUIPlugin, IManager } from '@weblancer-ui/types';
-import { injectable } from 'inversify';
-import { CUSTOM_MANAGER_NAME } from './constants';
-import { IStoreRootState } from './types';
+import { inject, injectable } from 'inversify';
+import { weblancerRegistry } from '@weblancer-ui/manager-registry';
+import { ICustomManagerActions } from './types';
+import { CustomManagerService } from './constants';
 import {
-  CustomManagerService,
-  ICustomManagerActions,
-  weblancerRegistry,
-} from '@weblancer-ui/manager-registry';
+  IStateManagerActions,
+  StateManager,
+} from '@weblancer-ui/state-manager';
 
 @injectable()
-export class CustomManager
-  extends IManager<IStoreRootState>
-  implements ICustomManagerActions
-{
-  public name = CUSTOM_MANAGER_NAME;
+export class CustomManager extends IManager implements ICustomManagerActions {
+  public name = CustomManagerService;
   public uiPlugin?: IEditorUIPlugin;
 
-  constructor() {
+  constructor(
+    @inject(StateManager) private stateManager: IStateManagerActions
+  ) {
     super();
-    // TODO
   }
 
   test(): void {
     throw new Error('Method not implemented.');
   }
-
-  static getInstance() {
-    return weblancerRegistry.getManagerInstance<CustomManager>(
-      CustomManagerService
-    );
-  }
 }
 
-weblancerRegistry.registerManager<ICustomManagerActions>(
-  CustomManager,
-  CustomManagerService
-);
-
-// weblancerContainer
-//   .bind<ICustomManagerActions>(CustomManagerService)
-//   .toSelf()
-//   .inSingletonScope();
+weblancerRegistry.registerManager<ICustomManagerActions>(CustomManager);

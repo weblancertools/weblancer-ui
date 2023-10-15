@@ -1,12 +1,13 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import type { IStateManagerSlice, ITypeInfo } from '@weblancer-ui/types';
-import { STATE_MANAGER_NAME } from '../constants';
+import type { ITypeInfo } from '@weblancer-ui/types';
+import { IStateManagerSlice } from '../types';
+import { StateManagerService } from '../constants';
 
 const initialState: IStateManagerSlice = {};
 
 export const stateSlice = createSlice({
-  name: STATE_MANAGER_NAME,
+  name: StateManagerService,
   initialState,
   reducers: {
     createState: (

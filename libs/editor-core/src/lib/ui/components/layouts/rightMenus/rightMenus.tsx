@@ -1,19 +1,19 @@
-import { IManagerWithUiPlugin } from '@weblancer-ui/types';
+import { IEditorUIPlugin } from '@weblancer-ui/types';
 import { FunctionComponent } from 'react';
 import layoutStyle from '../../../styles/editorLayout.module.scss';
 
 export interface IRightMenusProps {
-  managers: IManagerWithUiPlugin[];
+  plugins: IEditorUIPlugin[];
 }
 
 export const RightMenus: FunctionComponent<IRightMenusProps> = ({
-  managers,
+  plugins,
 }) => {
   return (
     <div className={layoutStyle.rightMenus}>
       Right menus
-      {managers.map(({ uiPlugin }) => {
-        return <div key={uiPlugin.name}></div>;
+      {plugins.map((plugin) => {
+        return <div key={plugin.name}></div>;
       })}
     </div>
   );

@@ -10,10 +10,7 @@ export const ClientView: FunctionComponent = () => {
 
   return (
     <div className={classNames(layoutStyle.clientView, styles.root)}>
-      <ClientIFrame
-        store={weblancerManager.store}
-        managers={weblancerManager.getManagers()}
-      />
+      <ClientIFrame store={weblancerManager.store} />
     </div>
   );
 };

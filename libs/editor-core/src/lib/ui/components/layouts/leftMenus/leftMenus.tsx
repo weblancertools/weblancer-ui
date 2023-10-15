@@ -1,17 +1,17 @@
-import { IManagerWithUiPlugin } from '@weblancer-ui/types';
+import { IEditorUIPlugin } from '@weblancer-ui/types';
 import { FunctionComponent } from 'react';
 import layoutStyle from '../../../styles/editorLayout.module.scss';
 
 export interface ILeftMenusProps {
-  managers: IManagerWithUiPlugin[];
+  plugins: IEditorUIPlugin[];
 }
 
-export const LeftMenus: FunctionComponent<ILeftMenusProps> = ({ managers }) => {
+export const LeftMenus: FunctionComponent<ILeftMenusProps> = ({ plugins }) => {
   return (
     <div className={layoutStyle.leftMenus}>
       Left menus
-      {managers.map(({ uiPlugin }) => {
-        return <div key={uiPlugin.name}></div>;
+      {plugins.map((plugin) => {
+        return <div key={plugin.name}></div>;
       })}
     </div>
   );

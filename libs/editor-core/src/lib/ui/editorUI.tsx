@@ -1,8 +1,5 @@
-import { FunctionComponent, useMemo } from 'react';
+import { FunctionComponent, useEffect } from 'react';
 import { useWeblancerContext } from '../context/weblancerContext';
-import { getLeftMenus } from './helpers/getLeftMenus';
-import { getMiddleToolbars } from './helpers/getMiddleToolbars';
-import { getRightMenus } from './helpers/getRightMenus';
 import layoutStyle from './styles/editorLayout.module.scss';
 import styles from './editorUI.module.scss';
 import { RightMenus } from './components/layouts/rightMenus/rightMenus';
@@ -11,35 +8,30 @@ import { ClientView } from './components/layouts/clientView/clientView';
 import classNames from 'classnames';
 import { Header } from './components/layouts/header/header';
 import { LeftMenus } from './components/layouts/leftMenus/leftMenus';
+import { CustomManager } from '@weblancer-ui/custom-manager';
 
 export const EditorUI: FunctionComponent = () => {
   const { weblancerManager } = useWeblancerContext();
-  const managersCount = weblancerManager.getManagers().length;
+  const plugins = weblancerManager.getPlugins();
 
-  const leftMenus = useMemo(
-    () => getLeftMenus(weblancerManager.getManagers()),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [managersCount, weblancerManager]
-  );
+  const leftMenus = plugins.filter((plugin) => {
+    return plugin.leftMenu;
+  });
 
-  const middleToolbars = useMemo(
-    () => getMiddleToolbars(weblancerManager.getManagers()),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [managersCount, weblancerManager]
-  );
+  const middleToolbars = plugins.filter((plugin) => {
+    return plugin.middleToolbar;
+  });
 
-  const rightMenus = useMemo(
-    () => getRightMenus(weblancerManager.getManagers()),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [managersCount, weblancerManager]
-  );
+  const rightMenus = plugins.filter((plugin) => {
+    return plugin.rightMenu;
+  });
 
   return (
     <div className={classNames(layoutStyle.root, styles.root)}>
       <Header />
-      <LeftMenus managers={leftMenus} />
-      <MiddleToolbars managers={middleToolbars} />
-      <RightMenus managers={rightMenus} />
+      <LeftMenus plugins={leftMenus} />
+      <MiddleToolbars plugins={middleToolbars} />
+      <RightMenus plugins={rightMenus} />
       <ClientView />
     </div>
   );
