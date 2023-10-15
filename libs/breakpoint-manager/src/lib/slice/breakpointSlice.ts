@@ -20,6 +20,10 @@ export const breakpointSlice = createSlice({
     removeBreakpoint: (state, action: PayloadAction<string>) => {
       delete state.breakpoints[action.payload];
     },
+    updateBreakpoint: (state, action: PayloadAction<IBreakpoint>) => {
+      const breakpoint = action.payload;
+      state.breakpoints[breakpoint.id] = breakpoint;
+    },
     setCurrentBreakpoint: (state, action: PayloadAction<number>) => {
       const screenSize = action.payload;
       const sortedBreakpoints = getSortedBreakpoints(state.breakpoints);
@@ -34,7 +38,11 @@ export const breakpointSlice = createSlice({
   },
 });
 
-export const { addBreakpoint, removeBreakpoint, setCurrentBreakpoint } =
-  breakpointSlice.actions;
+export const {
+  addBreakpoint,
+  removeBreakpoint,
+  setCurrentBreakpoint,
+  updateBreakpoint,
+} = breakpointSlice.actions;
 
 export default breakpointSlice.reducer;

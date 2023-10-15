@@ -1,4 +1,4 @@
-import { FunctionComponent, useEffect } from 'react';
+import { FunctionComponent } from 'react';
 import { useWeblancerContext } from '../context/weblancerContext';
 import layoutStyle from './styles/editorLayout.module.scss';
 import styles from './editorUI.module.scss';
@@ -8,7 +8,6 @@ import { ClientView } from './components/layouts/clientView/clientView';
 import classNames from 'classnames';
 import { Header } from './components/layouts/header/header';
 import { LeftMenus } from './components/layouts/leftMenus/leftMenus';
-import { CustomManager } from '@weblancer-ui/custom-manager';
 
 export const EditorUI: FunctionComponent = () => {
   const { weblancerManager } = useWeblancerContext();
