@@ -1,19 +1,23 @@
 import { FunctionComponent, PropsWithChildren, useRef } from 'react';
 import WeblancerContext from './weblancerContext';
 import { WeblancerManager } from '../weblancerManager/weblancerManager';
-import { IEditorUIPlugin, IReduxStore } from '@weblancer-ui/types';
+import {
+  IEditorUIPlugin,
+  IReduxStore,
+  WeblancerWindowType,
+} from '@weblancer-ui/types';
 
 export interface IWeblancerContextProvider extends PropsWithChildren {
   store: IReduxStore;
   plugins?: IEditorUIPlugin[];
-  type: 'editor' | 'client';
+  type: WeblancerWindowType;
 }
 
 export const WeblancerContextProvider: FunctionComponent<
   IWeblancerContextProvider
-> = ({ store, plugins = [], children }) => {
+> = ({ store, type, plugins = [], children }) => {
   const { current: weblancerManager } = useRef<WeblancerManager>(
-    new WeblancerManager(store, plugins)
+    new WeblancerManager(store, type, plugins)
   );
 
   return (

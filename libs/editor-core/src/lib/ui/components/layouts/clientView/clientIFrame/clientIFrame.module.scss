@@ -1,4 +1,5 @@
 .iframe {
-  width: 80%;
-  height: 80%;
+  margin: 20px 0;
+  height: -moz-available;          /* WebKit-based browsers will ignore this. */
+  height: -webkit-fill-available;  /* Mozilla-based browsers will ignore this. */
 }

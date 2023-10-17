@@ -14,7 +14,9 @@ export const ClientIFrame: FunctionComponent<IClientIFrameProps> = ({
   store,
 }) => {
   const width = useSelector(
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (state: any) => state.BreakpointManager.editor.width
+    // TODO Fix type issue
   );
 
   return (
@@ -25,7 +27,7 @@ export const ClientIFrame: FunctionComponent<IClientIFrameProps> = ({
         width: width,
       }}
     >
-      <WeblancerContextProvider store={store} type="client">
+      <WeblancerContextProvider store={store} type="preview">
         <ClientCore />
       </WeblancerContextProvider>
     </Frame>
