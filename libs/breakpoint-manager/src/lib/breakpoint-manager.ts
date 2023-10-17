@@ -30,7 +30,7 @@ export class BreakpointManager
   ) {
     super();
 
-    this.storeManager.injectSlice(breakpointSlice);
+    this.storeManager.injectSlice(BreakpointManagerService, breakpointSlice);
 
     this.init();
   }

@@ -18,5 +18,5 @@ export const defaultBreakpoints: Record<string, IBreakpoint> = {
 export function getSortedBreakpoints(
   breakpoints: Record<string, IBreakpoint>
 ): IBreakpoint[] {
-  return Object.values(breakpoints).sort((a, b) => a.bottom - b.bottom);
+  return Object.values(breakpoints).sort((a, b) => b.bottom - a.bottom);
 }

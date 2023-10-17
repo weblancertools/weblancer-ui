@@ -11,8 +11,8 @@ export class WeblancerManager {
     weblancerRegistry.setStore(store);
   }
 
-  public getManager(_class: unknown) {
-    return weblancerRegistry.getManagerInstance(_class);
+  public getManager<TType>(_class: unknown) {
+    return weblancerRegistry.getManagerInstance<TType>(_class);
   }
 
   public getPlugins() {

@@ -25,8 +25,11 @@ export class StoreManager extends IManager implements IStoreManagerActions {
 
   public dispatch = this.store.dispatch;
 
-  public injectSlice<TSliceState>(sliceReducer: Reducer<TSliceState>): void {
-    this.store.injectReducer(sliceReducer.name, sliceReducer);
+  public injectSlice<TSliceState>(
+    key: string,
+    sliceReducer: Reducer<TSliceState>
+  ): void {
+    this.store.injectReducer(key, sliceReducer);
   }
 }
 

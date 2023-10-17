@@ -30,7 +30,7 @@ export class StateManager extends IManager implements IStateManagerActions {
   ) {
     super();
 
-    this.storeManager.injectSlice(stateSlice);
+    this.storeManager.injectSlice(StateManagerService, stateSlice);
   }
 
   public createState(key: string, typeInfo: ITypeInfo, defaultValue?: unknown) {

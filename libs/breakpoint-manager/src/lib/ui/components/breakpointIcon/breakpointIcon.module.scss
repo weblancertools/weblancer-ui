@@ -1,0 +1,13 @@
+.root{
+  height: inherit;
+  cursor: pointer;
+  padding: 4px;
+
+  &:hover {
+    outline: 2px solid red;
+  }
+}
+
+.selected {
+  outline: 2px solid blue;
+}
