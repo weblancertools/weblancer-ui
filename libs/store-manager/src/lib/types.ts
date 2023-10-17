@@ -5,7 +5,7 @@ export const StoreManagerService = 'StoreManager';
 export interface IStoreManagerActions {
   getState<TExpectedRootState>(): TExpectedRootState;
   dispatch: Dispatch<AnyAction>;
-  injectSlice<TSliceState>(slice: Reducer<TSliceState>): void;
+  injectSlice<TSliceState>(key: string, slice: Reducer<TSliceState>): void;
 }
 
 export type InjectableStore = {

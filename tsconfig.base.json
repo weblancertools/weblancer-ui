@@ -25,7 +25,7 @@
       "@weblancer-ui/manager-registry": ["libs/manager-registry/src/index.ts"],
       "@weblancer-ui/state-manager": ["libs/state-manager/src/index.ts"],
       "@weblancer-ui/store-manager": ["libs/store-manager/src/index.ts"],
-      "@weblancer-ui/types": ["libs/types/src/index.ts"]
+      "@weblancer-ui/types": ["libs/types/src/index.ts"],
     }
   },
   "exclude": ["node_modules", "tmp"]

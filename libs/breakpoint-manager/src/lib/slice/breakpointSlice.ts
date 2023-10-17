@@ -1,8 +1,13 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { defaultBreakpoints, getSortedBreakpoints } from '../helpers';
-import { IBreakpoint, IBreakpointManagerSlice } from '../types';
+import {
+  IBreakpoint,
+  IBreakpointManagerSlice,
+  IStoreRootState,
+} from '../types';
 import { BreakpointManagerService } from '../constants';
+import { TypedUseSelectorHook, useSelector } from 'react-redux';
 
 const initialState: IBreakpointManagerSlice = {
   breakpoints: defaultBreakpoints,
@@ -35,8 +40,9 @@ export const breakpointSlice = createSlice({
       const sortedBreakpoints = getSortedBreakpoints(state.breakpoints);
 
       for (const breakpoint of sortedBreakpoints) {
-        if (breakpoint.bottom < screenSize) {
+        if (breakpoint.bottom <= screenSize) {
           state.currentBreakpoint = breakpoint;
+          state.editor.width = screenSize;
           break;
         }
       }
@@ -51,5 +57,8 @@ export const {
   updateBreakpoint,
   setEditorWidth,
 } = breakpointSlice.actions;
+
+export const useAppSelector: TypedUseSelectorHook<IStoreRootState> =
+  useSelector;
 
 export default breakpointSlice.reducer;

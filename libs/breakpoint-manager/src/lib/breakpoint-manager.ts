@@ -17,7 +17,11 @@ import breakpointSlice, {
   updateBreakpoint,
 } from './slice/breakpointSlice';
 import { getSortedBreakpoints } from './helpers';
-import { weblancerRegistry } from '@weblancer-ui/manager-registry';
+import {
+  IWeblancerManagerActions,
+  WeblancerManager,
+  weblancerRegistry,
+} from '@weblancer-ui/manager-registry';
 
 export class BreakpointManager
   extends IManager
@@ -26,19 +30,22 @@ export class BreakpointManager
   public name: string = BreakpointManagerService;
 
   constructor(
-    @inject(StoreManager) private storeManager: IStoreManagerActions
+    @inject(StoreManager) private storeManager: IStoreManagerActions,
+    @inject(WeblancerManager) private weblancerManager: IWeblancerManagerActions
   ) {
     super();
 
-    this.storeManager.injectSlice(breakpointSlice);
+    this.storeManager.injectSlice(BreakpointManagerService, breakpointSlice);
 
     this.init();
   }
 
   private init() {
-    window.addEventListener('resize', () => {
-      this.setCurrentBreakpoint(window.innerWidth);
-    });
+    if (!this.weblancerManager.isEditor()) {
+      window.addEventListener('resize', () => {
+        this.setCurrentBreakpoint(window.innerWidth);
+      });
+    }
   }
 
   private getAllBreakpoints() {
