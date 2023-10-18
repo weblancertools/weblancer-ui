@@ -1,4 +1,4 @@
-import { EditorCore } from '@weblancer-ui/editor-core';
+import { EditorCore } from '@weblancer-ui/editor-core-ui';
 import { store } from '../store/store';
 import { breakpointUiPlugin } from '@weblancer-ui/breakpoint-manager';
 

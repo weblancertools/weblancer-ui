@@ -2,7 +2,7 @@ import { IManager } from '@weblancer-ui/types';
 import {
   IBreakpoint,
   IBreakpointManagerActions,
-  IStoreRootState,
+  IBreakpointStoreRootState,
 } from './types';
 import { BreakpointManagerService } from './constants';
 import { inject } from 'inversify';
@@ -49,7 +49,7 @@ export class BreakpointManager
   }
 
   private getAllBreakpoints() {
-    return this.storeManager.getState<IStoreRootState>()[
+    return this.storeManager.getState<IBreakpointStoreRootState>()[
       BreakpointManagerService
     ].breakpoints;
   }
@@ -63,7 +63,7 @@ export class BreakpointManager
   }
 
   getCurrentBreakpoint(): IBreakpoint {
-    return this.storeManager.getState<IStoreRootState>()[
+    return this.storeManager.getState<IBreakpointStoreRootState>()[
       BreakpointManagerService
     ].currentBreakpoint;
   }

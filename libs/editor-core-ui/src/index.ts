@@ -1,1 +1,1 @@
-export * from './lib/editorUI';
+export * from './lib/editor-core';

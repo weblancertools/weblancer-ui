@@ -1,6 +1,6 @@
 import { BreakpointManagerService } from './constants';
 
-export interface IStoreRootState {
+export interface IBreakpointStoreRootState {
   [BreakpointManagerService]: IBreakpointManagerSlice;
   [key: string]: unknown;
 }

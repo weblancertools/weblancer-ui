@@ -4,7 +4,7 @@ import { defaultBreakpoints, getSortedBreakpoints } from '../helpers';
 import {
   IBreakpoint,
   IBreakpointManagerSlice,
-  IStoreRootState,
+  IBreakpointStoreRootState,
 } from '../types';
 import { BreakpointManagerService } from '../constants';
 import { TypedUseSelectorHook, useSelector } from 'react-redux';
@@ -58,7 +58,7 @@ export const {
   setEditorWidth,
 } = breakpointSlice.actions;
 
-export const useAppSelector: TypedUseSelectorHook<IStoreRootState> =
+export const useAppSelector: TypedUseSelectorHook<IBreakpointStoreRootState> =
   useSelector;
 
 export default breakpointSlice.reducer;
