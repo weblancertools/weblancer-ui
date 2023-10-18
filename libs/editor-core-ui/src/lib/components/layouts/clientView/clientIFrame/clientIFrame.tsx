@@ -1,18 +1,10 @@
-import { WeblancerContextProvider } from '../../../../../context/weblancerContextProvider';
 import { FunctionComponent } from 'react';
-import { IReduxStore } from '@weblancer-ui/types';
 import Frame from 'react-frame-component';
 import styles from './clientIFrame.module.scss';
 import { useSelector } from 'react-redux';
 import { ClientIFrameContent } from './clientIFrameContent';
 
-export interface IClientIFrameProps {
-  store: IReduxStore;
-}
-
-export const ClientIFrame: FunctionComponent<IClientIFrameProps> = ({
-  store,
-}) => {
+export const ClientIFrame: FunctionComponent = () => {
   const width = useSelector(
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (state: any) => state.BreakpointManager.editor.width
@@ -27,9 +19,7 @@ export const ClientIFrame: FunctionComponent<IClientIFrameProps> = ({
         width: width,
       }}
     >
-      <WeblancerContextProvider store={store} type="preview">
-        <ClientIFrameContent />
-      </WeblancerContextProvider>
+      <ClientIFrameContent />
     </Frame>
   );
 };
