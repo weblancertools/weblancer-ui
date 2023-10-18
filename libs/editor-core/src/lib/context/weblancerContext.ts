@@ -1,12 +1,15 @@
 import { createContext, useContext } from 'react';
-import { WeblancerManager } from '../weblancerManager/weblancerManager';
+import { IEditorUIPlugin } from '@weblancer-ui/types';
+import { noop } from 'lodash';
 
 interface IWeblancerContext {
-  weblancerManager: WeblancerManager;
+  getManager: <TType>(_class: unknown) => TType;
+  getPlugins: () => IEditorUIPlugin[];
 }
 
 const initialState: IWeblancerContext = {
-  weblancerManager: {} as WeblancerManager,
+  getManager: noop as never,
+  getPlugins: noop as never,
 };
 
 const WeblancerContext = createContext<IWeblancerContext>(initialState);

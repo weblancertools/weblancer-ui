@@ -1,14 +1,12 @@
+import { useBreakpointManagerSelector } from '@weblancer-ui/breakpoint-manager';
 import styles from './client-core.module.scss';
-import { useSelector } from 'react-redux';
 
 /* eslint-disable-next-line */
 export interface ClientCoreProps {}
 
 export function ClientCore(props: ClientCoreProps) {
-  const width = useSelector(
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    (state: any) => state.BreakpointManager.editor.width
-    // TODO Fix type issue
+  const width = useBreakpointManagerSelector(
+    (state) => state.BreakpointManager.editor.width
   );
 
   return (

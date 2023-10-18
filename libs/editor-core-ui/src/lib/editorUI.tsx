@@ -1,5 +1,3 @@
-import { FunctionComponent } from 'react';
-import { useWeblancerContext } from '../context/weblancerContext';
 import layoutStyle from './styles/editorLayout.module.scss';
 import styles from './editorUI.module.scss';
 import { RightMenus } from './components/layouts/rightMenus/rightMenus';
@@ -8,23 +6,19 @@ import { ClientView } from './components/layouts/clientView/clientView';
 import classNames from 'classnames';
 import { Header } from './components/layouts/header/header';
 import { LeftMenus } from './components/layouts/leftMenus/leftMenus';
+import { IEditorUIPlugin } from '@weblancer-ui/types';
 
-export const EditorUI: FunctionComponent = () => {
-  const { weblancerManager } = useWeblancerContext();
-  const plugins = weblancerManager.getPlugins();
+interface IEditorUIProps {
+  leftMenus: IEditorUIPlugin[];
+  middleToolbars: IEditorUIPlugin[];
+  rightMenus: IEditorUIPlugin[];
+}
 
-  const leftMenus = plugins.filter((plugin) => {
-    return plugin.leftMenu;
-  });
-
-  const middleToolbars = plugins.filter((plugin) => {
-    return plugin.middleToolbar;
-  });
-
-  const rightMenus = plugins.filter((plugin) => {
-    return plugin.rightMenu;
-  });
-
+export const EditorUI = ({
+  leftMenus,
+  middleToolbars,
+  rightMenus,
+}: IEditorUIProps) => {
   return (
     <div className={classNames(layoutStyle.root, styles.root)}>
       <Header />

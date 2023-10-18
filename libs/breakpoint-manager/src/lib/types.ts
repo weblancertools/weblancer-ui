@@ -1,6 +1,7 @@
+import { TypedUseSelectorHook, useSelector } from 'react-redux';
 import { BreakpointManagerService } from './constants';
 
-export interface IStoreRootState {
+export interface IBreakpointStoreRootState {
   [BreakpointManagerService]: IBreakpointManagerSlice;
   [key: string]: unknown;
 }
@@ -26,3 +27,6 @@ export interface IBreakpointManagerActions {
   getCurrentBreakpoint(): IBreakpoint;
   setCurrentBreakpoint(width: number): void;
 }
+
+export const useBreakpointManagerSelector: TypedUseSelectorHook<IBreakpointStoreRootState> =
+  useSelector;

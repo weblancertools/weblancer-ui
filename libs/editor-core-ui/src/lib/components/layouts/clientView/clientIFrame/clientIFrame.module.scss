@@ -1,5 +1,14 @@
 .iframe {
-  margin: 20px 0;
+  margin: 20px;
   height: -moz-available;          /* WebKit-based browsers will ignore this. */
   height: -webkit-fill-available;  /* Mozilla-based browsers will ignore this. */
+
+  border: none;
+  outline: 1px solid;
+}
+
+.root{
+  min-width: min-content;
+  height: 100%;
+  text-align: center;
 }
