@@ -1,23 +1,21 @@
 import { FunctionComponent } from 'react';
 import styles from './breakpointController.module.scss';
-import { useAppSelector } from '../slice/breakpointSlice';
 import { getSortedBreakpoints } from '../helpers';
 import { BreakpointIcon } from './components/breakpointIcon/breakpointIcon';
 import { getBreakpointIcon } from './helpers';
-import { useImportWeblancerManager } from '@weblancer-ui/editor-core';
-import { BreakpointManager } from '../breakpoint-manager';
+import { useBreakpointManagerSelector } from '../types';
 
 export const BreakpointController: FunctionComponent = () => {
-  useImportWeblancerManager(BreakpointManager);
-
-  const breakpoints = useAppSelector(
+  const breakpoints = useBreakpointManagerSelector(
     (state) => state.BreakpointManager.breakpoints
   );
   const sortedBreakpoints = getSortedBreakpoints(breakpoints);
-  const currentBreakpoint = useAppSelector(
+  const currentBreakpoint = useBreakpointManagerSelector(
     (state) => state.BreakpointManager.currentBreakpoint
   );
-  const width = useAppSelector((state) => state.BreakpointManager.editor.width);
+  const width = useBreakpointManagerSelector(
+    (state) => state.BreakpointManager.editor.width
+  );
 
   return (
     <div className={styles.root}>

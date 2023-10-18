@@ -1,16 +1,19 @@
 import { FunctionComponent, useCallback, useEffect } from 'react';
 import { ClientCore } from '@weblancer-ui/client-core';
 import { useFrame } from 'react-frame-component';
+import { useDispatch } from 'react-redux';
+import { setCurrentBreakpoint } from '@weblancer-ui/breakpoint-manager';
 
 export const ClientIFrameContent: FunctionComponent = () => {
   const { window } = useFrame();
+  const dispatch = useDispatch();
 
   const handleClientWindowSizeChange = useCallback(() => {
     if (!window) return;
     const width = window.innerWidth;
-    console.log(width);
-    // TODO set breakpoint width
-  }, [window]);
+
+    dispatch(setCurrentBreakpoint(width));
+  }, [window, dispatch]);
 
   useEffect(() => {
     if (window) {

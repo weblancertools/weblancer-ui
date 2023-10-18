@@ -1,31 +1,45 @@
-import { PropsWithChildren, ReactElement, ReactNode, useRef } from 'react';
+import { useCallback, useMemo } from 'react';
 import WeblancerContext from './weblancerContext';
-import { WeblancerManager } from '../weblancerManager/weblancerManager';
-import {
-  IEditorUIPlugin,
-  IReduxStore,
-  WeblancerWindowType,
-} from '@weblancer-ui/types';
+import { IEditorUIPlugin, IReduxStore } from '@weblancer-ui/types';
+import { weblancerRegistry } from '@weblancer-ui/manager-registry';
 
 export interface IWeblancerContextProvider {
   store: IReduxStore;
   plugins?: IEditorUIPlugin[];
-  type: WeblancerWindowType;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  initialManagers?: any | any[];
   children?: JSX.Element;
 }
 
 export const WeblancerContextProvider = ({
   store,
-  type,
   plugins = [],
+  initialManagers = [],
   children,
 }: IWeblancerContextProvider) => {
-  const { current: weblancerManager } = useRef<WeblancerManager>(
-    new WeblancerManager(store, type, plugins)
-  );
+  const getManager = useCallback(<TType,>(_class: unknown) => {
+    return weblancerRegistry.getManagerInstance<TType>(_class);
+  }, []);
+
+  const getPlugins = useCallback(() => {
+    return plugins;
+  }, [plugins]);
+
+  useMemo(() => {
+    weblancerRegistry.setStore(store);
+
+    if (!Array.isArray(initialManagers)) {
+      getManager(initialManagers);
+      return;
+    }
+
+    for (const _c of initialManagers) {
+      getManager(_c);
+    }
+  }, [store, initialManagers, getManager]);
 
   return (
-    <WeblancerContext.Provider value={{ weblancerManager }}>
+    <WeblancerContext.Provider value={{ getManager, getPlugins }}>
       {children}
     </WeblancerContext.Provider>
   );
