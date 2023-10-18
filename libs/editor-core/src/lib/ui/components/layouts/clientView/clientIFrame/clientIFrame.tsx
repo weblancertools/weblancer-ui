@@ -1,10 +1,10 @@
 import { WeblancerContextProvider } from '../../../../../context/weblancerContextProvider';
 import { FunctionComponent } from 'react';
 import { IReduxStore } from '@weblancer-ui/types';
-import { ClientCore } from '@weblancer-ui/client-core';
 import Frame from 'react-frame-component';
 import styles from './clientIFrame.module.scss';
 import { useSelector } from 'react-redux';
+import { ClientIFrameContent } from './clientIFrameContent';
 
 export interface IClientIFrameProps {
   store: IReduxStore;
@@ -28,7 +28,7 @@ export const ClientIFrame: FunctionComponent<IClientIFrameProps> = ({
       }}
     >
       <WeblancerContextProvider store={store} type="preview">
-        <ClientCore />
+        <ClientIFrameContent />
       </WeblancerContextProvider>
     </Frame>
   );

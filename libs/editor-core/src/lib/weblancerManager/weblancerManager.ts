@@ -10,7 +10,7 @@ import { weblancerRegistry } from '@weblancer-ui/manager-registry';
 export class WeblancerManager {
   constructor(
     public store: IReduxStore,
-    type: WeblancerWindowType,
+    private type: WeblancerWindowType,
     private plugins: IEditorUIPlugin[] = []
   ) {
     weblancerRegistry.setStore(store);
