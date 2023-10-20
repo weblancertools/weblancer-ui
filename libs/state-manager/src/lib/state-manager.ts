@@ -1,9 +1,4 @@
-import {
-  IEditorUIPlugin,
-  ITypeInfo,
-  IManager,
-  IReduxSelector,
-} from '@weblancer-ui/types';
+import { ITypeInfo, IReduxSelector } from '@weblancer-ui/types';
 import stateSlice, { createState, setState } from './slice/stateSlice';
 import { createDraftSafeSelector } from '@reduxjs/toolkit';
 import {
@@ -14,15 +9,19 @@ import {
 import { inject, injectable } from 'inversify';
 import { weblancerRegistry } from '@weblancer-ui/manager-registry';
 import {
+  IManagerWithStore,
   IStoreManagerActions,
   StoreManager,
 } from '@weblancer-ui/store-manager';
 import { StateManagerService } from './constants';
 
 @injectable()
-export class StateManager extends IManager implements IStateManagerActions {
+export class StateManager
+  extends IManagerWithStore
+  implements IStateManagerActions
+{
+  public sliceReducer = stateSlice;
   public name = StateManagerService;
-  public uiPlugin?: IEditorUIPlugin;
   private selectorCache: Record<string, ReturnType<IReduxSelector>> = {};
 
   constructor(
@@ -30,7 +29,7 @@ export class StateManager extends IManager implements IStateManagerActions {
   ) {
     super();
 
-    this.storeManager.injectSlice(StateManagerService, stateSlice);
+    this.injectSlice(storeManager);
   }
 
   public createState(key: string, typeInfo: ITypeInfo, defaultValue?: unknown) {
