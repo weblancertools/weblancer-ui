@@ -9,15 +9,19 @@ export interface IStoreRootState {
 export interface IStateManagerSlice {
   [key: string]: {
     key: string;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    value?: any;
+    value?: unknown;
     typeInfo: ITypeInfo;
   };
 }
 
 export interface IStateManagerActions {
   setState(key: string, value?: unknown): void;
-  createState(key: string, typeInfo: ITypeInfo, defaultValue?: unknown): void;
+  createOrUpdateState(
+    key: string,
+    typeInfo: ITypeInfo,
+    defaultValue?: unknown
+  ): void;
+  removeState(key: string): void;
   getStateSelector(key: string): ReturnType<IReduxSelector>;
   getAllStates(): IStateManagerSlice;
 }

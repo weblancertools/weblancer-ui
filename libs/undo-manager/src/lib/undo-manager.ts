@@ -1,22 +1,19 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import {
-  weblancerContainer,
-  weblancerRegistry,
-} from '@weblancer-ui/manager-registry';
+import { weblancerRegistry } from '@weblancer-ui/manager-registry';
 import { IManager } from '@weblancer-ui/types';
 import { injectable } from 'inversify';
 import { IUndoManagerActions } from './types';
 import { UndoManagerService } from './constants';
-import { UndoableAction } from './action/UndoableAction';
+import { EditorAction } from './action/EditorAction';
 
 @injectable()
 export class UndoManager extends IManager implements IUndoManagerActions {
   public name = UndoManagerService;
 
-  public undoList: UndoableAction[] = [];
-  public redoList: UndoableAction[] = [];
+  public undoList: EditorAction[] = [];
+  public redoList: EditorAction[] = [];
 
-  public registerAndExecuteAction(action: UndoableAction): void {
+  public registerAndExecuteAction(action: EditorAction): void {
     this.redoList = [];
     this.undoList.push(action);
 
@@ -43,16 +40,6 @@ export class UndoManager extends IManager implements IUndoManagerActions {
     this.undoList.push(action!);
 
     action!.execute();
-  }
-
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  public static getActionInstance<Type>(_actionClass: any) {
-    return weblancerContainer.get<Type>(_actionClass);
-  }
-
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  public static bindAction(_actionClass: any) {
-    weblancerContainer.bind(_actionClass).toSelf();
   }
 }
 

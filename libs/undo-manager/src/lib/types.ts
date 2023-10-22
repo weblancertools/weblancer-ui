@@ -1,7 +1,7 @@
-import { UndoableAction } from './action/UndoableAction';
+import { EditorAction } from './action/EditorAction';
 
 export interface IUndoManagerActions {
-  registerAndExecuteAction(action: UndoableAction): void;
+  registerAndExecuteAction(action: EditorAction): void;
   undo(): void;
   redo(): void;
 }
