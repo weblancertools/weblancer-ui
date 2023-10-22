@@ -6,6 +6,7 @@ import { EditorAction } from '@weblancer-ui/undo-manager';
 
 export interface IWeblancerContextProvider {
   store: IReduxStore;
+  contextType?: 'editor' | 'client';
   plugins?: IEditorUIPlugin[];
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   initialManagers?: any | any[];
