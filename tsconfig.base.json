@@ -20,14 +20,14 @@
       ],
       "@weblancer-ui/client-core": ["libs/client-core/src/index.ts"],
       "@weblancer-ui/custom-manager": ["libs/custom-manager/src/index.ts"],
-      "@weblancer-ui/editor-connector": ["libs/editor-connector/src/index.ts"],
       "@weblancer-ui/editor-core": ["libs/editor-core/src/index.ts"],
       "@weblancer-ui/editor-core-ui": ["libs/editor-core-ui/src/index.ts"],
       "@weblancer-ui/manager-registry": ["libs/manager-registry/src/index.ts"],
       "@weblancer-ui/prop-manager": ["libs/prop-manager/src/index.ts"],
       "@weblancer-ui/state-manager": ["libs/state-manager/src/index.ts"],
       "@weblancer-ui/store-manager": ["libs/store-manager/src/index.ts"],
-      "@weblancer-ui/types": ["libs/types/src/index.ts"]
+      "@weblancer-ui/types": ["libs/types/src/index.ts"],
+      "@weblancer-ui/undo-manager": ["libs/undo-manager/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

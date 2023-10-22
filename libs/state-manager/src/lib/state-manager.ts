@@ -1,10 +1,9 @@
-import {
-  IEditorUIPlugin,
-  ITypeInfo,
-  IManager,
-  IReduxSelector,
-} from '@weblancer-ui/types';
-import stateSlice, { createState, setState } from './slice/stateSlice';
+import { ITypeInfo, IReduxSelector } from '@weblancer-ui/types';
+import stateSlice, {
+  createOrUpdateState,
+  removeState,
+  setState,
+} from './slice/stateSlice';
 import { createDraftSafeSelector } from '@reduxjs/toolkit';
 import {
   IStateManagerActions,
@@ -14,15 +13,19 @@ import {
 import { inject, injectable } from 'inversify';
 import { weblancerRegistry } from '@weblancer-ui/manager-registry';
 import {
+  IManagerWithStore,
   IStoreManagerActions,
   StoreManager,
 } from '@weblancer-ui/store-manager';
 import { StateManagerService } from './constants';
 
 @injectable()
-export class StateManager extends IManager implements IStateManagerActions {
+export class StateManager
+  extends IManagerWithStore
+  implements IStateManagerActions
+{
+  public sliceReducer = stateSlice;
   public name = StateManagerService;
-  public uiPlugin?: IEditorUIPlugin;
   private selectorCache: Record<string, ReturnType<IReduxSelector>> = {};
 
   constructor(
@@ -30,11 +33,21 @@ export class StateManager extends IManager implements IStateManagerActions {
   ) {
     super();
 
-    this.storeManager.injectSlice(StateManagerService, stateSlice);
+    this.injectSlice(storeManager);
   }
 
-  public createState(key: string, typeInfo: ITypeInfo, defaultValue?: unknown) {
-    this.storeManager.dispatch(createState({ key, typeInfo, defaultValue }));
+  public createOrUpdateState(
+    key: string,
+    typeInfo: ITypeInfo,
+    defaultValue?: unknown
+  ) {
+    this.storeManager.dispatch(
+      createOrUpdateState({ key, typeInfo, defaultValue })
+    );
+  }
+
+  public removeState(key: string) {
+    this.storeManager.dispatch(removeState({ key }));
   }
 
   public setState(key: string, value?: unknown) {

@@ -1,4 +1,3 @@
-import { IManager } from '@weblancer-ui/types';
 import {
   IBreakpoint,
   IBreakpointManagerActions,
@@ -7,6 +6,7 @@ import {
 import { BreakpointManagerService } from './constants';
 import { inject } from 'inversify';
 import {
+  IManagerWithStore,
   IStoreManagerActions,
   StoreManager,
 } from '@weblancer-ui/store-manager';
@@ -20,9 +20,10 @@ import { getSortedBreakpoints } from './helpers';
 import { weblancerRegistry } from '@weblancer-ui/manager-registry';
 
 export class BreakpointManager
-  extends IManager
+  extends IManagerWithStore
   implements IBreakpointManagerActions
 {
+  public sliceReducer = breakpointSlice;
   public name: string = BreakpointManagerService;
 
   constructor(
@@ -30,7 +31,7 @@ export class BreakpointManager
   ) {
     super();
 
-    this.storeManager.injectSlice(BreakpointManagerService, breakpointSlice);
+    this.injectSlice(storeManager);
   }
 
   private getAllBreakpoints() {

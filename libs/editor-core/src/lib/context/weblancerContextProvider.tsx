@@ -2,9 +2,11 @@ import { useCallback, useMemo } from 'react';
 import WeblancerContext from './weblancerContext';
 import { IEditorUIPlugin, IReduxStore } from '@weblancer-ui/types';
 import { weblancerRegistry } from '@weblancer-ui/manager-registry';
+import { EditorAction } from '@weblancer-ui/undo-manager';
 
 export interface IWeblancerContextProvider {
   store: IReduxStore;
+  contextType?: 'editor' | 'client';
   plugins?: IEditorUIPlugin[];
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   initialManagers?: any | any[];
@@ -25,6 +27,10 @@ export const WeblancerContextProvider = ({
     return plugins;
   }, [plugins]);
 
+  const callEditorAction = useCallback((action: EditorAction) => {
+    action.perform();
+  }, []);
+
   useMemo(() => {
     weblancerRegistry.setStore(store);
 
@@ -39,7 +45,9 @@ export const WeblancerContextProvider = ({
   }, [store, initialManagers, getManager]);
 
   return (
-    <WeblancerContext.Provider value={{ getManager, getPlugins }}>
+    <WeblancerContext.Provider
+      value={{ callEditorAction, getManager, getPlugins }}
+    >
       {children}
     </WeblancerContext.Provider>
   );

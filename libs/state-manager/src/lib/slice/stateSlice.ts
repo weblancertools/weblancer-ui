@@ -10,13 +10,12 @@ export const stateSlice = createSlice({
   name: StateManagerService,
   initialState,
   reducers: {
-    createState: (
+    createOrUpdateState: (
       state,
       action: PayloadAction<{
         key: string;
         typeInfo: ITypeInfo;
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        defaultValue?: any;
+        defaultValue?: unknown;
       }>
     ) => {
       state[action.payload.key] = {
@@ -25,12 +24,19 @@ export const stateSlice = createSlice({
         value: action.payload.defaultValue,
       };
     },
+    removeState: (
+      state,
+      action: PayloadAction<{
+        key: string;
+      }>
+    ) => {
+      delete state[action.payload.key];
+    },
     setState: (
       state,
       action: PayloadAction<{
         key: string;
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        value?: any;
+        value?: unknown;
       }>
     ) => {
       state[action.payload.key].value = action.payload.value;
@@ -38,6 +44,7 @@ export const stateSlice = createSlice({
   },
 });
 
-export const { createState, setState } = stateSlice.actions;
+export const { removeState, createOrUpdateState, setState } =
+  stateSlice.actions;
 
 export default stateSlice.reducer;
