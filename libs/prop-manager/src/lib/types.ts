@@ -23,7 +23,7 @@ export interface IComponentData {
   id: string;
   name?: string;
   parentId: string;
-  component: 'string';
+  component: string;
   props: Record<string, IPropData>;
   childrenPropData?: Record<string, IComponentData>;
 }
