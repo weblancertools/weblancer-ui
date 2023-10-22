@@ -1,5 +1,9 @@
 import { ITypeInfo, IReduxSelector } from '@weblancer-ui/types';
-import stateSlice, { createState, setState } from './slice/stateSlice';
+import stateSlice, {
+  createOrUpdateState,
+  removeState,
+  setState,
+} from './slice/stateSlice';
 import { createDraftSafeSelector } from '@reduxjs/toolkit';
 import {
   IStateManagerActions,
@@ -32,8 +36,18 @@ export class StateManager
     this.injectSlice(storeManager);
   }
 
-  public createState(key: string, typeInfo: ITypeInfo, defaultValue?: unknown) {
-    this.storeManager.dispatch(createState({ key, typeInfo, defaultValue }));
+  public createOrUpdateState(
+    key: string,
+    typeInfo: ITypeInfo,
+    defaultValue?: unknown
+  ) {
+    this.storeManager.dispatch(
+      createOrUpdateState({ key, typeInfo, defaultValue })
+    );
+  }
+
+  public removeState(key: string) {
+    this.storeManager.dispatch(removeState({ key }));
   }
 
   public setState(key: string, value?: unknown) {

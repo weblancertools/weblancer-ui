@@ -20,7 +20,6 @@
       ],
       "@weblancer-ui/client-core": ["libs/client-core/src/index.ts"],
       "@weblancer-ui/custom-manager": ["libs/custom-manager/src/index.ts"],
-      "@weblancer-ui/editor-connector": ["libs/editor-connector/src/index.ts"],
       "@weblancer-ui/editor-core": ["libs/editor-core/src/index.ts"],
       "@weblancer-ui/editor-core-ui": ["libs/editor-core-ui/src/index.ts"],
       "@weblancer-ui/manager-registry": ["libs/manager-registry/src/index.ts"],
