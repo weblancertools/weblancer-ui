@@ -6,13 +6,20 @@ import {
   breakpointUiPlugin,
 } from '@weblancer-ui/breakpoint-manager';
 import { StateManager } from '@weblancer-ui/state-manager';
+import { PropManager } from '@weblancer-ui/prop-manager';
+import { ComponentManager } from '@weblancer-ui/component-manager';
 
 export function App() {
   return (
     <EditorCore
       store={store}
       plugins={[breakpointUiPlugin]}
-      initialManagers={[BreakpointManager, StateManager]}
+      initialManagers={[
+        BreakpointManager,
+        StateManager,
+        PropManager,
+        ComponentManager,
+      ]}
     />
   );
 }

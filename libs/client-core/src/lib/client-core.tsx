@@ -1,17 +1,26 @@
-import { useBreakpointManagerSelector } from '@weblancer-ui/breakpoint-manager';
 import styles from './client-core.module.scss';
+import { useWeblancerManager } from '@weblancer-ui/editor-core';
+import {
+  IComponentData,
+  IPropManagerActions,
+  PropManager,
+} from '@weblancer-ui/prop-manager';
+import { ComponentRenderer } from './components/componentRenderer/componentRenderer';
+import { useSelector } from 'react-redux';
 
-/* eslint-disable-next-line */
-export interface ClientCoreProps {}
-
-export function ClientCore(props: ClientCoreProps) {
-  const width = useBreakpointManagerSelector(
-    (state) => state.BreakpointManager.editor.width
+// TODO must handle loading page data
+export function ClientCore() {
+  const propManager = useWeblancerManager<IPropManagerActions>(PropManager);
+  const pageComponentData: IComponentData = useSelector(
+    propManager.getPageDataSelector()
   );
 
   return (
     <div className={styles['container']}>
-      <h1>Welcome to ClientCore! {width}</h1>
+      {/* // TODO return loading */}
+      {pageComponentData.id && (
+        <ComponentRenderer itemId={pageComponentData.id} />
+      )}
     </div>
   );
 }

@@ -1,10 +1,10 @@
-import { FunctionComponent, useCallback, useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import { ClientCore } from '@weblancer-ui/client-core';
 import { useFrame } from 'react-frame-component';
 import { useDispatch } from 'react-redux';
 import { setCurrentBreakpoint } from '@weblancer-ui/breakpoint-manager';
 
-export const ClientIFrameContent: FunctionComponent = () => {
+export const ClientIFrameContent = () => {
   const { window, document } = useFrame();
   const dispatch = useDispatch();
 

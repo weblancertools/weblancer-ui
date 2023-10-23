@@ -1,4 +1,4 @@
-import { ITypeInfo } from '@weblancer-ui/types';
+import { IReduxSelector, ITypeInfo } from '@weblancer-ui/types';
 import { PropManagerService } from './constants';
 import { ReactNode } from 'react';
 
@@ -14,6 +14,7 @@ export interface IPropManagerSlice {
 
 export interface IPropManagerActions {
   setPageData(pageData: IComponentData): void;
+  getPageData(): Omit<IComponentData, 'parentId'>;
   addComponent(componentData: IComponentData): void;
   removeComponent(id: string): void;
   defineComponentProp<TPropType = unknown>(
@@ -26,13 +27,15 @@ export interface IPropManagerActions {
     id: string,
     name: string
   ): IPropData<TPropType>;
+  getComponentPropChangeSelector(id: string): ReturnType<IReduxSelector>;
+  getPageDataSelector(): ReturnType<IReduxSelector>;
 }
 
 export interface IComponentData {
   id: string;
   name?: string;
   parentId: string;
-  component: string;
+  componentKey: string;
   props: Record<string, IBreakPointPropsData>;
   childrenPropData?: Record<string, IComponentData>;
 }

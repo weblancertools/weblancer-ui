@@ -1,5 +1,5 @@
 import { inject, injectable } from 'inversify';
-import { PropManagerService } from './constants';
+import { PageDataSelectorKey, PropManagerService } from './constants';
 import {
   IManagerWithStore,
   IStoreManagerActions,
@@ -25,6 +25,8 @@ import {
   IBreakpointManagerActions,
 } from '@weblancer-ui/breakpoint-manager';
 import { getFirstUpperBreakpointOverrideInComponentData } from './helpers';
+import { IReduxSelector } from '@weblancer-ui/types';
+import { createDraftSafeSelector } from '@reduxjs/toolkit';
 
 @injectable()
 export class PropManager
@@ -33,6 +35,8 @@ export class PropManager
 {
   public name = PropManagerService;
   public sliceReducer = propSlice;
+
+  private selectorCache: Record<string, ReturnType<IReduxSelector>> = {};
 
   private get currentBreakpointId() {
     return this.breakpointManager.getCurrentBreakpoint().id;
@@ -54,6 +58,10 @@ export class PropManager
 
   setPageData(pageData: IComponentData): void {
     this.storeManager.dispatch(setPageData({ pageData }));
+  }
+
+  getPageData(): Omit<IComponentData, 'parentId'> {
+    return this.storeManager.getState<IStoreRootState>().PropManager.pageData;
   }
 
   addComponent(componentData: IComponentData): void {
@@ -113,6 +121,36 @@ export class PropManager
     return this.getComponent(id).props[name][
       targetBreakpoint
     ] as IPropData<TPropType>;
+  }
+
+  public getComponentPropChangeSelector(id: string) {
+    if (!this.selectorCache[id]) {
+      const componentData = this.getComponent(id);
+      this.selectorCache[id] = createDraftSafeSelector(
+        [
+          (store: IStoreRootState) => store.PropManager.componentMap[id],
+          (store: IStoreRootState) => this.currentBreakpointId,
+          ...Object.values(componentData.props).map((breakpointPropData) => {
+            return (store: IStoreRootState) =>
+              breakpointPropData[this.currentBreakpointId].value;
+          }),
+        ],
+        (componentData) => ({ ...componentData })
+      );
+    }
+
+    return this.selectorCache[id];
+  }
+
+  public getPageDataSelector() {
+    if (!this.selectorCache[PageDataSelectorKey]) {
+      this.selectorCache[PageDataSelectorKey] = createDraftSafeSelector(
+        [(store: IStoreRootState) => store.PropManager.pageData],
+        (pageData) => pageData
+      );
+    }
+
+    return this.selectorCache[PageDataSelectorKey];
   }
 }
 

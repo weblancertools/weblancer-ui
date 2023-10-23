@@ -19,6 +19,9 @@
         "libs/breakpoint-manager/src/index.ts"
       ],
       "@weblancer-ui/client-core": ["libs/client-core/src/index.ts"],
+      "@weblancer-ui/component-manager": [
+        "libs/component-manager/src/index.ts"
+      ],
       "@weblancer-ui/custom-manager": ["libs/custom-manager/src/index.ts"],
       "@weblancer-ui/editor-core": ["libs/editor-core/src/index.ts"],
       "@weblancer-ui/editor-core-ui": ["libs/editor-core-ui/src/index.ts"],
