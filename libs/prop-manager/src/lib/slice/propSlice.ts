@@ -1,7 +1,12 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { IComponentData, IDefaultPropData, IPropManagerSlice } from '../types';
 import { PropManagerService } from '../constants';
-import { removeComponentsRecursively } from './helpers';
+import {
+  addComponentDataToMapRecursively,
+  removeComponentsRecursively,
+  updateComponentDataBasedOnBreakpoints,
+} from '../helpers';
+import { IBreakpoint } from '@weblancer-ui/breakpoint-manager';
 
 const initialState: IPropManagerSlice = {
   componentMap: {},
@@ -12,6 +17,18 @@ export const stateSlice = createSlice({
   name: PropManagerService,
   initialState,
   reducers: {
+    setPageData: (
+      state,
+      action: PayloadAction<{
+        pageData: IComponentData;
+      }>
+    ) => {
+      const { pageData } = action.payload;
+      const componentMap = addComponentDataToMapRecursively(pageData);
+
+      state.componentMap = componentMap;
+      state.pageData = pageData;
+    },
     addComponent: (
       state,
       action: PayloadAction<{
@@ -53,14 +70,17 @@ export const stateSlice = createSlice({
       action: PayloadAction<{
         id: string;
         propData: IDefaultPropData;
+        biggestBreakpointId: string;
       }>
     ) => {
-      const { id, propData } = action.payload;
+      const { id, propData, biggestBreakpointId } = action.payload;
 
       state.componentMap[id].props[propData.name] = {
-        name: propData.name,
-        typeInfo: propData.typeInfo,
-        value: propData.typeInfo.defaultValue,
+        [biggestBreakpointId]: {
+          name: propData.name,
+          typeInfo: propData.typeInfo,
+          value: propData.typeInfo.defaultValue,
+        },
       };
     },
     updateComponentProp: (
@@ -70,16 +90,28 @@ export const stateSlice = createSlice({
         name: string;
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         value: any;
+        currentBreakpointId: string;
+        allBreakpoints: IBreakpoint[];
       }>
     ) => {
-      const { id, name, value } = action.payload;
+      const { id, name, value, currentBreakpointId, allBreakpoints } =
+        action.payload;
 
-      state.componentMap[id].props[name].value = value;
+      const componentData = state.componentMap[id];
+
+      updateComponentDataBasedOnBreakpoints(
+        componentData,
+        name,
+        value,
+        currentBreakpointId,
+        allBreakpoints
+      );
     },
   },
 });
 
 export const {
+  setPageData,
   addComponent,
   removeComponent,
   defineComponentProp,

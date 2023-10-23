@@ -13,9 +13,10 @@ export interface IPropManagerSlice {
 }
 
 export interface IPropManagerActions {
+  setPageData(pageData: IComponentData): void;
   addComponent(componentData: IComponentData): void;
   removeComponent(id: string): void;
-  defineProp<TPropType = unknown>(
+  defineComponentProp<TPropType = unknown>(
     id: string,
     propData: IDefaultPropData<TPropType>
   ): TPropType;
@@ -32,8 +33,12 @@ export interface IComponentData {
   name?: string;
   parentId: string;
   component: string;
-  props: Record<string, IPropData>;
+  props: Record<string, IBreakPointPropsData>;
   childrenPropData?: Record<string, IComponentData>;
+}
+
+export interface IBreakPointPropsData<TPropType = unknown> {
+  [breakpointName: string]: IPropData<TPropType>;
 }
 
 export interface IPropData<TPropType = unknown> {
