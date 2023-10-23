@@ -7,6 +7,7 @@ import { inject, injectable } from 'inversify';
 import {
   IComponentManagerActions,
   IComponentMap,
+  IComponentRegisterMetadata,
   WeblancerComponent,
 } from './types';
 import componentSlice from './slice/componentSlice';
@@ -44,15 +45,13 @@ export class ComponentManager
 
   public static register(
     key: string,
-    label: string,
     component: WeblancerComponent,
-    group: string | string[] = 'Others'
+    metadata?: IComponentRegisterMetadata
   ) {
     componentMap[key] = {
       key,
-      label,
-      group,
       component,
+      metadata,
     };
   }
 }

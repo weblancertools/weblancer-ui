@@ -29,7 +29,4 @@ export function App() {
 
 export default App;
 
-ComponentManager.register('weblancer-text', 'Text', WeblancerText, [
-  'Weblancer',
-  'Base Components',
-]);
+ComponentManager.register('weblancer-text', WeblancerText);
