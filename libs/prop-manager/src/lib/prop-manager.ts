@@ -123,16 +123,25 @@ export class PropManager
     ] as IPropData<TPropType>;
   }
 
-  public getComponentPropChangeSelector(id: string) {
+  getComponentPropChangeSelector(id: string) {
     if (!this.selectorCache[id]) {
       const componentData = this.getComponent(id);
       this.selectorCache[id] = createDraftSafeSelector(
         [
           (store: IStoreRootState) => store.PropManager.componentMap[id],
           (store: IStoreRootState) => this.currentBreakpointId,
-          ...Object.values(componentData.props).map((breakpointPropData) => {
-            return (store: IStoreRootState) =>
-              breakpointPropData[this.currentBreakpointId].value;
+          ...Object.keys(componentData.props).map((propName) => {
+            const breakpointPropData = componentData.props[propName];
+            return (store: IStoreRootState) => {
+              const availableBreakpoint =
+                getFirstUpperBreakpointOverrideInComponentData(
+                  componentData,
+                  propName,
+                  this.currentBreakpointId,
+                  this.allBreakpoints
+                );
+              return breakpointPropData[availableBreakpoint].value;
+            };
           }),
         ],
         (componentData) => ({ ...componentData })
@@ -142,7 +151,7 @@ export class PropManager
     return this.selectorCache[id];
   }
 
-  public getPageDataSelector() {
+  getPageDataSelector() {
     if (!this.selectorCache[PageDataSelectorKey]) {
       this.selectorCache[PageDataSelectorKey] = createDraftSafeSelector(
         [(store: IStoreRootState) => store.PropManager.pageData],

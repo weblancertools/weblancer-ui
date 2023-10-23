@@ -7,6 +7,8 @@ import {
 } from '@weblancer-ui/prop-manager';
 import { ComponentRenderer } from './components/componentRenderer/componentRenderer';
 import { useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { PropTypes } from '@weblancer-ui/types';
 
 // TODO must handle loading page data
 export function ClientCore() {
@@ -14,6 +16,23 @@ export function ClientCore() {
   const pageComponentData: IComponentData = useSelector(
     propManager.getPageDataSelector()
   );
+
+  useEffect(() => {
+    propManager.setPageData({
+      id: 'page1',
+      componentKey: 'weblancer-text',
+      parentId: 'none',
+      props: {
+        text: {
+          large: {
+            name: 'text',
+            value: 'Behrooz',
+            typeInfo: { typeName: PropTypes.String },
+          },
+        },
+      },
+    });
+  }, [propManager]);
 
   return (
     <div className={styles['container']}>

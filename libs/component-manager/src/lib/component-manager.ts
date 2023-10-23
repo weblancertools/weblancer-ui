@@ -7,10 +7,9 @@ import { inject, injectable } from 'inversify';
 import {
   IComponentManagerActions,
   IComponentMap,
-  IStoreRootState,
   WeblancerComponent,
 } from './types';
-import componentSlice, { addComponent } from './slice/componentSlice';
+import componentSlice from './slice/componentSlice';
 import { ComponentManagerService } from './constants';
 import { weblancerRegistry } from '@weblancer-ui/manager-registry';
 
@@ -30,30 +29,13 @@ export class ComponentManager
     super();
 
     this.injectSlice(storeManager);
-
-    this.loadComponents();
   }
 
-  private loadComponents = () => {
-    Object.values(componentMap).forEach((componentHolder) => {
-      this.storeManager.dispatch(addComponent(componentHolder));
-    });
-  };
-
-  private loadComponent = (key: string) => {
-    this.storeManager.dispatch(addComponent(componentMap[key]));
-  };
-
   getAllComponents(): IComponentMap {
-    return this.storeManager.getState<IStoreRootState>().ComponentManager
-      .componentMap;
+    return componentMap;
   }
 
   getComponentByKey(key: string): WeblancerComponent {
-    const componentMap =
-      this.storeManager.getState<IStoreRootState>().ComponentManager
-        .componentMap;
-
     if (!componentMap[key])
       throw new Error('Can not access to a non-registered component');
 
@@ -72,10 +54,6 @@ export class ComponentManager
       group,
       component,
     };
-
-    // weblancerRegistry
-    //   .getManagerInstance<ComponentManager>(ComponentManager)
-    //   .loadComponent(key);
   }
 }
 

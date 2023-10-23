@@ -40,6 +40,8 @@ export const stateSlice = createSlice({
 
       if (componentData.parentId) {
         const parentComponentData = state.componentMap[componentData.parentId];
+        if (!parentComponentData) return;
+
         if (!parentComponentData.childrenPropData)
           parentComponentData.childrenPropData = {};
 

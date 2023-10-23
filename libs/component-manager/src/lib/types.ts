@@ -7,7 +7,7 @@ export interface IStoreRootState {
 }
 
 export interface IComponentManagerSlice {
-  componentMap: IComponentMap;
+  test?: string;
 }
 
 export interface IComponentManagerActions {
