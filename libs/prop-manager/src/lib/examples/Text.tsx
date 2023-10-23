@@ -1,5 +1,5 @@
 import { PropTypes } from '@weblancer-ui/types';
-import { IWeblancerProps } from '../types';
+import { IWeblancerComponentProps } from '../types';
 
 interface ITextProps {
   text: string;
@@ -12,7 +12,7 @@ export const Text = ({ text }: ITextProps) => {
 export const WeblancerText = ({
   itemId,
   propManager: { defineComponentProp },
-}: IWeblancerProps) => {
+}: IWeblancerComponentProps) => {
   return (
     <Text
       text={defineComponentProp(itemId, {

@@ -1,5 +1,6 @@
 import { ITypeInfo } from '@weblancer-ui/types';
 import { PropManagerService } from './constants';
+import { ReactNode } from 'react';
 
 export interface IStoreRootState {
   [PropManagerService]: IPropManagerSlice;
@@ -46,7 +47,8 @@ export interface IDefaultPropData<TPropType = unknown> {
   typeInfo: ITypeInfo<TPropType>;
 }
 
-export interface IWeblancerProps {
+export interface IWeblancerComponentProps {
   itemId: string;
   propManager: IPropManagerActions;
+  children?: ReactNode;
 }
