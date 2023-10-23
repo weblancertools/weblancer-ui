@@ -15,7 +15,7 @@ export interface IPropManagerSlice {
 export interface IPropManagerActions {
   addComponent(componentData: IComponentData): void;
   removeComponent(id: string): void;
-  defineComponentProp<TPropType = unknown>(
+  defineProp<TPropType = unknown>(
     id: string,
     propData: IDefaultPropData<TPropType>
   ): TPropType;
@@ -48,7 +48,8 @@ export interface IDefaultPropData<TPropType = unknown> {
 }
 
 export interface IWeblancerComponentProps {
-  itemId: string;
-  propManager: IPropManagerActions;
+  defineProp<TPropType = unknown>(
+    propData: IDefaultPropData<TPropType>
+  ): TPropType;
   children?: ReactNode;
 }

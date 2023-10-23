@@ -9,13 +9,10 @@ export const Text = ({ text }: ITextProps) => {
   return <p>{text}</p>;
 };
 
-export const WeblancerText = ({
-  itemId,
-  propManager: { defineComponentProp },
-}: IWeblancerComponentProps) => {
+export const WeblancerText = ({ defineProp }: IWeblancerComponentProps) => {
   return (
     <Text
-      text={defineComponentProp(itemId, {
+      text={defineProp({
         name: 'text',
         typeInfo: {
           typeName: PropTypes.String,

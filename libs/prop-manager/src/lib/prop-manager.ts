@@ -44,7 +44,7 @@ export class PropManager
     this.storeManager.dispatch(removeComponent({ id }));
   }
 
-  defineComponentProp<TPropType>(
+  defineProp<TPropType>(
     id: string,
     propData: IDefaultPropData<TPropType>
   ): TPropType {
