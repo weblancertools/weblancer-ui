@@ -8,6 +8,7 @@ import {
 import {
   IComponentData,
   IDefaultPropData,
+  IPropData,
   IPropManagerActions,
   IStoreRootState,
 } from './types';
@@ -50,9 +51,10 @@ export class PropManager
     if (!this.getComponent(id)) {
       this.storeManager.dispatch(defineComponentProp({ id, propData }));
 
-      return propData.defaultValue as TPropType;
+      return propData.typeInfo.defaultValue as TPropType;
     } else {
-      return this.getComponentProp(id, propData.name);
+      return this.getComponentProp<TPropType>(id, propData.name)
+        .value as TPropType;
     }
   }
 
@@ -65,8 +67,8 @@ export class PropManager
       .componentMap[id];
   }
 
-  getComponentProp<TPropType>(id: string, name: string): TPropType {
-    return this.getComponent(id).props[name].value as TPropType;
+  getComponentProp<TPropType>(id: string, name: string): IPropData<TPropType> {
+    return this.getComponent(id).props[name] as IPropData<TPropType>;
   }
 }
 

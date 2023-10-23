@@ -60,7 +60,7 @@ export const stateSlice = createSlice({
       state.componentMap[id].props[propData.name] = {
         name: propData.name,
         typeInfo: propData.typeInfo,
-        value: propData.defaultValue,
+        value: propData.typeInfo.defaultValue,
       };
     },
     updateComponentProp: (
@@ -68,7 +68,8 @@ export const stateSlice = createSlice({
       action: PayloadAction<{
         id: string;
         name: string;
-        value: unknown;
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        value: any;
       }>
     ) => {
       const { id, name, value } = action.payload;

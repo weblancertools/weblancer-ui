@@ -23,7 +23,7 @@ export interface IPropManagerActions {
   getComponentProp<TPropType = unknown>(
     id: string,
     name: string
-  ): TPropType | undefined;
+  ): IPropData<TPropType>;
 }
 
 export interface IComponentData {
@@ -35,16 +35,15 @@ export interface IComponentData {
   childrenPropData?: Record<string, IComponentData>;
 }
 
-export interface IPropData {
+export interface IPropData<TPropType = unknown> {
   name: string;
-  value?: unknown;
+  value?: TPropType;
   typeInfo: ITypeInfo;
 }
 
 export interface IDefaultPropData<TPropType = unknown> {
   name: string;
-  defaultValue?: TPropType;
-  typeInfo: ITypeInfo;
+  typeInfo: ITypeInfo<TPropType>;
 }
 
 export interface IWeblancerProps {

@@ -19,7 +19,6 @@ export const WeblancerText = ({
         name: 'text',
         typeInfo: {
           typeName: PropTypes.String,
-          defaultValue: '',
         },
       })}
     />
