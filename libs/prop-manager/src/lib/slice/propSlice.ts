@@ -1,5 +1,5 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { IComponentData, IPropData, IPropManagerSlice } from '../types';
+import { IComponentData, IDefaultPropData, IPropManagerSlice } from '../types';
 import { PropManagerService } from '../constants';
 import { removeComponentsRecursively } from './helpers';
 
@@ -52,12 +52,16 @@ export const stateSlice = createSlice({
       state,
       action: PayloadAction<{
         id: string;
-        propData: IPropData;
+        propData: IDefaultPropData;
       }>
     ) => {
       const { id, propData } = action.payload;
 
-      state.componentMap[id].props[propData.name] = propData;
+      state.componentMap[id].props[propData.name] = {
+        name: propData.name,
+        typeInfo: propData.typeInfo,
+        value: propData.defaultValue,
+      };
     },
     updateComponentProp: (
       state,

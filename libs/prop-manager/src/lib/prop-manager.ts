@@ -7,7 +7,7 @@ import {
 } from '@weblancer-ui/store-manager';
 import {
   IComponentData,
-  IPropData,
+  IDefaultPropData,
   IPropManagerActions,
   IStoreRootState,
 } from './types';
@@ -43,8 +43,17 @@ export class PropManager
     this.storeManager.dispatch(removeComponent({ id }));
   }
 
-  defineComponentProp(id: string, propData: IPropData): void {
-    this.storeManager.dispatch(defineComponentProp({ id, propData }));
+  defineComponentProp<TPropType>(
+    id: string,
+    propData: IDefaultPropData<TPropType>
+  ): TPropType {
+    if (!this.getComponent(id)) {
+      this.storeManager.dispatch(defineComponentProp({ id, propData }));
+
+      return propData.defaultValue as TPropType;
+    } else {
+      return this.getComponentProp(id, propData.name);
+    }
   }
 
   updateComponentProp(id: string, name: string, value: unknown): void {
@@ -54,6 +63,10 @@ export class PropManager
   getComponent(id: string): IComponentData {
     return this.storeManager.getState<IStoreRootState>().PropManager
       .componentMap[id];
+  }
+
+  getComponentProp<TPropType>(id: string, name: string): TPropType {
+    return this.getComponent(id).props[name].value as TPropType;
   }
 }
 

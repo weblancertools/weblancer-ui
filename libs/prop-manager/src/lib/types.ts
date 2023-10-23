@@ -14,9 +14,16 @@ export interface IPropManagerSlice {
 export interface IPropManagerActions {
   addComponent(componentData: IComponentData): void;
   removeComponent(id: string): void;
-  defineComponentProp(id: string, propData: IPropData): void;
+  defineComponentProp<TPropType = unknown>(
+    id: string,
+    propData: IDefaultPropData<TPropType>
+  ): TPropType;
   updateComponentProp(id: string, name: string, value: unknown): void;
   getComponent(id: string): IComponentData;
+  getComponentProp<TPropType = unknown>(
+    id: string,
+    name: string
+  ): TPropType | undefined;
 }
 
 export interface IComponentData {
@@ -32,4 +39,15 @@ export interface IPropData {
   name: string;
   value?: unknown;
   typeInfo: ITypeInfo;
+}
+
+export interface IDefaultPropData<TPropType = unknown> {
+  name: string;
+  defaultValue?: TPropType;
+  typeInfo: ITypeInfo;
+}
+
+export interface IWeblancerProps {
+  itemId: string;
+  propManager: IPropManagerActions;
 }
