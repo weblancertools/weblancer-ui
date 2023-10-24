@@ -1,19 +1,33 @@
-import { IManager } from '@weblancer-ui/types';
-import { injectable } from 'inversify';
-import { AdjustmentManagerService, IAdjustmentManagerActions } from './types';
+import { inject, injectable } from 'inversify';
+import {
+  AdjustmentManagerService,
+  IAdjustmentManagerActions,
+  IStoreRootState,
+} from './types';
 import { weblancerRegistry } from '@weblancer-ui/manager-registry';
+import {
+  IManagerWithStore,
+  IStoreManagerActions,
+  StoreManager,
+} from '@weblancer-ui/store-manager';
+import adjustmentSlice, { setStateValue } from './slice/adjustmentSlice';
 
 @injectable()
 export class AdjustmentManager
-  extends IManager
+  extends IManagerWithStore
   implements IAdjustmentManagerActions
 {
+  public sliceReducer = adjustmentSlice;
   public name = AdjustmentManagerService;
   public allRootRef: Record<string, React.RefObject<HTMLDivElement>> = {};
-  private hoveredContainerId: string | null = null;
-  private mouseOverItemId: string | null = null;
-  private selectedItemId: string | null = null;
-  private draggingItemId: string | null = null;
+
+  constructor(
+    @inject(StoreManager) private readonly storeManager: IStoreManagerActions
+  ) {
+    super();
+
+    this.injectSlice(storeManager);
+  }
 
   addItemRootRef(
     itemId: string,
@@ -23,35 +37,51 @@ export class AdjustmentManager
   }
 
   setHoveredContainerId(itemId: string | null): void {
-    this.hoveredContainerId = itemId;
+    this.storeManager.dispatch(
+      setStateValue({ key: 'hoveredContainerId', value: itemId })
+    );
   }
 
-  getHoveredContainerId(): string | null {
-    return this.hoveredContainerId;
+  getHoveredContainerId(): string | null | undefined {
+    return this.storeManager.getState<IStoreRootState>()[
+      AdjustmentManagerService
+    ].hoveredContainerId;
   }
 
   setMouseOverItemId(itemId: string | null): void {
-    this.mouseOverItemId = itemId;
+    this.storeManager.dispatch(
+      setStateValue({ key: 'mouseOverItemId', value: itemId })
+    );
   }
 
-  getMouseOverItemId(): string | null {
-    return this.mouseOverItemId;
+  getMouseOverItemId(): string | null | undefined {
+    return this.storeManager.getState<IStoreRootState>()[
+      AdjustmentManagerService
+    ].mouseOverItemId;
   }
 
   setSelectedItemId(itemId: string | null): void {
-    this.selectedItemId = itemId;
+    this.storeManager.dispatch(
+      setStateValue({ key: 'selectedItemId', value: itemId })
+    );
   }
 
-  getSelectedItemId(): string | null {
-    return this.selectedItemId;
+  getSelectedItemId(): string | null | undefined {
+    return this.storeManager.getState<IStoreRootState>()[
+      AdjustmentManagerService
+    ].selectedItemId;
   }
 
   setDraggingItemId(itemId: string | null): void {
-    this.draggingItemId = itemId;
+    this.storeManager.dispatch(
+      setStateValue({ key: 'draggingItemId', value: itemId })
+    );
   }
 
-  getDraggingItemId(): string | null {
-    return this.draggingItemId;
+  getDraggingItemId(): string | null | undefined {
+    return this.storeManager.getState<IStoreRootState>()[
+      AdjustmentManagerService
+    ].draggingItemId;
   }
 }
 
