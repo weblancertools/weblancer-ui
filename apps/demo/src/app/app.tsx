@@ -11,6 +11,7 @@ import {
   ComponentManager,
   WeblancerText,
 } from '@weblancer-ui/component-manager';
+import { AdjustmentManager } from '@weblancer-ui/adjustment-manager';
 
 export function App() {
   return (
@@ -22,6 +23,7 @@ export function App() {
         StateManager,
         PropManager,
         ComponentManager,
+        AdjustmentManager,
       ]}
     />
   );

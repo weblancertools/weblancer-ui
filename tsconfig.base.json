@@ -15,6 +15,9 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@weblancer-ui/adjustment-manager": [
+        "libs/adjustment-manager/src/index.ts"
+      ],
       "@weblancer-ui/breakpoint-manager": [
         "libs/breakpoint-manager/src/index.ts"
       ],

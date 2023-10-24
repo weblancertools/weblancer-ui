@@ -36,8 +36,13 @@ export interface IComponentData {
   name?: string;
   parentId: string;
   componentKey: string;
+  metadata?: IComponentMetadata;
   props: Record<string, IBreakPointPropsData>;
   childrenPropData?: Record<string, IComponentData>;
+}
+
+export interface IComponentMetadata {
+  isContainer?: boolean;
 }
 
 export interface IBreakPointPropsData<TPropType = unknown> {

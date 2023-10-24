@@ -1,4 +1,8 @@
 import {
+  ChildrenContainer,
+  WeblancerComponentRoot,
+} from '@weblancer-ui/adjustment-manager';
+import {
   ComponentManager,
   IComponentManagerActions,
 } from '@weblancer-ui/component-manager';
@@ -39,10 +43,26 @@ export const ComponentRenderer = ({ itemId }: IComponentRenderer) => {
   const children = Object.values(componentData.childrenPropData ?? {});
 
   return (
-    <Component defineProp={defineProp}>
-      {children.map(({ id: childItemId }) => {
-        return <ComponentRenderer key={childItemId} itemId={childItemId} />;
-      })}
-    </Component>
+    <WeblancerComponentRoot
+      itemId={itemId}
+      componentData={componentData}
+      defineProp={defineProp}
+    >
+      <Component defineProp={defineProp}>
+        {children.length > 0 && (
+          <ChildrenContainer
+            itemId={itemId}
+            componentData={componentData}
+            defineProp={defineProp}
+          >
+            {children.map(({ id: childItemId }) => {
+              return (
+                <ComponentRenderer key={childItemId} itemId={childItemId} />
+              );
+            })}
+          </ChildrenContainer>
+        )}
+      </Component>
+    </WeblancerComponentRoot>
   );
 };

@@ -76,13 +76,12 @@ export class PropManager
     id: string,
     propData: IDefaultPropData<TPropType>
   ): TPropType {
-    if (!this.getComponent(id)) {
+    if (!this.getComponent(id) || !this.getComponent(id).props[propData.name]) {
       this.storeManager.dispatch(
         defineComponentProp({
           id,
           propData,
-          biggestBreakpointId:
-            this.allBreakpoints[this.allBreakpoints.length - 1].id,
+          biggestBreakpointId: this.allBreakpoints[0].id,
         })
       );
 
