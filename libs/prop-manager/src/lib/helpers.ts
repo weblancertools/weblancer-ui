@@ -65,8 +65,8 @@ export const getFirstUpperBreakpointOverrideInComponentData = (
 ) => {
   let currentBreakpointFound = false;
 
-  allBreakpoints = [...allBreakpoints.reverse()];
-  for (const breakpoint of allBreakpoints) {
+  const reversedAllBreakpoints = [...allBreakpoints].reverse();
+  for (const breakpoint of reversedAllBreakpoints) {
     if (currentBreakpointFound && componentData.props[name][breakpoint.id]) {
       return breakpoint.id;
     }
