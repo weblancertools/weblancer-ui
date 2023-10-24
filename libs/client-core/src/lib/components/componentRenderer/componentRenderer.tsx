@@ -40,7 +40,11 @@ export const ComponentRenderer = ({ itemId }: IComponentRenderer) => {
   const children = Object.values(componentData.childrenPropData ?? {});
 
   return (
-    <WeblancerComponentRoot itemId={itemId}>
+    <WeblancerComponentRoot
+      itemId={itemId}
+      componentData={componentData}
+      defineProp={defineProp}
+    >
       <Component defineProp={defineProp}>
         {children.map(({ id: childItemId }) => {
           return <ComponentRenderer key={childItemId} itemId={childItemId} />;

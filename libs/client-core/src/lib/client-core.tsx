@@ -22,6 +22,9 @@ export const ClientCore = memo(() => {
       id: 'page1',
       componentKey: 'weblancer-text',
       parentId: 'none',
+      metadata: {
+        isContainer: true,
+      },
       props: {
         text: {
           large: {
