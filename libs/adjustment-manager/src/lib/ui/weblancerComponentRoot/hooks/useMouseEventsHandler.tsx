@@ -3,7 +3,16 @@ import { IAdjustmentManagerActions } from '../../../types';
 import { AdjustmentManager } from '../../../adjustment-manager';
 import { findFirstWeblancerRootId } from './helpers';
 
-export const useMouseEventsHandler = (itemId: string, isContainer = false) => {
+interface IUseMouseEventsHandlerOptions {
+  isContainer?: boolean;
+}
+
+export const useMouseEventsHandler = (
+  itemId: string,
+  options: IUseMouseEventsHandlerOptions = {}
+) => {
+  const { isContainer = false } = options;
+
   const adjustmentManager =
     useWeblancerManager<IAdjustmentManagerActions>(AdjustmentManager);
 

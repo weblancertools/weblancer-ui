@@ -36,10 +36,9 @@ export const WeblancerComponentRoot = ({
   }, [adjustmentManager, itemId]);
 
   const { draggableProps } = useDragAndDrop(itemId);
-  const { mouseEventProps } = useMouseEventsHandler(
-    itemId,
-    componentData.metadata?.isContainer
-  );
+  const { mouseEventProps } = useMouseEventsHandler(itemId, {
+    isContainer: componentData.metadata?.isContainer,
+  });
 
   return (
     <Draggable nodeRef={rootRef} {...draggableProps}>

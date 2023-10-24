@@ -7,7 +7,16 @@ import {
 import { IAdjustmentManagerActions } from '../../../types';
 import { AdjustmentManager } from '../../../adjustment-manager';
 
-export const useDragAndDrop = (itemId: string) => {
+interface IUseDragAndDropOptions {
+  isDraggable?: boolean;
+}
+
+export const useDragAndDrop = (
+  itemId: string,
+  options: IUseDragAndDropOptions = {}
+) => {
+  const { isDraggable = true } = options;
+
   const adjustmentManager =
     useWeblancerManager<IAdjustmentManagerActions>(AdjustmentManager);
 
@@ -15,6 +24,8 @@ export const useDragAndDrop = (itemId: string) => {
     e: DraggableEvent,
     data: DraggableData
   ) => {
+    if (!isDraggable) return false;
+
     adjustmentManager.setDraggingItemId(itemId);
     e.stopPropagation();
   };
