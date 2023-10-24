@@ -10,7 +10,11 @@ import {
 import Draggable from 'react-draggable';
 import { useDragAndDrop } from './hooks/useDragAndDrop';
 import { useMouseEventsHandler } from './hooks/useMouseEventsHandler';
-import { WeblancerComponentIdAttributeName } from '@weblancer-ui/types';
+import {
+  PropTypes,
+  WeblancerComponentIdAttributeName,
+} from '@weblancer-ui/types';
+import classNames from 'classnames';
 
 export interface IWeblancerComponentRootProps extends IWeblancerComponentProps {
   itemId: string;
@@ -41,7 +45,15 @@ export const WeblancerComponentRoot = ({
     <Draggable nodeRef={rootRef} {...draggableProps}>
       <div
         ref={rootRef}
-        className={styles.root}
+        className={classNames(
+          styles.root,
+          defineProp({
+            name: 'componentRootStyle',
+            typeInfo: {
+              typeName: PropTypes.ClassName,
+            },
+          })
+        )}
         {...{ [WeblancerComponentIdAttributeName]: itemId }}
         {...mouseEventProps}
       >
