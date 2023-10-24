@@ -1,28 +1,15 @@
 import { createSlice } from '@reduxjs/toolkit';
-import type { PayloadAction } from '@reduxjs/toolkit';
-import { IComponentHolder, IComponentManagerSlice } from '../types';
+import { IComponentManagerSlice } from '../types';
 import { ComponentManagerService } from '../constants';
 
-const initialState: IComponentManagerSlice = {
-  componentMap: {},
-};
+const initialState: IComponentManagerSlice = {};
 
 export const stateSlice = createSlice({
   name: ComponentManagerService,
   initialState,
-  reducers: {
-    addComponent: (state, action: PayloadAction<IComponentHolder>) => {
-      const { key, label, group, component } = action.payload;
-      state.componentMap[key] = {
-        key,
-        label,
-        group,
-        component,
-      };
-    },
-  },
+  reducers: {},
 });
 
-export const { addComponent } = stateSlice.actions;
+// export const {  } = stateSlice.actions;
 
 export default stateSlice.reducer;

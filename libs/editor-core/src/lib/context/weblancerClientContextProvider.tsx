@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 import { weblancerRegistry } from '@weblancer-ui/manager-registry';
 import WeblancerClientContext from './weblancerClientContext';
 
@@ -13,8 +13,10 @@ export const WeblancerContextClientProvider = ({
     return weblancerRegistry.getManagerInstance<TType>(_class);
   }, []);
 
+  const value = useMemo(() => ({ getManager }), [getManager]);
+
   return (
-    <WeblancerClientContext.Provider value={{ getManager }}>
+    <WeblancerClientContext.Provider value={value}>
       {children}
     </WeblancerClientContext.Provider>
   );

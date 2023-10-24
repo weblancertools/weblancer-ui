@@ -37,6 +37,7 @@ export const ComponentRenderer = ({ itemId }: IComponentRenderer) => {
   );
 
   const children = Object.values(componentData.childrenPropData ?? {});
+
   return (
     <Component defineProp={defineProp}>
       {children.map(({ id: childItemId }) => {

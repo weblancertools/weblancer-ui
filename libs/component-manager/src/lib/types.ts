@@ -7,7 +7,7 @@ export interface IStoreRootState {
 }
 
 export interface IComponentManagerSlice {
-  componentMap: IComponentMap;
+  test?: string;
 }
 
 export interface IComponentManagerActions {
@@ -21,9 +21,14 @@ export interface IComponentMap {
 
 export interface IComponentHolder {
   key: string;
-  label: string;
-  group: string | string[];
   component: WeblancerComponent;
+  metadata?: IComponentRegisterMetadata;
 }
 
 export type WeblancerComponent = React.ComponentType<IWeblancerComponentProps>;
+
+export interface IComponentRegisterMetadata {
+  label: string;
+  categories: string | string[];
+  group: string;
+}

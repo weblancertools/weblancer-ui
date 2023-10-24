@@ -1,16 +1,25 @@
 import { IWeblancerComponentProps } from '@weblancer-ui/prop-manager';
 import { PropTypes } from '@weblancer-ui/types';
-import { ComponentManager } from '../component-manager';
+import { ReactNode } from 'react';
 
 interface ITextProps {
   text: string;
+  children?: ReactNode;
 }
 
-export const Text = ({ text }: ITextProps) => {
-  return <p>{text}</p>;
+export const Text = ({ text, children }: ITextProps) => {
+  return (
+    <>
+      <div>{text}</div>
+      {children}
+    </>
+  );
 };
 
-export const WeblancerText = ({ defineProp }: IWeblancerComponentProps) => {
+export const WeblancerText = ({
+  defineProp,
+  children,
+}: IWeblancerComponentProps) => {
   return (
     <Text
       text={defineProp({
@@ -19,11 +28,8 @@ export const WeblancerText = ({ defineProp }: IWeblancerComponentProps) => {
           typeName: PropTypes.String,
         },
       })}
-    />
+    >
+      {children}
+    </Text>
   );
 };
-
-ComponentManager.register('weblancer-text', 'Text', WeblancerText, [
-  'Weblancer',
-  'Base Components',
-]);

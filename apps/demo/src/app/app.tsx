@@ -7,7 +7,10 @@ import {
 } from '@weblancer-ui/breakpoint-manager';
 import { StateManager } from '@weblancer-ui/state-manager';
 import { PropManager } from '@weblancer-ui/prop-manager';
-import { ComponentManager } from '@weblancer-ui/component-manager';
+import {
+  ComponentManager,
+  WeblancerText,
+} from '@weblancer-ui/component-manager';
 
 export function App() {
   return (
@@ -25,3 +28,5 @@ export function App() {
 }
 
 export default App;
+
+ComponentManager.register('weblancer-text', WeblancerText);

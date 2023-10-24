@@ -44,10 +44,13 @@ export const WeblancerContextProvider = ({
     }
   }, [store, initialManagers, getManager]);
 
+  const value = useMemo(
+    () => ({ callEditorAction, getManager, getPlugins }),
+    [getManager, callEditorAction, getPlugins]
+  );
+
   return (
-    <WeblancerContext.Provider
-      value={{ callEditorAction, getManager, getPlugins }}
-    >
+    <WeblancerContext.Provider value={value}>
       {children}
     </WeblancerContext.Provider>
   );
