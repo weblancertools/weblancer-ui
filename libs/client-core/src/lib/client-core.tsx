@@ -10,7 +10,6 @@ import { useSelector } from 'react-redux';
 import { memo, useEffect } from 'react';
 import { PropTypes } from '@weblancer-ui/types';
 
-// TODO must handle loading page data
 export const ClientCore = memo(() => {
   const propManager = useWeblancerManager<IPropManagerActions>(PropManager);
   const pageComponentData: IComponentData = useSelector(
@@ -78,8 +77,7 @@ export const ClientCore = memo(() => {
   }, [propManager]);
 
   return (
-    <div className={styles['container']}>
-      {/* // TODO return loading */}
+    <div className={styles.root}>
       {pageComponentData.id && (
         <ComponentRenderer itemId={pageComponentData.id} />
       )}

@@ -2,3 +2,22 @@
   box-sizing: border-box;
   position: relative;
 }
+
+.container {
+  display: grid;
+  grid-template-rows: auto;
+  grid-template-columns: auto;
+}
+
+.child {
+  grid-area: 1/1/2/2;
+  justify-self: start;
+  align-self: start;
+  margin-top: 0px;
+  margin-left: 0px;
+}
+
+.dragging {
+  position: fixed;
+  z-index: 9999999999999;
+}

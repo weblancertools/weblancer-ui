@@ -10,7 +10,11 @@ import {
   IStoreManagerActions,
   StoreManager,
 } from '@weblancer-ui/store-manager';
-import adjustmentSlice, { setStateValue } from './slice/adjustmentSlice';
+import adjustmentSlice, {
+  addAdjustment,
+  setStateValue,
+} from './slice/adjustmentSlice';
+import { ReactNode, RefObject } from 'react';
 
 @injectable()
 export class AdjustmentManager
@@ -34,6 +38,10 @@ export class AdjustmentManager
     rootRef: React.RefObject<HTMLDivElement>
   ): void {
     this.allRootRef[itemId] = rootRef;
+  }
+
+  getItemRootRef(itemId: string): RefObject<HTMLDivElement> {
+    return this.allRootRef[itemId];
   }
 
   setHoveredContainerId(itemId: string | null): void {

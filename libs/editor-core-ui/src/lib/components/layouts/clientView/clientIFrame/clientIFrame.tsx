@@ -4,6 +4,7 @@ import styles from './clientIFrame.module.scss';
 import { ClientIFrameContent } from './clientIFrameContent';
 import { useBreakpointManagerSelector } from '@weblancer-ui/breakpoint-manager';
 import { WeblancerContextClientProvider } from '@weblancer-ui/editor-core';
+import { IFrameId } from './constants';
 
 export const ClientIFrame: FunctionComponent = () => {
   const width = useBreakpointManagerSelector(
@@ -13,7 +14,8 @@ export const ClientIFrame: FunctionComponent = () => {
   return (
     <div className={styles.root}>
       <Frame
-        title="weblancer-client"
+        id={IFrameId}
+        title={IFrameId}
         className={styles.iframe}
         style={{
           width: width,

@@ -18,4 +18,6 @@ export interface IEditorUIPlugin {
   rightDialog?: JSX.Element;
 
   middleToolbar?: JSX.Element;
+
+  adjustments?: JSX.Element[];
 }
