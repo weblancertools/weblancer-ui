@@ -1,20 +1,25 @@
 import { useEffect, useRef } from 'react';
 import styles from './weblancerComponentRoot.module.scss';
-import { useWeblancerManager } from '@weblancer-ui/editor-core';
+import {
+  useWeblancerClientContext,
+  useWeblancerManager,
+} from '@weblancer-ui/editor-core';
 import { AdjustmentManager } from '../../adjustment-manager';
-import { IAdjustmentManagerActions } from '../../types';
+import {
+  IAdjustmentManagerActions,
+  IChildComponentTransform,
+} from '../../types';
 import {
   IComponentData,
   IWeblancerComponentProps,
 } from '@weblancer-ui/prop-manager';
-import Draggable from 'react-draggable';
+import Draggable, { DraggableCore } from 'react-draggable';
 import { useDragAndDrop } from './hooks/useDragAndDrop';
 import { useMouseEventsHandler } from './hooks/useMouseEventsHandler';
-import {
-  PropTypes,
-  WeblancerComponentIdAttributeName,
-} from '@weblancer-ui/types';
+import { WeblancerComponentIdAttributeName } from '@weblancer-ui/types';
 import classNames from 'classnames';
+import { ComponentChildStyle } from '../../constants';
+import { useFrame } from 'react-frame-component';
 
 export interface IWeblancerComponentRootProps extends IWeblancerComponentProps {
   itemId: string;
@@ -27,7 +32,9 @@ export const WeblancerComponentRoot = ({
   defineProp,
   children,
 }: IWeblancerComponentRootProps) => {
+  const { document } = useWeblancerClientContext();
   const rootRef = useRef<HTMLDivElement>(null);
+  const draggableRef = useRef<Draggable>(null);
   const adjustmentManager =
     useWeblancerManager<IAdjustmentManagerActions>(AdjustmentManager);
 
@@ -35,29 +42,43 @@ export const WeblancerComponentRoot = ({
     adjustmentManager.addItemRootRef(itemId, rootRef);
   }, [adjustmentManager, itemId]);
 
-  const { draggableProps } = useDragAndDrop(itemId);
-  const { mouseEventProps } = useMouseEventsHandler(itemId, {
-    isContainer: componentData.metadata?.isContainer,
+  const isContainer = componentData.metadata?.isContainer;
+  const parentId = componentData.parentId;
+
+  const childComponentTransform = defineProp<IChildComponentTransform>({
+    name: ComponentChildStyle,
+    typeInfo: {
+      typeName: ComponentChildStyle,
+    },
   });
 
+  const { draggableProps } = useDragAndDrop(itemId, parentId, {
+    childComponentTransform,
+  });
+
+  const { mouseEventProps } = useMouseEventsHandler(itemId, {
+    isContainer,
+  });
   return (
-    <Draggable nodeRef={rootRef} {...draggableProps}>
+    <DraggableCore
+      ref={draggableRef}
+      nodeRef={rootRef}
+      offsetParent={document?.body}
+      {...draggableProps}
+    >
       <div
         ref={rootRef}
         className={classNames(
           styles.root,
-          defineProp({
-            name: 'componentRootStyle',
-            typeInfo: {
-              typeName: PropTypes.ClassName,
-            },
-          })
+          isContainer && styles.container,
+          styles.child
         )}
         {...{ [WeblancerComponentIdAttributeName]: itemId }}
         {...mouseEventProps}
+        style={childComponentTransform?.style}
       >
         {children}
       </div>
-    </Draggable>
+    </DraggableCore>
   );
 };

@@ -77,13 +77,16 @@ export class PropManager
     propData: IDefaultPropData<TPropType>
   ): TPropType {
     if (!this.getComponent(id) || !this.getComponent(id).props[propData.name]) {
-      this.storeManager.dispatch(
-        defineComponentProp({
-          id,
-          propData,
-          biggestBreakpointId: this.allBreakpoints[0].id,
-        })
-      );
+      // Because the prop is defined while rendering, we wait for render completion and the define the props
+      setTimeout(() => {
+        this.storeManager.dispatch(
+          defineComponentProp({
+            id,
+            propData,
+            biggestBreakpointId: this.allBreakpoints[0].id,
+          })
+        );
+      }, 0);
 
       return propData.typeInfo.defaultValue as TPropType;
     } else {
