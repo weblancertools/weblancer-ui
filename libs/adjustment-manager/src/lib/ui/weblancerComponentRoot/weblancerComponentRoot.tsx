@@ -19,7 +19,6 @@ import { useMouseEventsHandler } from './hooks/useMouseEventsHandler';
 import { WeblancerComponentIdAttributeName } from '@weblancer-ui/types';
 import classNames from 'classnames';
 import { ComponentChildStyle } from '../../constants';
-import { useFrame } from 'react-frame-component';
 
 export interface IWeblancerComponentRootProps extends IWeblancerComponentProps {
   itemId: string;

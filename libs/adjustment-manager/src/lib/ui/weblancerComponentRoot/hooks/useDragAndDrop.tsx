@@ -14,7 +14,6 @@ import {
 } from '../../../types';
 import { AdjustmentManager } from '../../../adjustment-manager';
 import { useRef } from 'react';
-import { useFrame } from 'react-frame-component';
 
 interface IUseDragAndDropOptions {
   isDraggable?: boolean;
