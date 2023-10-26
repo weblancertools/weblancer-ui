@@ -13,10 +13,8 @@ const initialState: IWeblancerClientContext = {
   window: window,
 };
 
-const WeblancerClientContext =
+export const WeblancerClientContext =
   createContext<IWeblancerClientContext>(initialState);
 
 export const useWeblancerClientContext = () =>
   useContext<IWeblancerClientContext>(WeblancerClientContext);
-
-export default WeblancerClientContext;

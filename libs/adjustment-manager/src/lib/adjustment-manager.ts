@@ -10,11 +10,8 @@ import {
   IStoreManagerActions,
   StoreManager,
 } from '@weblancer-ui/store-manager';
-import adjustmentSlice, {
-  addAdjustment,
-  setStateValue,
-} from './slice/adjustmentSlice';
-import { ReactNode, RefObject } from 'react';
+import adjustmentSlice, { setStateValue } from './slice/adjustmentSlice';
+import { RefObject } from 'react';
 
 @injectable()
 export class AdjustmentManager

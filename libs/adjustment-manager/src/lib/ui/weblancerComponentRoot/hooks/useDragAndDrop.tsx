@@ -119,7 +119,7 @@ export const useDragAndDrop = (
   ) => {
     adjustmentManager.setDraggingItemId(null);
 
-    data.node.style.visibility = 'visible';
+    data.node.style.visibility = 'unset';
 
     autoDockingOnStop(data);
     destroyClone();

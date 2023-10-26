@@ -2,8 +2,11 @@
   "name": "@weblancer-ui/source",
   "version": "0.0.0",
   "license": "MIT",
-  "scripts": {},
   "private": true,
+  "scripts": {
+    "test": "jest",
+    "build": "tsc -p tsconfig.lib.json"
+  },
   "dependencies": {
     "@reduxjs/toolkit": "1.9.3",
     "@swc/helpers": "~0.5.2",
