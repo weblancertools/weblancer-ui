@@ -10,7 +10,7 @@ import { useSelector } from 'react-redux';
 import { memo, useEffect } from 'react';
 import { PropTypes } from '@weblancer-ui/types';
 
-export const ClientCore = memo(() => {
+export function ClientCoreComponent() {
   const propManager = useWeblancerManager<IPropManagerActions>(PropManager);
   const pageComponentData: IComponentData = useSelector(
     propManager.getPageDataSelector()
@@ -83,4 +83,6 @@ export const ClientCore = memo(() => {
       )}
     </div>
   );
-});
+}
+
+export const ClientCore = memo(ClientCoreComponent);

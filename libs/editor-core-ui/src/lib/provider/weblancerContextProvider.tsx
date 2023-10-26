@@ -1,8 +1,9 @@
-import { useCallback, useMemo } from 'react';
-import WeblancerContext from './weblancerContext';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { ReactNode, useCallback, useMemo } from 'react';
 import { IEditorUIPlugin, IReduxStore } from '@weblancer-ui/types';
 import { weblancerRegistry } from '@weblancer-ui/manager-registry';
 import { EditorAction } from '@weblancer-ui/undo-manager';
+import { WeblancerContext } from '@weblancer-ui/editor-core';
 
 export interface IWeblancerContextProvider {
   store: IReduxStore;
@@ -10,7 +11,7 @@ export interface IWeblancerContextProvider {
   plugins?: IEditorUIPlugin[];
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   initialManagers?: any | any[];
-  children?: JSX.Element;
+  children?: ReactNode;
 }
 
 export const WeblancerContextProvider = ({
@@ -51,7 +52,8 @@ export const WeblancerContextProvider = ({
 
   return (
     <WeblancerContext.Provider value={value}>
-      {children}
+      {/* TODO Fix this typing issue */}
+      {children as any}
     </WeblancerContext.Provider>
   );
 };

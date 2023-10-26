@@ -4,7 +4,7 @@ import { FunctionComponent } from 'react';
 import { IEditorUIPlugin, IReduxStore } from '@weblancer-ui/types';
 import { Provider } from 'react-redux';
 import { EditorUI } from './editorUI';
-import { WeblancerContextProvider } from '@weblancer-ui/editor-core';
+import { WeblancerContextProvider } from './provider/weblancerContextProvider';
 
 export interface EditorCoreProps {
   store: IReduxStore;

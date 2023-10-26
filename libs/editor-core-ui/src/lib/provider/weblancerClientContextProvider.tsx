@@ -1,15 +1,16 @@
-import { useCallback, useMemo } from 'react';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { ReactNode, useCallback, useMemo } from 'react';
 import { weblancerRegistry } from '@weblancer-ui/manager-registry';
-import WeblancerClientContext from './weblancerClientContext';
 import { useFrame } from 'react-frame-component';
+import { WeblancerClientContext } from '@weblancer-ui/editor-core';
 
-interface IWeblancerContextClientProviderProps {
-  children?: JSX.Element;
+export interface IWeblancerContextClientProviderProps {
+  children?: ReactNode;
 }
 
-export const WeblancerContextClientProvider = ({
-  children,
-}: IWeblancerContextClientProviderProps) => {
+export const WeblancerContextClientProvider: React.FC<
+  IWeblancerContextClientProviderProps
+> = ({ children }) => {
   const getManager = useCallback(<TType,>(_class: unknown) => {
     return weblancerRegistry.getManagerInstance<TType>(_class);
   }, []);
@@ -26,7 +27,8 @@ export const WeblancerContextClientProvider = ({
 
   return (
     <WeblancerClientContext.Provider value={value}>
-      {children}
+      {/* TODO Fix this typing issue */}
+      {children as any}
     </WeblancerClientContext.Provider>
   );
 };

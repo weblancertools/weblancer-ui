@@ -7,7 +7,7 @@ import { useWeblancerClientContext } from '@weblancer-ui/editor-core';
 
 const _document = document;
 
-export const ClientIFrameContent = () => {
+export function ClientIFrameContent() {
   const { window, document } = useWeblancerClientContext();
   const dispatch = useDispatch();
 
@@ -35,4 +35,4 @@ export const ClientIFrameContent = () => {
   }, [document]);
 
   return <ClientCore />;
-};
+}

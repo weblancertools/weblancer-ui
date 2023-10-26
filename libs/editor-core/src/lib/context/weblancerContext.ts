@@ -15,9 +15,7 @@ const initialState: IWeblancerContext = {
   callEditorAction: noop as never,
 };
 
-const WeblancerContext = createContext<IWeblancerContext>(initialState);
+export const WeblancerContext = createContext<IWeblancerContext>(initialState);
 
 export const useWeblancerContext = () =>
   useContext<IWeblancerContext>(WeblancerContext);
-
-export default WeblancerContext;
