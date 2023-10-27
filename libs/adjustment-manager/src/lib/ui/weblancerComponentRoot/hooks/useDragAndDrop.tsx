@@ -125,11 +125,16 @@ export const useDragAndDrop = (
     destroyClone();
   };
 
+  const handleMouseDown = () => {
+    adjustmentManager.setSelectedItemId(itemId);
+  };
+
   return {
     draggableProps: {
       onStart: handleDragStart,
       onStop: handleDragStop,
       onDrag: handleDrag,
+      onMouseDown: handleMouseDown,
     },
   };
 };

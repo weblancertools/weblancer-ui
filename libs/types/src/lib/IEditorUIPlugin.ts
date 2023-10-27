@@ -1,20 +1,21 @@
 import { JSX } from 'react';
+import { IEditorDrawerProps } from './IEditorDrawerProps';
 
 export interface IEditorUIPlugin {
   name: string;
 
   leftMenu?: {
     label: string;
-    icon: JSX.Element;
+    button: JSX.Element;
   };
-  leftDrawer?: JSX.Element;
+  leftDrawer?: React.ComponentType<IEditorDrawerProps>;
   leftDialog?: JSX.Element;
 
   rightMenu?: {
     label: string;
-    icon: JSX.Element;
+    button: JSX.Element;
   };
-  rightDrawer?: JSX.Element;
+  rightDrawer?: React.ComponentType<IEditorDrawerProps>;
   rightDialog?: JSX.Element;
 
   middleToolbar?: JSX.Element;

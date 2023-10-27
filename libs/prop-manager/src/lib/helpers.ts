@@ -1,5 +1,6 @@
 import { IBreakpoint } from '@weblancer-ui/breakpoint-manager';
 import { IComponentData } from './types';
+import { cloneDeep } from 'lodash';
 
 export const removeComponentsRecursively = (
   id: string,
@@ -39,7 +40,7 @@ export const updateComponentDataBasedOnBreakpoints = (
   allBreakpoints: IBreakpoint[]
 ) => {
   if (!componentData.props[name][currentBreakpointId]) {
-    // There is now override for this prob data on this breakpoint
+    // There is no override for this prob data on this breakpoint
 
     const firstUpperBreakpointOverrideId =
       getFirstUpperBreakpointOverrideInComponentData(
@@ -49,20 +50,22 @@ export const updateComponentDataBasedOnBreakpoints = (
         allBreakpoints
       );
 
-    // Override the prop data for new breakpoint
-    componentData.props[name][currentBreakpointId] =
-      componentData.props[name][firstUpperBreakpointOverrideId];
+    // Override the prop data for new breakpoint (must be copied with no linking to other breakpoint)
+    componentData.props[name][currentBreakpointId] = cloneDeep(
+      componentData.props[name][firstUpperBreakpointOverrideId]
+    );
   }
 
-  componentData.props[name][currentBreakpointId] = newValue;
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  componentData.props[name][currentBreakpointId]!.value = newValue;
 };
 
-export const getFirstUpperBreakpointOverrideInComponentData = (
+export function getFirstUpperBreakpointOverrideInComponentData(
   componentData: IComponentData,
   name: string,
   currentBreakpointId: string,
   allBreakpoints: IBreakpoint[]
-) => {
+) {
   let currentBreakpointFound = false;
 
   const reversedAllBreakpoints = [...allBreakpoints].reverse();
@@ -78,4 +81,4 @@ export const getFirstUpperBreakpointOverrideInComponentData = (
   }
 
   return currentBreakpointId;
-};
+}

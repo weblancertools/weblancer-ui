@@ -125,25 +125,26 @@ export class PropManager
     ] as IPropData<TPropType>;
   }
 
-  getComponentPropChangeSelector(id: string) {
+  getComponentChangeSelector(id: string) {
     if (!this.selectorCache[id]) {
       const componentData = this.getComponent(id);
       this.selectorCache[id] = createDraftSafeSelector(
         [
           (store: IStoreRootState) => store.PropManager.componentMap[id],
           ...Object.keys(componentData.props).map((propName) => {
-            const breakpointPropData = componentData.props[propName];
             return createDraftSafeSelector(
               [
                 (store: IStoreRootState) => {
                   const availableBreakpoint =
                     getFirstUpperBreakpointOverrideInComponentData(
-                      componentData,
+                      this.getComponent(id),
                       propName,
                       this.currentBreakpointId,
                       this.allBreakpoints
                     );
-                  return breakpointPropData[availableBreakpoint].value;
+                  return this.getComponent(id).props[propName][
+                    availableBreakpoint
+                  ]?.value;
                 },
                 (store: IStoreRootState) => this.currentBreakpointId,
               ],
@@ -156,6 +157,31 @@ export class PropManager
     }
 
     return this.selectorCache[id];
+  }
+
+  getComponentPropChangeSelector(id: string, propName: string) {
+    const key = `${id}_${propName}`;
+    if (!this.selectorCache[key]) {
+      this.selectorCache[key] = createDraftSafeSelector(
+        [
+          (store: IStoreRootState) => {
+            const availableBreakpoint =
+              getFirstUpperBreakpointOverrideInComponentData(
+                this.getComponent(id),
+                propName,
+                this.currentBreakpointId,
+                this.allBreakpoints
+              );
+            return this.getComponent(id).props[propName][availableBreakpoint]
+              ?.value;
+          },
+          (store: IStoreRootState) => this.currentBreakpointId,
+        ],
+        (value) => value
+      );
+    }
+
+    return this.selectorCache[key];
   }
 
   getPageDataSelector() {

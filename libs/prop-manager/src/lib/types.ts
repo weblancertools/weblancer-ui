@@ -27,7 +27,11 @@ export interface IPropManagerActions {
     id: string,
     name: string
   ): IPropData<TPropType>;
-  getComponentPropChangeSelector(id: string): ReturnType<IReduxSelector>;
+  getComponentChangeSelector(id: string): ReturnType<IReduxSelector>;
+  getComponentPropChangeSelector(
+    id: string,
+    propName: string
+  ): ReturnType<IReduxSelector>;
   getPageDataSelector(): ReturnType<IReduxSelector>;
 }
 
@@ -46,7 +50,7 @@ export interface IComponentMetadata {
 }
 
 export interface IBreakPointPropsData<TPropType = unknown> {
-  [breakpointName: string]: IPropData<TPropType>;
+  [breakpointName: string]: IPropData<TPropType> | undefined;
 }
 
 export interface IPropData<TPropType = unknown> {

@@ -26,7 +26,7 @@ export const ComponentRenderer = ({ itemId }: IComponentRenderer) => {
     useWeblancerManager<IComponentManagerActions>(ComponentManager);
 
   const componentData: IComponentData = useSelector(
-    propManager.getComponentPropChangeSelector(itemId)
+    propManager.getComponentChangeSelector(itemId)
   );
 
   const Component = componentManager.getComponentByKey(
