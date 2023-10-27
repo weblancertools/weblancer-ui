@@ -41,14 +41,8 @@ export const useMouseEventsHandler = (
     }
   };
 
-  const onClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-    adjustmentManager.setSelectedItemId(itemId);
-    e.stopPropagation();
-  };
-
   return {
     mouseEventProps: {
-      onClick,
       onMouseLeave,
       onMouseOver,
     },

@@ -4,16 +4,20 @@ import { Fragment } from 'react';
 import { useEffect } from 'react';
 import { IFrameId } from '../../layouts/clientView/clientIFrame/constants';
 import { useState } from 'react';
+import { useBreakpointManagerSelector } from '@weblancer-ui/breakpoint-manager';
 
 export const AdjustmentRenderer = () => {
   const [iframeRect, setIframeRect] = useState<DOMRect>();
+  const width = useBreakpointManagerSelector(
+    (state) => state.BreakpointManager.editor.width
+  );
 
   const { getPlugins } = useWeblancerContext();
 
   useEffect(() => {
     const iframe = document.getElementById(IFrameId);
     setIframeRect(iframe?.getBoundingClientRect());
-  }, []);
+  }, [width]);
 
   if (!iframeRect) return;
 

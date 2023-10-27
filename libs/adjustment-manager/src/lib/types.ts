@@ -1,3 +1,5 @@
+import { TypedUseSelectorHook, useSelector } from 'react-redux';
+
 export const AdjustmentManagerService = 'AdjustmentManager';
 
 export interface IStoreRootState {
@@ -60,3 +62,6 @@ export interface IAdjustmentValue<TUnit> {
   value: number | string;
   options?: string[];
 }
+
+export const useAdjustmentManagerSelector: TypedUseSelectorHook<IStoreRootState> =
+  useSelector;

@@ -15,12 +15,13 @@ import {
   AdjustmentManager,
   adjustmentPlugin,
 } from '@weblancer-ui/adjustment-manager';
+import { inspectorPlugin } from '@weblancer-ui/inspector-manager';
 
 export function App() {
   return (
     <EditorCore
       store={store}
-      plugins={[breakpointUiPlugin, adjustmentPlugin]}
+      plugins={[breakpointUiPlugin, adjustmentPlugin, inspectorPlugin]}
       initialManagers={[
         BreakpointManager,
         StateManager,
