@@ -1,0 +1,15 @@
+.root{
+  width: 100%;
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  justify-content: flex-start;
+  box-sizing: border-box;
+
+  border-bottom: 1px solid rgb(188, 188, 188);
+}
+
+.title {
+  text-transform: capitalize;
+}
