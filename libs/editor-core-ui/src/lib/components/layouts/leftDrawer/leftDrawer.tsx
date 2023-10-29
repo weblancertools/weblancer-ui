@@ -3,27 +3,27 @@ import {
   IEditorDrawerProps,
   IEditorUIPlugin,
 } from '@weblancer-ui/types';
-import styles from './rightDrawer.module.scss';
+import styles from './leftDrawer.module.scss';
 import layoutStyle from '../../../styles/editorLayout.module.scss';
 import { useState } from 'react';
 import classNames from 'classnames';
 
-interface IRightDrawer {
-  rightMenus: IEditorUIPlugin[];
+interface ILeftDrawer {
+  leftMenus: IEditorUIPlugin[];
 }
 
-export const RightDrawer = ({ rightMenus }: IRightDrawer) => {
-  const rightDrawers: Record<
+export const LeftDrawer = ({ leftMenus }: ILeftDrawer) => {
+  const leftDrawers: Record<
     string,
     React.ComponentType<IEditorDrawerProps>
-  > = rightMenus.reduce(
+  > = leftMenus.reduce(
     (obj, menu) =>
-      menu.rightDrawer ? { ...obj, [menu.name]: menu.rightDrawer } : obj,
+      menu.leftDrawer ? { ...obj, [menu.name]: menu.rightDrawer } : obj,
     {}
   );
 
   const [drawersState, setDrawersState] = useState<Record<string, DrawerState>>(
-    Object.fromEntries(Object.keys(rightDrawers).map((key) => [key, 'close']))
+    Object.fromEntries(Object.keys(leftDrawers).map((key) => [key, 'close']))
   );
 
   const handleOpen = (drawerKey: string) => {
@@ -61,19 +61,19 @@ export const RightDrawer = ({ rightMenus }: IRightDrawer) => {
     <div
       className={classNames(
         styles.root,
-        layoutStyle.rightDrawer,
+        layoutStyle.leftDrawer,
         hasAnyOpenDrawer && styles.open,
         hasAnyPinedDrawer && styles.pined,
         hasAnyPinedDrawer && layoutStyle.pined
       )}
     >
-      {Object.keys(rightDrawers).map((drawerKey) => {
-        const Drawer = rightDrawers[drawerKey];
+      {Object.keys(leftDrawers).map((drawerKey) => {
+        const Drawer = leftDrawers[drawerKey];
 
         return (
           <Drawer
-            isOpen={drawersState[drawerKey] === 'open'}
             key={drawerKey}
+            isOpen={drawersState[drawerKey] === 'open'}
             onOpen={handleOpen}
             onClose={handleClose}
             onPined={handlePined}

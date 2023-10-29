@@ -1,0 +1,13 @@
+.root {
+  width: 300px;
+  transform: translateX(-300px);
+  transition: 0.5s;
+}
+
+.open {
+  transform: translateX(0px);
+}
+
+.pined {
+  transform: translateX(0px);
+}
