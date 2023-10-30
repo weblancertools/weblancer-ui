@@ -1,1 +1,0 @@
-import{u as p,a as c,r as g,j as u,I as l,P as C,b as x}from"./index-67477dcf.js";const P=({itemId:e,propName:a})=>{const n=p(x),r=c(n.getComponentPropChangeSelector(e,a)),o=g.useCallback(t=>{const s=t.target.value;n.updateComponentProp(e,a,s)},[e,a,n]);return u.jsx("input",{value:r,onChange:o})};l.addInspector({key:C.String,node:P});export{P as String};
