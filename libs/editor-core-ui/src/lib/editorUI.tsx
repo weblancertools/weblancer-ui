@@ -6,8 +6,10 @@ import { ClientView } from './components/layouts/clientView/clientView';
 import classNames from 'classnames';
 import { Header } from './components/layouts/header/header';
 import { LeftMenus } from './components/layouts/leftMenus/leftMenus';
-import { IEditorDrawerProps, IEditorUIPlugin } from '@weblancer-ui/types';
+import { IEditorUIPlugin } from '@weblancer-ui/types';
 import { RightDrawer } from './components/layouts/rightDrawer/rightDrawer';
+import { MenuProvider } from './provider/menuContext/menuContext';
+import { LeftDrawer } from './components/layouts/leftDrawer/leftDrawer';
 
 interface IEditorUIProps {
   leftMenus: IEditorUIPlugin[];
@@ -23,10 +25,15 @@ export const EditorUI = ({
   return (
     <div className={classNames(layoutStyle.root, styles.root)}>
       <Header />
-      <LeftMenus plugins={leftMenus} />
+      <MenuProvider>
+        <LeftMenus plugins={leftMenus} />
+        <LeftDrawer leftMenus={leftMenus} />
+      </MenuProvider>
       <MiddleToolbars plugins={middleToolbars} />
-      <RightMenus plugins={rightMenus} />
-      <RightDrawer rightMenus={rightMenus} />
+      <MenuProvider>
+        <RightMenus plugins={rightMenus} />
+        <RightDrawer rightMenus={rightMenus} />
+      </MenuProvider>
       <ClientView />
     </div>
   );

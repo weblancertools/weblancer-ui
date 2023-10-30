@@ -10,9 +10,11 @@
     "deploy-demo": "npm run pre-deploy-demo && npx gh-pages -d dist/apps/demo"
   },
   "dependencies": {
+    "@mui/x-tree-view": "^6.17.0",
     "@reduxjs/toolkit": "1.9.3",
     "@swc/helpers": "~0.5.2",
     "classnames": "^2.3.2",
+    "immer": "^10.0.3",
     "inversify": "^6.0.1",
     "lodash": "^4.17.21",
     "react": "18.2.0",
