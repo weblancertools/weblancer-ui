@@ -113,7 +113,9 @@ export const stateSlice = createSlice({
       state,
       action: PayloadAction<{
         id: string;
-        newData: Pick<IComponentData, 'parentId' | 'name' | 'childrenPropData'>;
+        newData: Partial<
+          Pick<IComponentData, 'parentId' | 'name' | 'childrenPropData'>
+        >;
       }>
     ) => {
       const { id, newData } = action.payload;

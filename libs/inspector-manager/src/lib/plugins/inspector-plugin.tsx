@@ -4,9 +4,9 @@ import { InspectorDrawer } from '../ui/inspectorDrawer/inspectorDrawer';
 
 export const inspectorPlugin: IEditorUIPlugin = {
   name: 'Inspector',
-  rightMenu: {
+  leftMenu: {
     label: 'inspector',
     button: <InspectorMenuButton />,
   },
-  rightDrawer: InspectorDrawer,
+  leftDrawer: InspectorDrawer,
 };

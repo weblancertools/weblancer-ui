@@ -15,7 +15,10 @@ import {
   AdjustmentManager,
   adjustmentPlugin,
 } from '@weblancer-ui/adjustment-manager';
-import { inspectorPlugin } from '@weblancer-ui/inspector-manager';
+import {
+  InspectorManager,
+  inspectorPlugin,
+} from '@weblancer-ui/inspector-manager';
 
 export function App() {
   return (
@@ -28,6 +31,7 @@ export function App() {
         PropManager,
         ComponentManager,
         AdjustmentManager,
+        InspectorManager,
       ]}
     />
   );

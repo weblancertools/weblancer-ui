@@ -15,8 +15,6 @@ export interface IStoreRootState {
 export interface IInspectorManagerActions {
   addInspector(inspector: IInspectorData): void;
   getInspector(key: string): IInspectorData;
-  setInspectorState(state: DrawerState): void;
-  getInspectorState(): DrawerState;
 }
 
 export interface IInspectorData {

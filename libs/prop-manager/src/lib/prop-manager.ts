@@ -115,7 +115,9 @@ export class PropManager
 
   updateComponent(
     id: string,
-    newData: Pick<IComponentData, 'parentId' | 'name' | 'childrenPropData'>
+    newData: Partial<
+      Pick<IComponentData, 'parentId' | 'name' | 'childrenPropData'>
+    >
   ): void {
     this.storeManager.dispatch(updateComponent({ id, newData }));
   }

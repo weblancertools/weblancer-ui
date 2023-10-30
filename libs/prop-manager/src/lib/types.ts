@@ -24,12 +24,11 @@ export interface IPropManagerActions {
   updateComponentProp(id: string, name: string, value: unknown): void;
   updateComponent(
     id: string,
-    newComponentData: Pick<
-      IComponentData,
-      'name' | 'parentId' | 'childrenPropData'
+    newComponentData: Partial<
+      Pick<IComponentData, 'name' | 'parentId' | 'childrenPropData'>
     >
   ): void;
-  getComponent(id: string): IComponentData;
+  getComponent(id: string): IComponentData | undefined;
   getComponentProp<TPropType = unknown>(
     id: string,
     name: string
