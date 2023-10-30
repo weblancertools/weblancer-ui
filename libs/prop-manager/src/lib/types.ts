@@ -22,6 +22,13 @@ export interface IPropManagerActions {
     propData: IDefaultPropData<TPropType>
   ): TPropType;
   updateComponentProp(id: string, name: string, value: unknown): void;
+  updateComponent(
+    id: string,
+    newComponentData: Pick<
+      IComponentData,
+      'name' | 'parentId' | 'childrenPropData'
+    >
+  ): void;
   getComponent(id: string): IComponentData;
   getComponentProp<TPropType = unknown>(
     id: string,

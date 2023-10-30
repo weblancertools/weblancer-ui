@@ -17,6 +17,7 @@ import propSlice, {
   defineComponentProp,
   removeComponent,
   setPageData,
+  updateComponent,
   updateComponentProp,
 } from './slice/propSlice';
 import { weblancerRegistry } from '@weblancer-ui/manager-registry';
@@ -108,8 +109,17 @@ export class PropManager
   }
 
   getComponent(id: string): IComponentData {
+    const x = this.storeManager.getState<IStoreRootState>();
+
     return this.storeManager.getState<IStoreRootState>().PropManager
       .componentMap[id];
+  }
+
+  updateComponent(
+    id: string,
+    newData: Pick<IComponentData, 'parentId' | 'name' | 'childrenPropData'>
+  ): void {
+    this.storeManager.dispatch(updateComponent({ id, newData }));
   }
 
   getComponentProp<TPropType>(id: string, name: string): IPropData<TPropType> {

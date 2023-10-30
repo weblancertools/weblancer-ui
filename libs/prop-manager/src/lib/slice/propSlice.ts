@@ -109,6 +109,19 @@ export const stateSlice = createSlice({
         allBreakpoints
       );
     },
+    updateComponent: (
+      state,
+      action: PayloadAction<{
+        id: string;
+        newData: Pick<IComponentData, 'parentId' | 'name' | 'childrenPropData'>;
+      }>
+    ) => {
+      const { id, newData } = action.payload;
+
+      const componentData = state.componentMap[id];
+
+      Object.assign(componentData, newData);
+    },
   },
 });
 
@@ -118,6 +131,7 @@ export const {
   removeComponent,
   defineComponentProp,
   updateComponentProp,
+  updateComponent,
 } = stateSlice.actions;
 
 export default stateSlice.reducer;

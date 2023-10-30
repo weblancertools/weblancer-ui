@@ -10,6 +10,7 @@ import {
   StoreService,
   weblancerRegistry,
 } from '@weblancer-ui/manager-registry';
+import { makeReadonly } from './helpers';
 
 @injectable()
 export class StoreManager extends IManager implements IStoreManagerActions {
@@ -19,8 +20,8 @@ export class StoreManager extends IManager implements IStoreManagerActions {
     super();
   }
 
-  public getState<TExpectedRootState>(): TExpectedRootState {
-    return this.store.getState() as TExpectedRootState;
+  public getState<TExpectedRootState>(): Readonly<TExpectedRootState> {
+    return makeReadonly(this.store.getState()) as Readonly<TExpectedRootState>;
   }
 
   public dispatch = this.store.dispatch;
