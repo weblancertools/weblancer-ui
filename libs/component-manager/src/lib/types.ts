@@ -28,7 +28,7 @@ export interface IComponentHolder {
 export type WeblancerComponent = React.ComponentType<IWeblancerComponentProps>;
 
 export interface IComponentRegisterMetadata {
-  label: string;
-  categories: string | string[];
-  group: string;
+  label?: string;
+  categories?: string | string[];
+  groups?: string | string[];
 }

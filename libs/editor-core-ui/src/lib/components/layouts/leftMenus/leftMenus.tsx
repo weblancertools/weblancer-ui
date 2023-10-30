@@ -15,18 +15,20 @@ export const LeftMenus: FunctionComponent<ILeftMenusProps> = ({ plugins }) => {
   const handleClick = (pluginName: string) => () => {
     if (openMenuName === pluginName) {
       setOpenMenuName(null);
+
+      switch (state) {
+        case 'close':
+          setState('open');
+          break;
+        case 'open':
+        case 'pined':
+          setState('close');
+          break;
+      }
     } else {
       setOpenMenuName(pluginName);
-    }
 
-    switch (state) {
-      case 'close':
-        setState('open');
-        break;
-      case 'open':
-      case 'pined':
-        setState('close');
-        break;
+      if (state === 'close') setState('open');
     }
   };
 
