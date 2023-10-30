@@ -29,7 +29,7 @@ export class UpdateComponentAction extends EditorAction {
     this.id = id;
     this.name = name;
     this.value = value;
-    this.oldValue = this.propManager.getComponent(id).props[name].value;
+    this.oldValue = this.propManager.getComponent(id)?.props[name].value;
 
     return this;
   }

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import {
   EditorAction,
   IUndoManagerActions,
@@ -23,7 +24,9 @@ export class RemoveComponentAction extends EditorAction {
 
   private componentData!: IComponentData;
   prepare(id: string) {
-    this.componentData = this.propManager.getComponent(id);
+    this.componentData = this.propManager.getComponent(id)!;
+
+    if (!this.componentData) throw new Error('Component not found');
 
     return this;
   }

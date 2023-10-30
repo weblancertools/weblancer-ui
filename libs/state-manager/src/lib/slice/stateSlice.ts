@@ -1,8 +1,11 @@
+import 'immer';
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import type { ITypeInfo } from '@weblancer-ui/types';
 import { IStateManagerSlice } from '../types';
 import { StateManagerService } from '../constants';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import type { WritableDraft } from '@reduxjs/toolkit/node_modules/immer/dist/internal';
 
 const initialState: IStateManagerSlice = {};
 
