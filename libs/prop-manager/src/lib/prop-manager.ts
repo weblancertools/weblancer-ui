@@ -109,8 +109,6 @@ export class PropManager
   }
 
   getComponent(id: string): IComponentData {
-    const x = this.storeManager.getState<IStoreRootState>();
-
     return this.storeManager.getState<IStoreRootState>().PropManager
       .componentMap[id];
   }

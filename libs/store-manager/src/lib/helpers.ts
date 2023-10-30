@@ -37,22 +37,3 @@ export const configureStore = (options: ConfigureStoreOptions) => {
 
   return store as Store;
 };
-
-export function makeReadonly<T>(obj: T): Readonly<T> {
-  if (Array.isArray(obj)) {
-    return Object.freeze(
-      obj.map((item) => makeReadonly(item))
-    ) as unknown as Readonly<T>;
-  } else if (typeof obj === 'object' && obj !== null) {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const result: any = {};
-    for (const key in obj) {
-      if (Object.prototype.hasOwnProperty.call(obj, key)) {
-        result[key] = makeReadonly(obj[key]);
-      }
-    }
-    return Object.freeze(result) as Readonly<T>;
-  } else {
-    return obj;
-  }
-}
