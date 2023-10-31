@@ -35,12 +35,18 @@ export const ComponentItem = ({ component }: IComponentItemProps) => {
       ? componentData.id
       : propManager.getPageData().id;
 
+    const parentRootDiv = adjustmentManager.getItemRootRef(parentId).current;
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    const parentRect = parentRootDiv!.getBoundingClientRect();
+
+    const position = {
+      x: parentRect.left,
+      y: parentRect.top,
+    };
+
     const createItemAction = EditorAction.getActionInstance(
       CreateItemAction
-    ).prepare(component.key, parentId, {
-      x: 500,
-      y: 200,
-    });
+    ).prepare(component.key, parentId, position);
 
     callEditorAction(createItemAction);
 
