@@ -1,3 +1,9 @@
 .root{
   cursor: pointer;
+  padding: 8px;
+
+  &:hover {
+    background-color: antiquewhite;
+  }
 }
+

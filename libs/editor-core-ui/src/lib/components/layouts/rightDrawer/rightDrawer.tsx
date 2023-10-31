@@ -9,7 +9,7 @@ interface IRightDrawer {
 }
 
 export const RightDrawer = ({ rightMenus }: IRightDrawer) => {
-  const { openMenuName, state, setState } = useMenuContext();
+  const { openMenuName, state, setState, setOpenMenuName } = useMenuContext();
 
   const OpenDrawer = rightMenus.find(
     (plugin) => plugin.rightDrawer && plugin.name === openMenuName
@@ -17,6 +17,7 @@ export const RightDrawer = ({ rightMenus }: IRightDrawer) => {
 
   const handleClose = () => {
     setState('close');
+    setOpenMenuName(null);
   };
 
   return (

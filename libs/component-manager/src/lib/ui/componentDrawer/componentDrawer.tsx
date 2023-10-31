@@ -44,15 +44,21 @@ const ComponentDrawerContainer = () => {
 
   return (
     <div className={styles.root}>
-      {categories.map((category) => (
-        <CategoryItem key={category} category={category} />
-      ))}
-      {groups.map((group) => (
-        <GroupItem key={group} group={group} />
-      ))}
-      {components.map((component) => (
-        <ComponentItem key={component.key} component={component} />
-      ))}
+      <div className={styles.categoryCol}>
+        {categories.map((category) => (
+          <CategoryItem key={category} category={category} />
+        ))}
+      </div>
+      <div className={styles.groupCol}>
+        {groups.map((group) => (
+          <GroupItem key={group} group={group} />
+        ))}
+      </div>
+      <div className={styles.componentCol}>
+        {components.map((component) => (
+          <ComponentItem key={component.key} component={component} />
+        ))}
+      </div>
     </div>
   );
 };

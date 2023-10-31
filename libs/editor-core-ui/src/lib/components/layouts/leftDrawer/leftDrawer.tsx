@@ -9,7 +9,7 @@ interface ILeftDrawer {
 }
 
 export const LeftDrawer = ({ leftMenus }: ILeftDrawer) => {
-  const { openMenuName, state, setState } = useMenuContext();
+  const { openMenuName, state, setState, setOpenMenuName } = useMenuContext();
 
   const OpenDrawer = leftMenus.find(
     (plugin) => plugin.leftDrawer && plugin.name === openMenuName
@@ -17,6 +17,7 @@ export const LeftDrawer = ({ leftMenus }: ILeftDrawer) => {
 
   const handleClose = () => {
     setState('close');
+    setOpenMenuName(null);
   };
 
   return (
