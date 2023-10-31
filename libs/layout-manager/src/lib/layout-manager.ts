@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { IManager } from '@weblancer-ui/types';
+import { IManager, IPosition } from '@weblancer-ui/types';
 import { inject, injectable } from 'inversify';
 import { ILayoutManagerActions, LayoutManagerService } from './types';
 import { weblancerRegistry } from '@weblancer-ui/manager-registry';
@@ -29,39 +29,46 @@ export class LayoutManager extends IManager implements ILayoutManagerActions {
     return this.propManager.getPageData();
   }
 
-  handleItemDrop(droppedItemId: string, newParentId: string): void {
+  handleItemDrop(
+    droppedItemId: string,
+    newParentId: string,
+    position: IPosition
+  ): void {
     const itemComponentData = this.propManager.getComponent(droppedItemId)!;
 
     const oldParentComponentData = this.propManager.getComponent(
       itemComponentData.parentId
-    )!;
+    );
 
     const newParentComponentData = this.propManager.getComponent(newParentId)!;
 
-    this.propManager.updateComponent(newParentId, {
-      childrenPropData: {
-        ...newParentComponentData.childrenPropData,
-        droppedItemId: oldParentComponentData.childrenPropData![droppedItemId],
-      },
-    });
+    if (oldParentComponentData) {
+      this.propManager.updateComponent(newParentId, {
+        childrenPropData: {
+          ...newParentComponentData.childrenPropData,
+          droppedItemId:
+            oldParentComponentData.childrenPropData![droppedItemId],
+        },
+      });
 
-    const tempOldParentChildren = {
-      ...oldParentComponentData.childrenPropData,
-    };
-    delete tempOldParentChildren[droppedItemId];
+      const tempOldParentChildren = {
+        ...oldParentComponentData.childrenPropData,
+      };
+      delete tempOldParentChildren[droppedItemId];
 
-    this.propManager.updateComponent(itemComponentData.parentId, {
-      childrenPropData: tempOldParentChildren,
-    });
+      this.propManager.updateComponent(itemComponentData.parentId, {
+        childrenPropData: tempOldParentChildren,
+      });
+    }
 
     this.propManager.updateComponent(droppedItemId, {
       parentId: newParentId,
     });
 
-    const itemRootDiv = this.adjustmentManager.getItemRootRef(droppedItemId);
-    const newParentRootDiv = this.adjustmentManager.getItemRootRef(newParentId);
-
-    // TODO update transform data based on its new position in new parent
+    // Wait for item to render in new component
+    setTimeout(() => {
+      this.setPositionInParent(droppedItemId, position);
+    }, 0);
   }
 
   changeItemOrder(itemId: string, newIndex: number): void {
@@ -85,6 +92,33 @@ export class LayoutManager extends IManager implements ILayoutManagerActions {
     this.propManager.updateComponent(parentComponentData.id, {
       childrenPropData: updatedChildren,
     });
+  }
+
+  setPositionInParent(
+    itemId: string,
+    data: IPosition & { node?: HTMLElement }
+  ): void {
+    data.node =
+      data.node ??
+      this.adjustmentManager.getItemRootRef(itemId)?.current ??
+      undefined;
+
+    if (!data.node) return;
+
+    const item = this.propManager.getComponent(itemId);
+    if (!item) return;
+
+    const parentRootDiv = this.adjustmentManager.getItemRootRef(
+      item.parentId
+    )?.current;
+    if (!parentRootDiv) return;
+
+    const parentRect = parentRootDiv.getBoundingClientRect();
+
+    data.node.style.marginLeft = `${data.x - parentRect.left}px`;
+    data.node.style.marginTop = `${data.y - parentRect.top}px`;
+
+    // TODO update childComponentTransform and save it to the propManager
   }
 }
 

@@ -78,7 +78,7 @@ export function ClientCoreComponent() {
 
   return (
     <div className={styles.root}>
-      {pageComponentData.id && (
+      {pageComponentData?.id && (
         <ComponentRenderer itemId={pageComponentData.id} />
       )}
     </div>

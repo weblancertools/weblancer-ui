@@ -1,7 +1,4 @@
-import {
-  ChildrenContainer,
-  WeblancerComponentRoot,
-} from '@weblancer-ui/adjustment-manager';
+import { ChildrenContainer } from '@weblancer-ui/adjustment-manager';
 import {
   ComponentManager,
   IComponentManagerActions,
@@ -15,6 +12,7 @@ import {
 } from '@weblancer-ui/prop-manager';
 import { useCallback } from 'react';
 import { useSelector } from 'react-redux';
+import { WeblancerComponentRoot } from '../weblancerComponentRoot/weblancerComponentRoot';
 
 export interface IComponentRenderer {
   itemId: string;

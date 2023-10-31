@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import {
   useWeblancerClientContext,
+  useWeblancerContext,
   useWeblancerManager,
 } from '@weblancer-ui/editor-core';
 import {
@@ -8,12 +9,14 @@ import {
   DraggableEvent,
   DraggableEventHandler,
 } from 'react-draggable';
+import { useRef } from 'react';
+import { SetPositionAction } from '@weblancer-ui/layout-manager';
 import {
+  AdjustmentManager,
   IAdjustmentManagerActions,
   IChildComponentTransform,
-} from '../../../types';
-import { AdjustmentManager } from '../../../adjustment-manager';
-import { useRef } from 'react';
+} from '@weblancer-ui/adjustment-manager';
+import { EditorAction } from '@weblancer-ui/undo-manager';
 
 interface IUseDragAndDropOptions {
   isDraggable?: boolean;
@@ -26,13 +29,14 @@ export const useDragAndDrop = (
   parentId: string,
   options: IUseDragAndDropOptions = {}
 ) => {
-  const { isDraggable = true, childComponentTransform } = options;
+  const { isDraggable = true } = options;
 
   const clonedNodeRef = useRef<HTMLElement>();
   const parentRect = useRef<DOMRect>();
   const itemRect = useRef<DOMRect>();
   const itemRectAndPointerOffset = useRef<{ x: number; y: number }>();
   const { document } = useWeblancerClientContext();
+  const { callEditorAction } = useWeblancerContext();
 
   const adjustmentManager =
     useWeblancerManager<IAdjustmentManagerActions>(AdjustmentManager);
@@ -94,19 +98,14 @@ export const useDragAndDrop = (
   };
 
   const autoDockingOnStop = (data: DraggableData) => {
-    // test
-    data.node.style.marginLeft = `${
-      data.x -
-      itemRectAndPointerOffset.current!.x -
-      (parentRect.current?.left ?? 0)
-    }px`;
-    data.node.style.marginTop = `${
-      data.y -
-      itemRectAndPointerOffset.current!.y -
-      (parentRect.current?.top ?? 0)
-    }px`;
+    const setPositionAction = EditorAction.getActionInstance(
+      SetPositionAction
+    ).prepare(itemId, {
+      x: data.x - itemRectAndPointerOffset.current!.x,
+      y: data.y - itemRectAndPointerOffset.current!.y,
+    });
 
-    // TODO update childComponentTransform and save it to the propManager
+    callEditorAction(setPositionAction);
   };
 
   const destroyClone = () => {

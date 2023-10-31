@@ -1,5 +1,8 @@
 import { ComponentManagerService } from './constants';
-import { IWeblancerComponentProps } from '@weblancer-ui/prop-manager';
+import {
+  IComponentData,
+  IWeblancerComponentProps,
+} from '@weblancer-ui/prop-manager';
 
 export interface IStoreRootState {
   [ComponentManagerService]: IComponentManagerSlice;
@@ -13,6 +16,14 @@ export interface IComponentManagerSlice {
 export interface IComponentManagerActions {
   getAllComponents(): IComponentMap;
   getComponentByKey(key: string): WeblancerComponent;
+  getComponentHolderByKey(key: string): IComponentHolder;
+  createItem(
+    componentKey: string,
+    parentId: string,
+    position: { x: number; y: number },
+    forceItemId?: string
+  ): string;
+  deleteItem(itemId: string): void;
 }
 
 export interface IComponentMap {
@@ -28,7 +39,10 @@ export interface IComponentHolder {
 export type WeblancerComponent = React.ComponentType<IWeblancerComponentProps>;
 
 export interface IComponentRegisterMetadata {
-  label: string;
-  categories: string | string[];
-  group: string;
+  label?: string;
+  categories?: string | string[];
+  groups?: string | string[];
+  defaultComponentData?: Partial<
+    Pick<IComponentData, 'props' | 'childrenPropData' | 'metadata'>
+  >;
 }

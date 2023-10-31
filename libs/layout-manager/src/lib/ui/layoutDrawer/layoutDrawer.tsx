@@ -1,7 +1,5 @@
 import { useWeblancerEditorManager } from '@weblancer-ui/editor-core';
 import styles from './layoutDrawer.module.scss';
-import { LayoutManager } from '../../layout-manager';
-import { ILayoutManagerActions } from '../../types';
 import { TreeView } from '@mui/x-tree-view/TreeView';
 import {
   TreeItem,
@@ -9,21 +7,29 @@ import {
   TreeItemProps,
   useTreeItem,
 } from '@mui/x-tree-view';
-import { IComponentData } from '@weblancer-ui/prop-manager';
+import {
+  IComponentData,
+  IPropManagerActions,
+  PropManager,
+} from '@weblancer-ui/prop-manager';
 import {
   AdjustmentManager,
   IAdjustmentManagerActions,
 } from '@weblancer-ui/adjustment-manager';
 import { forwardRef } from 'react';
 import classNames from 'classnames';
+import { useSelector } from 'react-redux';
+import { IEditorDrawerProps } from '@weblancer-ui/types';
 
-export const LayoutDrawer = () => {
-  const layoutManager =
-    useWeblancerEditorManager<ILayoutManagerActions>(LayoutManager);
+export const LayoutDrawer = ({ onClose }: IEditorDrawerProps) => {
+  const propManager =
+    useWeblancerEditorManager<IPropManagerActions>(PropManager);
   const adjustmentManager =
     useWeblancerEditorManager<IAdjustmentManagerActions>(AdjustmentManager);
 
-  const pageData = layoutManager.getLayout();
+  const pageData: Omit<IComponentData, 'parentId'> = useSelector(
+    propManager.getPageDataSelector()
+  );
 
   const handleSelect = (
     event: React.SyntheticEvent<Element, Event>,

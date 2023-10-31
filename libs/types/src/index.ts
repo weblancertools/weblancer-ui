@@ -7,3 +7,5 @@ export * from './lib/WeblancerWindowType';
 export * from './lib/PropTypes';
 export * from './lib/Constants';
 export * from './lib/IEditorDrawerProps';
+export * from './lib/PartialBy';
+export * from './lib/IPosition';

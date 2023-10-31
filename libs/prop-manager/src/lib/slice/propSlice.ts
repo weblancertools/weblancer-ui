@@ -10,7 +10,7 @@ import { IBreakpoint } from '@weblancer-ui/breakpoint-manager';
 
 const initialState: IPropManagerSlice = {
   componentMap: {},
-  pageData: {} as IComponentData,
+  pageId: '',
 };
 
 export const stateSlice = createSlice({
@@ -27,7 +27,7 @@ export const stateSlice = createSlice({
       const componentMap = addComponentDataToMapRecursively(pageData);
 
       state.componentMap = componentMap;
-      state.pageData = pageData;
+      state.pageId = pageData.id;
     },
     addComponent: (
       state,
@@ -62,9 +62,8 @@ export const stateSlice = createSlice({
       if (componentData.parentId) {
         const parentComponentData = state.componentMap[componentData.parentId];
 
-        parentComponentData.childrenPropData = {};
-
-        delete parentComponentData.childrenPropData[componentData.id];
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        delete parentComponentData.childrenPropData![componentData.id];
       }
     },
     defineComponentProp: (

@@ -1,0 +1,12 @@
+.root{
+  cursor: pointer;
+  padding: 8px;
+
+  &:hover {
+    background-color: antiquewhite;
+  }
+}
+
+.selected{
+  background-color: rgb(189, 255, 255);
+}

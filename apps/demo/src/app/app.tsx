@@ -10,6 +10,7 @@ import { PropManager } from '@weblancer-ui/prop-manager';
 import {
   ComponentManager,
   WeblancerText,
+  componentPlugin,
 } from '@weblancer-ui/component-manager';
 import {
   AdjustmentManager,
@@ -30,6 +31,7 @@ export function App() {
         adjustmentPlugin,
         inspectorPlugin,
         layoutPlugin,
+        componentPlugin,
       ]}
       initialManagers={[
         BreakpointManager,
@@ -39,6 +41,7 @@ export function App() {
         AdjustmentManager,
         InspectorManager,
         LayoutManager,
+        ComponentManager,
       ]}
     />
   );
@@ -46,4 +49,7 @@ export function App() {
 
 export default App;
 
-ComponentManager.register('weblancer-text', WeblancerText);
+ComponentManager.register('weblancer-text', WeblancerText, {
+  groups: 'Text',
+  categories: 'Weblancer',
+});

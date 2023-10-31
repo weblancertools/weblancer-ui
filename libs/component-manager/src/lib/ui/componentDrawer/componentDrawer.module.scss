@@ -1,0 +1,31 @@
+.root {
+  width: 600px;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+
+  background-color: darkgray;
+  > * {
+    user-select: none;
+  }
+}
+
+.categoryCol {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid #9d9d9d;
+}
+
+.groupCol {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid #9d9d9d;
+}
+
+.componentCol {
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+}
