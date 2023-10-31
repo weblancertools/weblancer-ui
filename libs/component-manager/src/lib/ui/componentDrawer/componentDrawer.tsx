@@ -14,10 +14,11 @@ import {
   getGroupsInCategory,
 } from './helpers';
 import { ComponentItem } from '../components/componentItem/componentItem';
+import { IEditorDrawerProps } from '@weblancer-ui/types';
 
-export const ComponentDrawer = () => {
+export const ComponentDrawer = ({ onClose }: IEditorDrawerProps) => {
   return (
-    <ComponentDrawerProvider>
+    <ComponentDrawerProvider onClose={onClose}>
       <ComponentDrawerContainer />
     </ComponentDrawerProvider>
   );

@@ -1,5 +1,5 @@
 export interface IEditorDrawerProps {
-  isOpen: boolean;
+  onClose(): void;
 }
 
 export type DrawerState = 'open' | 'close' | 'pined';

@@ -1,4 +1,5 @@
 import { JSX } from 'react';
+import { IEditorDrawerProps } from './IEditorDrawerProps';
 
 export interface IEditorUIPlugin {
   name: string;
@@ -7,14 +8,14 @@ export interface IEditorUIPlugin {
     label: string;
     button: JSX.Element;
   };
-  leftDrawer?: React.ComponentType;
+  leftDrawer?: React.ComponentType<IEditorDrawerProps>;
   leftDialog?: JSX.Element;
 
   rightMenu?: {
     label: string;
     button: JSX.Element;
   };
-  rightDrawer?: React.ComponentType;
+  rightDrawer?: React.ComponentType<IEditorDrawerProps>;
   rightDialog?: JSX.Element;
 
   middleToolbar?: JSX.Element;

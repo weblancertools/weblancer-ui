@@ -1,7 +1,5 @@
 import { useWeblancerEditorManager } from '@weblancer-ui/editor-core';
 import styles from './layoutDrawer.module.scss';
-import { LayoutManager } from '../../layout-manager';
-import { ILayoutManagerActions } from '../../types';
 import { TreeView } from '@mui/x-tree-view/TreeView';
 import {
   TreeItem,
@@ -21,8 +19,9 @@ import {
 import { forwardRef } from 'react';
 import classNames from 'classnames';
 import { useSelector } from 'react-redux';
+import { IEditorDrawerProps } from '@weblancer-ui/types';
 
-export const LayoutDrawer = () => {
+export const LayoutDrawer = ({ onClose }: IEditorDrawerProps) => {
   const propManager =
     useWeblancerEditorManager<IPropManagerActions>(PropManager);
   const adjustmentManager =

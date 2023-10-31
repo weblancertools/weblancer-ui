@@ -1,4 +1,4 @@
-import { IPropManagerSlice } from '@weblancer-ui/prop-manager';
+import { IComponentData } from '@weblancer-ui/prop-manager';
 import { DrawerState, IPosition } from '@weblancer-ui/types';
 import { TypedUseSelectorHook, useSelector } from 'react-redux';
 
@@ -17,8 +17,12 @@ export const useLayoutManagerSelector: TypedUseSelectorHook<IStoreRootState> =
   useSelector;
 
 export interface ILayoutManagerActions {
-  getLayout(): IPropManagerSlice['pageData'];
-  handleItemDrop(droppedItemId: string, newParentId: string): void;
+  getLayout(): Omit<IComponentData, 'parentId'>;
+  handleItemDrop(
+    droppedItemId: string,
+    newParentId: string,
+    position: IPosition
+  ): void;
   changeItemOrder(itemId: string, newIndex: number): void;
   setPositionInParent(
     itemId: string,

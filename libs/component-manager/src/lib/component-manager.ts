@@ -67,17 +67,20 @@ export class ComponentManager
   createItem(
     componentKey: string,
     parentId: string,
-    position: { x: number; y: number }
-  ): void {
+    position: { x: number; y: number },
+    forceItemId?: string
+  ): string {
     const parentComponentData = this.propManager.getComponent(parentId);
 
     const componentHolder = this.getComponentHolderByKey(componentKey);
 
-    if (!parentComponentData) return;
+    if (!parentComponentData) throw new Error('Parent not found');
 
-    const newComponentId = this.getRandomId();
+    if (forceItemId && this.propManager.getComponent(forceItemId))
+      throw new Error('Item id exist');
 
-    // This must add component tp its parent and rerender it
+    const newComponentId = forceItemId ?? this.getRandomId();
+
     this.propManager.addComponent({
       id: newComponentId,
       parentId,
@@ -86,11 +89,16 @@ export class ComponentManager
       ...componentHolder.metadata?.defaultComponentData,
     });
 
-    // TODO wait for rendering item
-
+    // wait for rendering item
     setTimeout(() => {
       this.layoutManager.setPositionInParent(newComponentId, position);
     }, 0);
+
+    return newComponentId;
+  }
+
+  deleteItem(itemId: string): void {
+    this.propManager.removeComponent(itemId);
   }
 
   public static register(

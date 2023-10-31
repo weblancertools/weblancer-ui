@@ -20,8 +20,10 @@ export interface IComponentManagerActions {
   createItem(
     componentKey: string,
     parentId: string,
-    position: { x: number; y: number }
-  ): void;
+    position: { x: number; y: number },
+    forceItemId?: string
+  ): string;
+  deleteItem(itemId: string): void;
 }
 
 export interface IComponentMap {

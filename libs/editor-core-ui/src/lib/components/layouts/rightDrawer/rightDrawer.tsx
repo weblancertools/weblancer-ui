@@ -9,11 +9,15 @@ interface IRightDrawer {
 }
 
 export const RightDrawer = ({ rightMenus }: IRightDrawer) => {
-  const { openMenuName, state } = useMenuContext();
+  const { openMenuName, state, setState } = useMenuContext();
 
   const OpenDrawer = rightMenus.find(
     (plugin) => plugin.rightDrawer && plugin.name === openMenuName
   )?.rightDrawer;
+
+  const handleClose = () => {
+    setState('close');
+  };
 
   return (
     <div
@@ -25,7 +29,7 @@ export const RightDrawer = ({ rightMenus }: IRightDrawer) => {
         state === 'pined' && layoutStyle.pined
       )}
     >
-      {OpenDrawer && <OpenDrawer />}
+      {OpenDrawer && <OpenDrawer onClose={handleClose} />}
     </div>
   );
 };

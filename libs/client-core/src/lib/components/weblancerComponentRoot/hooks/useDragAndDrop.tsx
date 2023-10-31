@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import {
   useWeblancerClientContext,
+  useWeblancerContext,
   useWeblancerManager,
 } from '@weblancer-ui/editor-core';
 import {
@@ -9,15 +10,13 @@ import {
   DraggableEventHandler,
 } from 'react-draggable';
 import { useRef } from 'react';
-import {
-  ILayoutManagerActions,
-  LayoutManager,
-} from '@weblancer-ui/layout-manager';
+import { SetPositionAction } from '@weblancer-ui/layout-manager';
 import {
   AdjustmentManager,
   IAdjustmentManagerActions,
   IChildComponentTransform,
 } from '@weblancer-ui/adjustment-manager';
+import { EditorAction } from '@weblancer-ui/undo-manager';
 
 interface IUseDragAndDropOptions {
   isDraggable?: boolean;
@@ -37,11 +36,10 @@ export const useDragAndDrop = (
   const itemRect = useRef<DOMRect>();
   const itemRectAndPointerOffset = useRef<{ x: number; y: number }>();
   const { document } = useWeblancerClientContext();
+  const { callEditorAction } = useWeblancerContext();
 
   const adjustmentManager =
     useWeblancerManager<IAdjustmentManagerActions>(AdjustmentManager);
-  const layoutManager =
-    useWeblancerManager<ILayoutManagerActions>(LayoutManager);
 
   const prepareNode = (node: HTMLElement, data: DraggableData) => {
     parentRect.current = adjustmentManager
@@ -100,10 +98,14 @@ export const useDragAndDrop = (
   };
 
   const autoDockingOnStop = (data: DraggableData) => {
-    layoutManager.setPositionInParent(itemId, {
+    const setPositionAction = EditorAction.getActionInstance(
+      SetPositionAction
+    ).prepare(itemId, {
       x: data.x - itemRectAndPointerOffset.current!.x,
       y: data.y - itemRectAndPointerOffset.current!.y,
     });
+
+    callEditorAction(setPositionAction);
   };
 
   const destroyClone = () => {

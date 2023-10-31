@@ -9,11 +9,15 @@ interface ILeftDrawer {
 }
 
 export const LeftDrawer = ({ leftMenus }: ILeftDrawer) => {
-  const { openMenuName, state } = useMenuContext();
+  const { openMenuName, state, setState } = useMenuContext();
 
   const OpenDrawer = leftMenus.find(
     (plugin) => plugin.leftDrawer && plugin.name === openMenuName
   )?.leftDrawer;
+
+  const handleClose = () => {
+    setState('close');
+  };
 
   return (
     <div
@@ -25,7 +29,7 @@ export const LeftDrawer = ({ leftMenus }: ILeftDrawer) => {
         state === 'pined' && layoutStyle.pined
       )}
     >
-      {OpenDrawer && <OpenDrawer />}
+      {OpenDrawer && <OpenDrawer onClose={handleClose} />}
     </div>
   );
 };

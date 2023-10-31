@@ -1,23 +1,30 @@
 import classNames from 'classnames';
 import styles from './componentItem.module.scss';
-import { IComponentHolder, IComponentManagerActions } from '../../../types';
-import { useWeblancerEditorManager } from '@weblancer-ui/editor-core';
-import { ComponentManager } from '../../../component-manager';
+import { IComponentHolder } from '../../../types';
+import { useWeblancerContext } from '@weblancer-ui/editor-core';
+import { EditorAction } from '@weblancer-ui/undo-manager';
+import { CreateItemAction } from '../../../actions/CreateItemAction';
+import { useComponentDrawerContext } from '../../context/componentDrawerContext';
 
 interface IComponentItemProps {
   component: IComponentHolder;
 }
 
 export const ComponentItem = ({ component }: IComponentItemProps) => {
-  const componentManager =
-    useWeblancerEditorManager<IComponentManagerActions>(ComponentManager);
+  const { callEditorAction } = useWeblancerContext();
+  const { onClose } = useComponentDrawerContext();
 
   const handleClick = () => {
-    // TODO
-    componentManager.createItem(component.key, 'page1', {
+    const createItemAction = EditorAction.getActionInstance(
+      CreateItemAction
+    ).prepare(component.key, 'page1', {
       x: 500,
       y: 200,
     });
+
+    callEditorAction(createItemAction);
+
+    onClose();
   };
 
   const handleDragStart = () => {

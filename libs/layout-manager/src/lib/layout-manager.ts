@@ -29,7 +29,11 @@ export class LayoutManager extends IManager implements ILayoutManagerActions {
     return this.propManager.getPageData();
   }
 
-  handleItemDrop(droppedItemId: string, newParentId: string): void {
+  handleItemDrop(
+    droppedItemId: string,
+    newParentId: string,
+    position: IPosition
+  ): void {
     const itemComponentData = this.propManager.getComponent(droppedItemId)!;
 
     const oldParentComponentData = this.propManager.getComponent(
@@ -61,10 +65,10 @@ export class LayoutManager extends IManager implements ILayoutManagerActions {
       parentId: newParentId,
     });
 
-    const itemRootDiv = this.adjustmentManager.getItemRootRef(droppedItemId);
-    const newParentRootDiv = this.adjustmentManager.getItemRootRef(newParentId);
-
-    // TODO update transform data based on its new position in new parent
+    // Wait for item to render in new component
+    setTimeout(() => {
+      this.setPositionInParent(droppedItemId, position);
+    }, 0);
   }
 
   changeItemOrder(itemId: string, newIndex: number): void {
