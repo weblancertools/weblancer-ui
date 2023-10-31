@@ -28,6 +28,7 @@ import {
 import { getFirstUpperBreakpointOverrideInComponentData } from './helpers';
 import { IReduxSelector } from '@weblancer-ui/types';
 import { createDraftSafeSelector } from '@reduxjs/toolkit';
+import { shallowEqual } from 'react-redux';
 
 @injectable()
 export class PropManager
@@ -141,34 +142,43 @@ export class PropManager
 
   getComponentChangeSelector(id: string) {
     if (!this.selectorCache[id]) {
-      const componentData = this.getComponent(id);
       this.selectorCache[id] = createDraftSafeSelector(
         [
+          (store: IStoreRootState) => store.PropManager.componentMap[id],
+          createDraftSafeSelector(
+            [
+              (store: IStoreRootState) => {
+                const componentData = this.getComponent(id);
+                const values: unknown[] = [];
+                Object.keys(componentData.props).forEach((propName) => {
+                  const availableBreakpoint =
+                    getFirstUpperBreakpointOverrideInComponentData(
+                      componentData,
+                      propName,
+                      this.currentBreakpointId,
+                      this.allBreakpoints
+                    );
+
+                  values.push(
+                    componentData.props[propName][availableBreakpoint]?.value
+                  );
+                });
+
+                return values;
+              },
+            ],
+            (values) => values,
+            {
+              memoizeOptions: {
+                equalityCheck: shallowEqual,
+              },
+            }
+          ),
           (store: IStoreRootState) => store.PropManager.componentMap[id],
           (store: IStoreRootState) =>
             Object.keys(
               store.PropManager.componentMap[id].childrenPropData ?? {}
             ).length,
-          ...Object.keys(componentData.props).map((propName) => {
-            return createDraftSafeSelector(
-              [
-                (store: IStoreRootState) => {
-                  const availableBreakpoint =
-                    getFirstUpperBreakpointOverrideInComponentData(
-                      this.getComponent(id),
-                      propName,
-                      this.currentBreakpointId,
-                      this.allBreakpoints
-                    );
-                  return this.getComponent(id).props[propName][
-                    availableBreakpoint
-                  ]?.value;
-                },
-                (store: IStoreRootState) => this.currentBreakpointId,
-              ],
-              (value) => value
-            );
-          }),
         ],
         (componentData) => ({ ...componentData })
       );
