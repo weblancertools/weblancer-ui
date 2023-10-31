@@ -9,21 +9,28 @@ import {
   TreeItemProps,
   useTreeItem,
 } from '@mui/x-tree-view';
-import { IComponentData } from '@weblancer-ui/prop-manager';
+import {
+  IComponentData,
+  IPropManagerActions,
+  PropManager,
+} from '@weblancer-ui/prop-manager';
 import {
   AdjustmentManager,
   IAdjustmentManagerActions,
 } from '@weblancer-ui/adjustment-manager';
 import { forwardRef } from 'react';
 import classNames from 'classnames';
+import { useSelector } from 'react-redux';
 
 export const LayoutDrawer = () => {
-  const layoutManager =
-    useWeblancerEditorManager<ILayoutManagerActions>(LayoutManager);
+  const propManager =
+    useWeblancerEditorManager<IPropManagerActions>(PropManager);
   const adjustmentManager =
     useWeblancerEditorManager<IAdjustmentManagerActions>(AdjustmentManager);
 
-  const pageData = layoutManager.getLayout();
+  const pageData: Omit<IComponentData, 'parentId'> = useSelector(
+    propManager.getPageDataSelector()
+  );
 
   const handleSelect = (
     event: React.SyntheticEvent<Element, Event>,

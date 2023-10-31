@@ -4,11 +4,6 @@ import {
   useWeblancerClientContext,
   useWeblancerManager,
 } from '@weblancer-ui/editor-core';
-import { AdjustmentManager } from '../../adjustment-manager';
-import {
-  IAdjustmentManagerActions,
-  IChildComponentTransform,
-} from '../../types';
 import {
   IComponentData,
   IWeblancerComponentProps,
@@ -18,7 +13,12 @@ import { useDragAndDrop } from './hooks/useDragAndDrop';
 import { useMouseEventsHandler } from './hooks/useMouseEventsHandler';
 import { WeblancerComponentIdAttributeName } from '@weblancer-ui/types';
 import classNames from 'classnames';
-import { ComponentChildStyle } from '../../constants';
+import {
+  AdjustmentManager,
+  ComponentChildStyle,
+  IAdjustmentManagerActions,
+  IChildComponentTransform,
+} from '@weblancer-ui/adjustment-manager';
 
 export interface IWeblancerComponentRootProps extends IWeblancerComponentProps {
   itemId: string;

@@ -8,12 +8,16 @@ import {
   DraggableEvent,
   DraggableEventHandler,
 } from 'react-draggable';
+import { useRef } from 'react';
 import {
+  ILayoutManagerActions,
+  LayoutManager,
+} from '@weblancer-ui/layout-manager';
+import {
+  AdjustmentManager,
   IAdjustmentManagerActions,
   IChildComponentTransform,
-} from '../../../types';
-import { AdjustmentManager } from '../../../adjustment-manager';
-import { useRef } from 'react';
+} from '@weblancer-ui/adjustment-manager';
 
 interface IUseDragAndDropOptions {
   isDraggable?: boolean;
@@ -26,7 +30,7 @@ export const useDragAndDrop = (
   parentId: string,
   options: IUseDragAndDropOptions = {}
 ) => {
-  const { isDraggable = true, childComponentTransform } = options;
+  const { isDraggable = true } = options;
 
   const clonedNodeRef = useRef<HTMLElement>();
   const parentRect = useRef<DOMRect>();
@@ -36,6 +40,8 @@ export const useDragAndDrop = (
 
   const adjustmentManager =
     useWeblancerManager<IAdjustmentManagerActions>(AdjustmentManager);
+  const layoutManager =
+    useWeblancerManager<ILayoutManagerActions>(LayoutManager);
 
   const prepareNode = (node: HTMLElement, data: DraggableData) => {
     parentRect.current = adjustmentManager
@@ -94,19 +100,10 @@ export const useDragAndDrop = (
   };
 
   const autoDockingOnStop = (data: DraggableData) => {
-    // test
-    data.node.style.marginLeft = `${
-      data.x -
-      itemRectAndPointerOffset.current!.x -
-      (parentRect.current?.left ?? 0)
-    }px`;
-    data.node.style.marginTop = `${
-      data.y -
-      itemRectAndPointerOffset.current!.y -
-      (parentRect.current?.top ?? 0)
-    }px`;
-
-    // TODO update childComponentTransform and save it to the propManager
+    layoutManager.setPositionInParent(itemId, {
+      x: data.x - itemRectAndPointerOffset.current!.x,
+      y: data.y - itemRectAndPointerOffset.current!.y,
+    });
   };
 
   const destroyClone = () => {

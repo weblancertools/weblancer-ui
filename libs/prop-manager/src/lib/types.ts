@@ -8,7 +8,7 @@ export interface IStoreRootState {
 }
 
 export interface IPropManagerSlice {
-  pageData: Omit<IComponentData, 'parentId'>;
+  pageId: string;
   componentMap: Record<string, IComponentData>;
 }
 

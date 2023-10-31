@@ -10,7 +10,7 @@ import { IBreakpoint } from '@weblancer-ui/breakpoint-manager';
 
 const initialState: IPropManagerSlice = {
   componentMap: {},
-  pageData: {} as IComponentData,
+  pageId: '',
 };
 
 export const stateSlice = createSlice({
@@ -27,7 +27,7 @@ export const stateSlice = createSlice({
       const componentMap = addComponentDataToMapRecursively(pageData);
 
       state.componentMap = componentMap;
-      state.pageData = pageData;
+      state.pageId = pageData.id;
     },
     addComponent: (
       state,

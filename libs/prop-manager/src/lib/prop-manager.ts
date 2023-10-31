@@ -62,7 +62,11 @@ export class PropManager
   }
 
   getPageData(): Omit<IComponentData, 'parentId'> {
-    return this.storeManager.getState<IStoreRootState>().PropManager.pageData;
+    const pageId =
+      this.storeManager.getState<IStoreRootState>().PropManager.pageId;
+
+    return this.storeManager.getState<IStoreRootState>().PropManager
+      .componentMap[pageId];
   }
 
   addComponent(componentData: IComponentData): void {
@@ -141,6 +145,10 @@ export class PropManager
       this.selectorCache[id] = createDraftSafeSelector(
         [
           (store: IStoreRootState) => store.PropManager.componentMap[id],
+          (store: IStoreRootState) =>
+            Object.keys(
+              store.PropManager.componentMap[id].childrenPropData ?? {}
+            ).length,
           ...Object.keys(componentData.props).map((propName) => {
             return createDraftSafeSelector(
               [
@@ -197,9 +205,12 @@ export class PropManager
   getPageDataSelector() {
     if (!this.selectorCache[PageDataSelectorKey]) {
       this.selectorCache[PageDataSelectorKey] = createDraftSafeSelector(
-        [(store: IStoreRootState) => store.PropManager.pageData],
-        (pageData) => {
-          return pageData;
+        [
+          (store: IStoreRootState) => store.PropManager.pageId,
+          (store: IStoreRootState) => store.PropManager.componentMap,
+        ],
+        (pageId, componentMap) => {
+          return componentMap[pageId];
         }
       );
     }

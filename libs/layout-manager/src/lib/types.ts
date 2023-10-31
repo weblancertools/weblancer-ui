@@ -1,5 +1,5 @@
 import { IPropManagerSlice } from '@weblancer-ui/prop-manager';
-import { DrawerState } from '@weblancer-ui/types';
+import { DrawerState, IPosition } from '@weblancer-ui/types';
 import { TypedUseSelectorHook, useSelector } from 'react-redux';
 
 export const LayoutManagerService = 'LayoutManager';
@@ -20,4 +20,8 @@ export interface ILayoutManagerActions {
   getLayout(): IPropManagerSlice['pageData'];
   handleItemDrop(droppedItemId: string, newParentId: string): void;
   changeItemOrder(itemId: string, newIndex: number): void;
+  setPositionInParent(
+    itemId: string,
+    data: IPosition & { node?: HTMLElement }
+  ): void;
 }

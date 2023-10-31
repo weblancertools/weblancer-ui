@@ -1,7 +1,9 @@
 import { useWeblancerManager } from '@weblancer-ui/editor-core';
-import { IAdjustmentManagerActions } from '../../../types';
-import { AdjustmentManager } from '../../../adjustment-manager';
 import { findFirstWeblancerRootId } from './helpers';
+import {
+  AdjustmentManager,
+  IAdjustmentManagerActions,
+} from '@weblancer-ui/adjustment-manager';
 
 interface IUseMouseEventsHandlerOptions {
   isContainer?: boolean;

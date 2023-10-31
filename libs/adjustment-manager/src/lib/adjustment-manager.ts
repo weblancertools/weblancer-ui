@@ -12,6 +12,7 @@ import {
 } from '@weblancer-ui/store-manager';
 import adjustmentSlice, { setStateValue } from './slice/adjustmentSlice';
 import { RefObject } from 'react';
+import { IPosition } from '@weblancer-ui/types';
 
 @injectable()
 export class AdjustmentManager
@@ -28,6 +29,19 @@ export class AdjustmentManager
     super();
 
     this.injectSlice(storeManager);
+    this.init();
+  }
+
+  private mousePosition: IPosition = { x: 0, y: 0 };
+
+  init() {
+    window.addEventListener('mousemove', (event) => {
+      this.mousePosition = { x: event.clientX, y: event.clientY };
+    });
+  }
+
+  getMousePosition(): IPosition {
+    return this.mousePosition;
   }
 
   addItemRootRef(
