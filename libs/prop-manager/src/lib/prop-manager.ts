@@ -101,7 +101,7 @@ export class PropManager
     }
   }
 
-  updateComponentProp(id: string, name: string, value: unknown): void {
+  updateComponentProp<TValue>(id: string, name: string, value: TValue): void {
     this.storeManager.dispatch(
       updateComponentProp({
         id,

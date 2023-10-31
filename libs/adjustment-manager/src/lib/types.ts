@@ -34,29 +34,29 @@ export interface IAdjustmentManagerActions {
 
 export interface IChildComponentTransform {
   style?: React.CSSProperties;
-  transform: {
-    gridArea: {
-      startRow: number;
-      endRow: number;
-      startColumn: number;
-      endColumn: number;
-    };
-    docking: {
-      autoDocking?: boolean;
-      dockingState: {
-        top?: boolean;
-        right?: boolean;
-        bottom?: boolean;
-        left?: boolean;
-      };
-      margins: {
-        top?: IAdjustmentValue<'px' | '%'>;
-        right?: IAdjustmentValue<'px' | '%'>;
-        bottom?: IAdjustmentValue<'px' | '%'>;
-        left?: IAdjustmentValue<'px' | '%'>;
-      };
-    };
-  };
+  // transform: {
+  //   gridArea: {
+  //     startRow: number;
+  //     endRow: number;
+  //     startColumn: number;
+  //     endColumn: number;
+  //   };
+  //   docking: {
+  //     autoDocking?: boolean;
+  //     dockingState: {
+  //       top?: boolean;
+  //       right?: boolean;
+  //       bottom?: boolean;
+  //       left?: boolean;
+  //     };
+  //     margins: {
+  //       top?: IAdjustmentValue<'px' | '%'>;
+  //       right?: IAdjustmentValue<'px' | '%'>;
+  //       bottom?: IAdjustmentValue<'px' | '%'>;
+  //       left?: IAdjustmentValue<'px' | '%'>;
+  //     };
+  //   };
+  // };
 }
 
 export interface IAdjustmentValue<TUnit> {

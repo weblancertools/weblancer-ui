@@ -10,7 +10,9 @@ import {
 } from '@weblancer-ui/prop-manager';
 import {
   AdjustmentManager,
+  ComponentChildStyle,
   IAdjustmentManagerActions,
+  IChildComponentTransform,
 } from '@weblancer-ui/adjustment-manager';
 
 @injectable()
@@ -105,20 +107,26 @@ export class LayoutManager extends IManager implements ILayoutManagerActions {
 
     if (!data.node) return;
 
-    const item = this.propManager.getComponent(itemId);
-    if (!item) return;
+    const itemComponentData = this.propManager.getComponent(itemId);
+    if (!itemComponentData) return;
 
     const parentRootDiv = this.adjustmentManager.getItemRootRef(
-      item.parentId
+      itemComponentData.parentId
     )?.current;
     if (!parentRootDiv) return;
 
     const parentRect = parentRootDiv.getBoundingClientRect();
 
-    data.node.style.marginLeft = `${data.x - parentRect.left}px`;
-    data.node.style.marginTop = `${data.y - parentRect.top}px`;
-
-    // TODO update childComponentTransform and save it to the propManager
+    this.propManager.updateComponentProp<IChildComponentTransform>(
+      itemId,
+      ComponentChildStyle,
+      {
+        style: {
+          marginLeft: `${data.x - parentRect.left}px`,
+          marginTop: `${data.y - parentRect.top}px`,
+        },
+      }
+    );
   }
 }
 
