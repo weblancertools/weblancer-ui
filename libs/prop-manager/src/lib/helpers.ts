@@ -59,7 +59,7 @@ export const updateComponentDataBasedOnBreakpoints = (
     );
   }
 
-  if (objectAssign) {
+  if (objectAssign && componentData.props[name][currentBreakpointId]!.value) {
     deepAssign(componentData.props[name][currentBreakpointId]!.value, newValue);
     componentData.props[name][currentBreakpointId]!.value = {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any

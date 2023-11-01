@@ -24,11 +24,8 @@ export const Selected = () => {
     (state) => state[AdjustmentManagerService].draggingItemId
   );
 
-  const itemComponentData = useSelector(
-    propManager.getComponentPropChangeSelector(
-      selectedItemId ?? '',
-      ComponentChildStyle
-    )
+  const componentData = useSelector(
+    propManager.getComponentChangeSelector(selectedItemId ?? '')
   );
 
   const selectedItemRef = adjustmentManager.getItemRootRef(
@@ -45,7 +42,7 @@ export const Selected = () => {
 
     const itemRect = selectedItemRef.current?.getBoundingClientRect();
     setItemRect(itemRect);
-  }, [selectedItemId, selectedItemRef, itemComponentData, draggingItemId]);
+  }, [selectedItemId, selectedItemRef, componentData, draggingItemId]);
 
   if (!itemRect) return null;
 

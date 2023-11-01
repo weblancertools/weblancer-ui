@@ -158,6 +158,10 @@ export class PropManager
   }
 
   getComponentChangeSelector(id: string) {
+    if (!id) {
+      return (state: IStoreRootState) => '';
+    }
+
     if (!this.selectorCache[id]) {
       this.selectorCache[id] = createDraftSafeSelector(
         [

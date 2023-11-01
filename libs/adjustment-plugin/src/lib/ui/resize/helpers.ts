@@ -7,8 +7,8 @@ export function getResizeData(
   delta: IDelta
 ) {
   const resizeData: ResizeData = {
-    ...delta,
     ...currentTransform,
+    ...delta,
   };
 
   switch (side) {

@@ -18,6 +18,9 @@
       "@weblancer-ui/adjustment-manager": [
         "libs/adjustment-manager/src/index.ts"
       ],
+      "@weblancer-ui/adjustment-plugin": [
+        "libs/adjustment-plugin/src/index.ts"
+      ],
       "@weblancer-ui/breakpoint-manager": [
         "libs/breakpoint-manager/src/index.ts"
       ],
