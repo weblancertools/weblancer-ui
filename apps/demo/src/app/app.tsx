@@ -21,6 +21,7 @@ import {
   inspectorPlugin,
 } from '@weblancer-ui/inspector-manager';
 import { LayoutManager, layoutPlugin } from '@weblancer-ui/layout-manager';
+import { UndoManager, undoPlugin } from '@weblancer-ui/undo-manager';
 
 export function App() {
   return (
@@ -32,6 +33,7 @@ export function App() {
         inspectorPlugin,
         layoutPlugin,
         componentPlugin,
+        undoPlugin,
       ]}
       initialManagers={[
         BreakpointManager,
@@ -42,6 +44,7 @@ export function App() {
         InspectorManager,
         LayoutManager,
         ComponentManager,
+        UndoManager,
       ]}
     />
   );

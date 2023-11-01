@@ -14,7 +14,7 @@ export const RightMenus: FunctionComponent<IRightMenusProps> = ({
 }) => {
   const { openMenuName, setOpenMenuName, setState, state } = useMenuContext();
 
-  const handleClick = (pluginName: string) => () => {
+  const handleDrawer = (pluginName: string) => () => {
     if (openMenuName === pluginName) {
       setOpenMenuName(null);
     } else {
@@ -39,7 +39,7 @@ export const RightMenus: FunctionComponent<IRightMenusProps> = ({
           <div
             key={plugin.name}
             className={styles.menuItem}
-            onClick={handleClick(plugin.name)}
+            onClick={plugin.rightDrawer && handleDrawer(plugin.name)}
           >
             {plugin.rightMenu?.button}
           </div>
