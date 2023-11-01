@@ -14,6 +14,7 @@ import {
 } from './types';
 import propSlice, {
   addComponent,
+  deepAssignComponentProp,
   defineComponentProp,
   removeComponent,
   setPageData,
@@ -104,6 +105,22 @@ export class PropManager
   updateComponentProp<TValue>(id: string, name: string, value: TValue): void {
     this.storeManager.dispatch(
       updateComponentProp({
+        id,
+        name,
+        value,
+        currentBreakpointId: this.currentBreakpointId,
+        allBreakpoints: this.allBreakpoints,
+      })
+    );
+  }
+
+  deepAssignComponentProp<TValue>(
+    id: string,
+    name: string,
+    value: TValue
+  ): void {
+    this.storeManager.dispatch(
+      deepAssignComponentProp({
         id,
         name,
         value,

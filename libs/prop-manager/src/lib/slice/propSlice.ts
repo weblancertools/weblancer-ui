@@ -108,6 +108,31 @@ export const propSlice = createSlice({
         allBreakpoints
       );
     },
+    deepAssignComponentProp: (
+      state,
+      action: PayloadAction<{
+        id: string;
+        name: string;
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        value: any;
+        currentBreakpointId: string;
+        allBreakpoints: IBreakpoint[];
+      }>
+    ) => {
+      const { id, name, value, currentBreakpointId, allBreakpoints } =
+        action.payload;
+
+      const componentData = state.componentMap[id];
+
+      updateComponentDataBasedOnBreakpoints(
+        componentData,
+        name,
+        value,
+        currentBreakpointId,
+        allBreakpoints,
+        true
+      );
+    },
     updateComponent: (
       state,
       action: PayloadAction<{
@@ -133,6 +158,7 @@ export const {
   defineComponentProp,
   updateComponentProp,
   updateComponent,
+  deepAssignComponentProp,
 } = propSlice.actions;
 
 export default propSlice.reducer;

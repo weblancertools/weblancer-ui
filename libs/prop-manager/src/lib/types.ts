@@ -26,6 +26,11 @@ export interface IPropManagerActions {
     name: string,
     value: TValue
   ): void;
+  deepAssignComponentProp<TValue>(
+    id: string,
+    name: string,
+    value: TValue
+  ): void;
   updateComponent(
     id: string,
     newComponentData: Partial<

@@ -54,11 +54,14 @@ export const Resize = () => {
   if (!itemRect || !selectedItemId) return null;
 
   const handleTransformChange = (resizeData: ResizeData) => {
-    propManager.updateComponentProp<IChildComponentTransform>(
+    propManager.deepAssignComponentProp<IChildComponentTransform>(
       selectedItemId,
       ComponentChildStyle,
       {
-        style: {},
+        style: {
+          width: resizeData.width,
+          height: resizeData.height,
+        },
       }
     );
   };

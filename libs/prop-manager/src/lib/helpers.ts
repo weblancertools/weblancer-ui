@@ -1,6 +1,8 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { IBreakpoint } from '@weblancer-ui/breakpoint-manager';
 import { IComponentData } from './types';
 import { cloneDeep } from 'lodash';
+import { deepAssign } from '@weblancer-ui/utils';
 
 export const removeComponentsRecursively = (
   id: string,
@@ -37,7 +39,8 @@ export const updateComponentDataBasedOnBreakpoints = (
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   newValue: any,
   currentBreakpointId: string,
-  allBreakpoints: IBreakpoint[]
+  allBreakpoints: IBreakpoint[],
+  objectAssign?: boolean
 ) => {
   if (!componentData.props[name][currentBreakpointId]) {
     // There is no override for this prob data on this breakpoint
@@ -56,8 +59,15 @@ export const updateComponentDataBasedOnBreakpoints = (
     );
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-  componentData.props[name][currentBreakpointId]!.value = newValue;
+  if (objectAssign) {
+    deepAssign(componentData.props[name][currentBreakpointId]!.value, newValue);
+    componentData.props[name][currentBreakpointId]!.value = {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      ...(componentData.props[name][currentBreakpointId]!.value as any),
+    };
+  } else {
+    componentData.props[name][currentBreakpointId]!.value = newValue;
+  }
 };
 
 export function getFirstUpperBreakpointOverrideInComponentData(
