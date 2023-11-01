@@ -16,7 +16,7 @@ import { freeze } from 'immer';
 export class StoreManager extends IManager implements IStoreManagerActions {
   public name = StoreManagerService;
 
-  constructor(@inject(StoreService) private store: Store & InjectableStore) {
+  constructor(@inject(StoreService) public store: Store & InjectableStore) {
     super();
   }
 

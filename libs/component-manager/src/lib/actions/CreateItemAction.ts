@@ -34,10 +34,14 @@ export class CreateItemAction extends EditorAction {
   }
 
   public override execute(): void {
-    this.itemId = this.componentManager.createItem(
+    this.componentManager.createItem(
       this.componentKey,
       this.parentId,
-      this.position
+      this.position,
+      this.itemId,
+      (itemId) => {
+        this.itemId = itemId;
+      }
     );
   }
 
