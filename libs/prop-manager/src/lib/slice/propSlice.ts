@@ -13,7 +13,7 @@ const initialState: IPropManagerSlice = {
   pageId: '',
 };
 
-export const stateSlice = createSlice({
+export const propSlice = createSlice({
   name: PropManagerService,
   initialState,
   reducers: {
@@ -133,6 +133,6 @@ export const {
   defineComponentProp,
   updateComponentProp,
   updateComponent,
-} = stateSlice.actions;
+} = propSlice.actions;
 
-export default stateSlice.reducer;
+export default propSlice.reducer;

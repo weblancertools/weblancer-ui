@@ -4,7 +4,7 @@ import { AdjustmentManagerService, IAdjustmentManagerSlice } from '../types';
 
 const initialState: IAdjustmentManagerSlice = {};
 
-export const stateSlice = createSlice({
+export const adjustmentSlice = createSlice({
   name: AdjustmentManagerService,
   initialState,
   reducers: {
@@ -21,6 +21,6 @@ export const stateSlice = createSlice({
   },
 });
 
-export const { setStateValue } = stateSlice.actions;
+export const { setStateValue } = adjustmentSlice.actions;
 
-export default stateSlice.reducer;
+export default adjustmentSlice.reducer;

@@ -1,7 +1,10 @@
 import styles from './undoRedoButtons.module.scss';
-import { UndoManager } from '../../undo-manager';
-import { IUndoManagerActions, useUndoManagerSelector } from '../../types';
 import { weblancerRegistry } from '@weblancer-ui/manager-registry';
+import {
+  IUndoManagerActions,
+  UndoManager,
+  useUndoManagerSelector,
+} from '@weblancer-ui/undo-manager';
 import classNames from 'classnames';
 
 export const UndoRedoButtons = () => {

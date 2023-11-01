@@ -21,7 +21,8 @@ import {
   inspectorPlugin,
 } from '@weblancer-ui/inspector-manager';
 import { LayoutManager, layoutPlugin } from '@weblancer-ui/layout-manager';
-import { UndoManager, undoPlugin } from '@weblancer-ui/undo-manager';
+import { UndoManager } from '@weblancer-ui/undo-manager';
+import { undoPlugin } from '@weblancer-ui/undo-plugin';
 
 export function App() {
   return (

@@ -4,7 +4,7 @@ import { ComponentManagerService } from '../constants';
 
 const initialState: IComponentManagerSlice = {};
 
-export const stateSlice = createSlice({
+export const componentSlice = createSlice({
   name: ComponentManagerService,
   initialState,
   reducers: {},
@@ -12,4 +12,4 @@ export const stateSlice = createSlice({
 
 // export const {  } = stateSlice.actions;
 
-export default stateSlice.reducer;
+export default componentSlice.reducer;
