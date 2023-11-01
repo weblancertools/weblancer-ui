@@ -1,0 +1,57 @@
+.root {
+  position: absolute;
+  box-sizing: border-box;
+}
+
+.interacting {
+  position: absolute;
+  box-sizing: border-box;
+  top: -9999px !important;
+  left: -9999px !important;
+  right: -9999px !important;
+  bottom: -9999px !important;
+  pointer-events: auto;
+}
+
+.circle{
+  width: 7px;
+  height: 7px;
+  background-color: bisque;
+  position: absolute;
+  transform: translate(-50%,-50%);
+  cursor: pointer;
+  pointer-events: auto;
+}
+
+.n {
+  top: 0;
+  left: 50%;
+}
+.ne {
+  top: 0;
+  left: 100%;
+}
+.e{
+  top: 50%;
+  left: 100%;
+}
+.se {
+  top: 100%;
+  left: 100%;
+}
+.s {
+  top: 100%;
+  left: 50%;
+}
+.sw {
+  top: 100%;
+  left: 0;
+}
+.w {
+  top: 50%;
+  left: 0;
+}
+.nw {
+  top: 0;
+  left: 0;
+}

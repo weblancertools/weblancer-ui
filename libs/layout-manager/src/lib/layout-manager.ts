@@ -117,7 +117,7 @@ export class LayoutManager extends IManager implements ILayoutManagerActions {
 
     const parentRect = parentRootDiv.getBoundingClientRect();
 
-    this.propManager.updateComponentProp<IChildComponentTransform>(
+    this.propManager.deepAssignComponentProp<IChildComponentTransform>(
       itemId,
       ComponentChildStyle,
       {

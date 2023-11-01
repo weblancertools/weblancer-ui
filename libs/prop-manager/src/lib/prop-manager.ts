@@ -14,6 +14,7 @@ import {
 } from './types';
 import propSlice, {
   addComponent,
+  deepAssignComponentProp,
   defineComponentProp,
   removeComponent,
   setPageData,
@@ -113,6 +114,22 @@ export class PropManager
     );
   }
 
+  deepAssignComponentProp<TValue>(
+    id: string,
+    name: string,
+    value: TValue
+  ): void {
+    this.storeManager.dispatch(
+      deepAssignComponentProp({
+        id,
+        name,
+        value,
+        currentBreakpointId: this.currentBreakpointId,
+        allBreakpoints: this.allBreakpoints,
+      })
+    );
+  }
+
   getComponent(id: string): IComponentData {
     return this.storeManager.getState<IStoreRootState>().PropManager
       .componentMap[id];
@@ -141,6 +158,10 @@ export class PropManager
   }
 
   getComponentChangeSelector(id: string) {
+    if (!id) {
+      return (state: IStoreRootState) => '';
+    }
+
     if (!this.selectorCache[id]) {
       this.selectorCache[id] = createDraftSafeSelector(
         [
@@ -188,6 +209,10 @@ export class PropManager
   }
 
   getComponentPropChangeSelector(id: string, propName: string) {
+    if (!id) {
+      return (state: IStoreRootState) => '';
+    }
+
     const key = `${id}_${propName}`;
     if (!this.selectorCache[key]) {
       this.selectorCache[key] = createDraftSafeSelector(
