@@ -58,6 +58,7 @@ export const WeblancerComponentRoot = ({
   const { mouseEventProps } = useMouseEventsHandler(itemId, {
     isContainer,
   });
+
   return (
     <DraggableCore
       ref={draggableRef}

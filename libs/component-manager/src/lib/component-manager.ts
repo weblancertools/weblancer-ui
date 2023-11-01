@@ -15,7 +15,7 @@ import componentSlice from './slice/componentSlice';
 import { ComponentManagerService } from './constants';
 import { weblancerRegistry } from '@weblancer-ui/manager-registry';
 import { IPropManagerActions, PropManager } from '@weblancer-ui/prop-manager';
-import { generateRandomString } from './helpers';
+import { generateRandomString, waitForComponentPropsDefined } from './helpers';
 import {
   ILayoutManagerActions,
   LayoutManager,
@@ -89,10 +89,9 @@ export class ComponentManager
       ...componentHolder.metadata?.defaultComponentData,
     });
 
-    // wait for rendering item
-    setTimeout(() => {
+    waitForComponentPropsDefined(this.storeManager.store, () => {
       this.layoutManager.setPositionInParent(newComponentId, position);
-    }, 0);
+    });
 
     return newComponentId;
   }
