@@ -188,6 +188,10 @@ export class PropManager
   }
 
   getComponentPropChangeSelector(id: string, propName: string) {
+    if (!id) {
+      return (state: IStoreRootState) => '';
+    }
+
     const key = `${id}_${propName}`;
     if (!this.selectorCache[key]) {
       this.selectorCache[key] = createDraftSafeSelector(
