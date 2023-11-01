@@ -15,11 +15,14 @@ import componentSlice from './slice/componentSlice';
 import { ComponentManagerService } from './constants';
 import { weblancerRegistry } from '@weblancer-ui/manager-registry';
 import { IPropManagerActions, PropManager } from '@weblancer-ui/prop-manager';
-import { generateRandomString, waitForComponentPropsDefined } from './helpers';
 import {
   ILayoutManagerActions,
   LayoutManager,
 } from '@weblancer-ui/layout-manager';
+import {
+  generateRandomString,
+  waitForComponentPropsDefined,
+} from '@weblancer-ui/utils';
 
 const componentMap: IComponentMap = {};
 
@@ -68,8 +71,9 @@ export class ComponentManager
     componentKey: string,
     parentId: string,
     position: { x: number; y: number },
-    forceItemId?: string
-  ): string {
+    forceItemId?: string,
+    onItemCreated?: (itemId: string) => void
+  ) {
     const parentComponentData = this.propManager.getComponent(parentId);
 
     const componentHolder = this.getComponentHolderByKey(componentKey);
@@ -91,9 +95,8 @@ export class ComponentManager
 
     waitForComponentPropsDefined(this.storeManager.store, () => {
       this.layoutManager.setPositionInParent(newComponentId, position);
+      onItemCreated?.(newComponentId);
     });
-
-    return newComponentId;
   }
 
   deleteItem(itemId: string): void {

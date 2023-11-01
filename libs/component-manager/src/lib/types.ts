@@ -21,8 +21,9 @@ export interface IComponentManagerActions {
     componentKey: string,
     parentId: string,
     position: { x: number; y: number },
-    forceItemId?: string
-  ): string;
+    forceItemId?: string,
+    onItemCreated?: (itemId: string) => void
+  ): void;
   deleteItem(itemId: string): void;
 }
 

@@ -1,1 +1,2 @@
-export * from './lib/utils';
+export * from './lib/componentUtils';
+export * from './lib/stringUtils';
