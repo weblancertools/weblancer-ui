@@ -90,7 +90,7 @@ export function getFirstUpperBreakpointOverrideInComponentData(
 
     if (breakpoint.id === currentBreakpointId) {
       currentBreakpointFound = true;
-      if (componentData.props[name][breakpoint.id]) return breakpoint.id;
+      if (componentData.props[name]?.[breakpoint.id]) return breakpoint.id;
     }
   }
 

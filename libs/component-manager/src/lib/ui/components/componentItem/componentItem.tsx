@@ -63,7 +63,7 @@ export const ComponentItem = ({ component }: IComponentItemProps) => {
       onClick={handleClick}
       onDragStart={handleDragStart}
     >
-      {component.key}
+      {component.metadata?.label ?? component.key}
     </div>
   );
 };

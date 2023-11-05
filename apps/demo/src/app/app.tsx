@@ -24,6 +24,7 @@ import { LayoutManager, layoutPlugin } from '@weblancer-ui/layout-manager';
 import { UndoManager } from '@weblancer-ui/undo-manager';
 import { undoPlugin } from '@weblancer-ui/undo-plugin';
 import { extraAdjustmentPlugin } from '@weblancer-ui/adjustment-plugin';
+import { Container, Text } from '@weblancer-ui/component-kit';
 
 export function App() {
   return (
@@ -56,6 +57,17 @@ export function App() {
 export default App;
 
 ComponentManager.register('weblancer-text', WeblancerText, {
-  groups: 'Text',
+  groups: 'Texts',
   categories: 'Weblancer',
+  label: 'Test-text',
+});
+ComponentManager.register('weblancer-component-kit-text', Text, {
+  groups: 'Texts',
+  categories: 'Weblancer',
+  label: 'Text',
+});
+ComponentManager.register('weblancer-component-kit-container', Container, {
+  groups: 'Containers',
+  categories: 'Weblancer',
+  label: 'Container',
 });

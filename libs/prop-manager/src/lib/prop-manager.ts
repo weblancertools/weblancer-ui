@@ -221,15 +221,18 @@ export class PropManager
       this.selectorCache[key] = createDraftSafeSelector(
         [
           (store: IStoreRootState) => {
+            const componentData = this.getComponent(id);
+
+            if (!componentData) return;
+
             const availableBreakpoint =
               getFirstUpperBreakpointOverrideInComponentData(
-                this.getComponent(id),
+                componentData,
                 propName,
                 this.currentBreakpointId,
                 this.allBreakpoints
               );
-            return this.getComponent(id).props[propName][availableBreakpoint]
-              ?.value;
+            return componentData.props[propName]?.[availableBreakpoint]?.value;
           },
           (store: IStoreRootState) => this.currentBreakpointId,
         ],

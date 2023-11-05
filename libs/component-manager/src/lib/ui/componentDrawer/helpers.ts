@@ -1,9 +1,13 @@
 import { IComponentMap } from '../../types';
 
 export function getCategories(allComponent: IComponentMap) {
-  return Object.values(allComponent).flatMap((componentHolder) => {
-    return componentHolder.metadata?.categories ?? [];
-  });
+  return [
+    ...new Set(
+      Object.values(allComponent).flatMap((componentHolder) => {
+        return componentHolder.metadata?.categories ?? [];
+      })
+    ),
+  ];
 }
 
 export function getGroupsInCategory(
@@ -12,20 +16,24 @@ export function getGroupsInCategory(
 ) {
   if (!category) return [];
 
-  return Object.values(allComponent)
-    .filter((componentHolder) => {
-      const categories = componentHolder.metadata?.categories;
-      if (!categories) {
-        return false;
-      } else if (Array.isArray(categories)) {
-        return categories.includes(category || 'none');
-      } else {
-        return categories === category;
-      }
-    })
-    .flatMap((componentHolder) => {
-      return componentHolder.metadata?.groups ?? [];
-    });
+  return [
+    ...new Set(
+      Object.values(allComponent)
+        .filter((componentHolder) => {
+          const categories = componentHolder.metadata?.categories;
+          if (!categories) {
+            return false;
+          } else if (Array.isArray(categories)) {
+            return categories.includes(category || 'none');
+          } else {
+            return categories === category;
+          }
+        })
+        .flatMap((componentHolder) => {
+          return componentHolder.metadata?.groups ?? [];
+        })
+    ),
+  ];
 }
 
 export function getComponentsInCategoryAndGroup(
