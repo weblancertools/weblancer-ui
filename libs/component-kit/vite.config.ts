@@ -5,7 +5,7 @@ import * as path from 'path';
 import { nxViteTsPaths } from '@nx/vite/plugins/nx-tsconfig-paths.plugin';
 
 export default defineConfig({
-  cacheDir: '../../node_modules/.vite/component-git',
+  cacheDir: '../../node_modules/.vite/component-kit',
 
   plugins: [
     react(),
@@ -26,13 +26,13 @@ export default defineConfig({
   // See: https://vitejs.dev/guide/build.html#library-mode
   build: {
     entry: 'src/index.ts',
-    name: 'component-git',
+    name: 'component-kit',
     fileName: 'index',
     formats: ['es', 'cjs'],
     external: ['react', 'react-dom', 'react/jsx-runtime'],
     lib: {
       entry: 'src/index.ts',
-      name: 'component-git',
+      name: 'component-kit',
       fileName: 'index',
       formats: ['es', 'cjs'],
     },

@@ -1,10 +1,10 @@
 import { render } from '@testing-library/react';
 
-import ComponentGit from './component-git';
+import ComponentKit from './component-kit';
 
-describe('ComponentGit', () => {
+describe('ComponentKit', () => {
   it('should render successfully', () => {
-    const { baseElement } = render(<ComponentGit />);
+    const { baseElement } = render(<ComponentKit />);
     expect(baseElement).toBeTruthy();
   });
 });
