@@ -6,17 +6,23 @@ import {
 import { inject } from 'inversify';
 import { PropManager } from '../prop-manager';
 import { IPropManagerActions } from '../types';
+import {
+  BreakpointManager,
+  IBreakpointManagerActions,
+} from '@weblancer-ui/breakpoint-manager';
 
-export class UpdateComponentAction extends EditorAction {
-  public subject = 'Update Component';
+export class UpdateComponentPropAction extends EditorAction {
+  public subject = 'Update Component Prop';
 
   public get description() {
-    return 'Update Component';
+    return 'Update Component Prop';
   }
 
   constructor(
     @inject(UndoManager) public override undoManager: IUndoManagerActions,
-    @inject(PropManager) public propManager: IPropManagerActions
+    @inject(PropManager) public propManager: IPropManagerActions,
+    @inject(BreakpointManager)
+    public breakpointManager: IBreakpointManagerActions
   ) {
     super(undoManager);
   }
@@ -29,7 +35,10 @@ export class UpdateComponentAction extends EditorAction {
     this.id = id;
     this.name = name;
     this.value = value;
-    this.oldValue = this.propManager.getComponent(id)?.props[name].value;
+    this.oldValue =
+      this.propManager.getComponent(id)?.props[name][
+        this.breakpointManager.getCurrentBreakpoint().id
+      ]?.value;
 
     return this;
   }
@@ -43,4 +52,4 @@ export class UpdateComponentAction extends EditorAction {
   }
 }
 
-EditorAction.bindAction(UpdateComponentAction);
+EditorAction.bindAction(UpdateComponentPropAction);
