@@ -44,6 +44,6 @@ export interface IComponentRegisterMetadata {
   categories?: string | string[];
   groups?: string | string[];
   defaultComponentData?: Partial<
-    Pick<IComponentData, 'props' | 'childrenPropData' | 'metadata'>
+    Pick<IComponentData, 'props' | 'children' | 'metadata'>
   >;
 }
