@@ -17,23 +17,26 @@ export function ClientCoreComponent() {
   );
 
   useEffect(() => {
-    propManager.setPageData({
-      id: 'page1',
-      componentKey: 'weblancer-text',
-      parentId: 'none',
-      metadata: {
-        isContainer: true,
-      },
-      props: {
-        text: {
-          large: {
-            name: 'text',
-            value: 'page1',
-            typeInfo: { typeName: PropTypes.String },
+    propManager.setPageData(
+      {
+        page1: {
+          id: 'page1',
+          componentKey: 'weblancer-text',
+          parentId: 'none',
+          metadata: {
+            isContainer: true,
           },
+          props: {
+            text: {
+              large: {
+                name: 'text',
+                value: 'page1',
+                typeInfo: { typeName: PropTypes.String },
+              },
+            },
+          },
+          children: ['text1', 'text2'],
         },
-      },
-      childrenPropData: {
         text1: {
           id: 'text1',
           componentKey: 'weblancer-text',
@@ -73,7 +76,8 @@ export function ClientCoreComponent() {
           },
         },
       },
-    });
+      'page1'
+    );
   }, [propManager]);
 
   return (

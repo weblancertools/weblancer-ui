@@ -38,6 +38,8 @@ export const LayoutDrawer = ({ onClose }: IEditorDrawerProps) => {
     adjustmentManager.setSelectedItemId(nodeId);
   };
 
+  console.log('LayoutDrawer', pageData);
+
   return (
     <div className={styles.root}>
       <TreeView
@@ -57,17 +59,18 @@ const RenderLeaf = ({
 }: {
   componentData: IComponentData | Omit<IComponentData, 'parentId'>;
 }) => {
-  const children = Object.keys(componentData.childrenPropData ?? {}).map(
-    (childId) => {
-      return (
-        <RenderLeaf
-          key={childId}
-          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-          componentData={componentData.childrenPropData![childId]}
-        />
-      );
-    }
-  );
+  const propManager =
+    useWeblancerEditorManager<IPropManagerActions>(PropManager);
+  const children = (componentData.children ?? []).map((childId) => {
+    const componentData = propManager.getComponent(childId);
+    return (
+      <RenderLeaf
+        key={childId}
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        componentData={componentData!}
+      />
+    );
+  });
 
   return (
     <CustomTreeItem

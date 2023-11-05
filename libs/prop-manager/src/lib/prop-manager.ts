@@ -59,8 +59,11 @@ export class PropManager
     this.injectSlice(storeManager);
   }
 
-  setPageData(pageData: IComponentData): void {
-    this.storeManager.dispatch(setPageData({ pageData }));
+  setPageData(
+    componentMap: Record<string, IComponentData>,
+    pageId: string
+  ): void {
+    this.storeManager.dispatch(setPageData({ componentMap, pageId }));
   }
 
   getPageData(): Omit<IComponentData, 'parentId'> {
@@ -137,9 +140,7 @@ export class PropManager
 
   updateComponent(
     id: string,
-    newData: Partial<
-      Pick<IComponentData, 'parentId' | 'name' | 'childrenPropData'>
-    >
+    newData: Partial<Pick<IComponentData, 'parentId' | 'name' | 'children'>>
   ): void {
     this.storeManager.dispatch(updateComponent({ id, newData }));
   }
@@ -200,9 +201,8 @@ export class PropManager
           ),
           (store: IStoreRootState) => store.PropManager.componentMap[id],
           (store: IStoreRootState) =>
-            Object.keys(
-              store.PropManager.componentMap[id]?.childrenPropData ?? {}
-            ).length,
+            Object.keys(store.PropManager.componentMap[id]?.children ?? {})
+              .length,
         ],
         (componentData) => ({ ...componentData })
       );

@@ -44,24 +44,19 @@ export class LayoutManager extends IManager implements ILayoutManagerActions {
 
     const newParentComponentData = this.propManager.getComponent(newParentId)!;
 
-    if (oldParentComponentData) {
-      this.propManager.updateComponent(newParentId, {
-        childrenPropData: {
-          ...newParentComponentData.childrenPropData,
-          droppedItemId:
-            oldParentComponentData.childrenPropData![droppedItemId],
-        },
-      });
+    if (!oldParentComponentData) throw new Error('Can not find old parent');
 
-      const tempOldParentChildren = {
-        ...oldParentComponentData.childrenPropData,
-      };
-      delete tempOldParentChildren[droppedItemId];
+    this.propManager.updateComponent(newParentId, {
+      children: [...(newParentComponentData.children ?? []), droppedItemId],
+    });
 
-      this.propManager.updateComponent(itemComponentData.parentId, {
-        childrenPropData: tempOldParentChildren,
-      });
-    }
+    const tempOldParentChildren = [...(oldParentComponentData.children ?? [])];
+    const indexToDelete = tempOldParentChildren.indexOf(droppedItemId);
+    tempOldParentChildren.splice(indexToDelete, 1);
+
+    this.propManager.updateComponent(itemComponentData.parentId, {
+      children: tempOldParentChildren,
+    });
 
     this.propManager.updateComponent(droppedItemId, {
       parentId: newParentId,
@@ -74,26 +69,21 @@ export class LayoutManager extends IManager implements ILayoutManagerActions {
   }
 
   changeItemOrder(itemId: string, newIndex: number): void {
-    const itemComponentData = this.propManager.getComponent(itemId)!;
-    const parentComponentData = this.propManager.getComponent(
-      itemComponentData.parentId
-    )!;
-
-    const keys = Object.keys(parentComponentData.childrenPropData!);
-    const currentIndex = keys.indexOf(itemId);
-
-    keys.splice(currentIndex, 1);
-    keys.splice(newIndex, 0, itemId);
-
-    const updatedChildren: typeof itemComponentData.childrenPropData = {};
-
-    keys.forEach((key, index) => {
-      updatedChildren[key] = parentComponentData.childrenPropData![key];
-    });
-
-    this.propManager.updateComponent(parentComponentData.id, {
-      childrenPropData: updatedChildren,
-    });
+    // const itemComponentData = this.propManager.getComponent(itemId)!;
+    // const parentComponentData = this.propManager.getComponent(
+    //   itemComponentData.parentId
+    // )!;
+    // const keys = Object.keys(parentComponentData.children!);
+    // const currentIndex = keys.indexOf(itemId);
+    // keys.splice(currentIndex, 1);
+    // keys.splice(newIndex, 0, itemId);
+    // const updatedChildren: typeof itemComponentData.children = {};
+    // keys.forEach((key, index) => {
+    //   updatedChildren[key] = parentComponentData.children![key];
+    // });
+    // this.propManager.updateComponent(parentComponentData.id, {
+    //   children: updatedChildren,
+    // });
   }
 
   setPositionInParent(

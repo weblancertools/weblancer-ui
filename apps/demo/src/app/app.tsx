@@ -70,4 +70,9 @@ ComponentManager.register('weblancer-component-kit-container', Container, {
   groups: 'Containers',
   categories: 'Weblancer',
   label: 'Container',
+  defaultComponentData: {
+    metadata: {
+      isContainer: true,
+    },
+  },
 });

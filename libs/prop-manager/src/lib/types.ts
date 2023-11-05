@@ -13,7 +13,10 @@ export interface IPropManagerSlice {
 }
 
 export interface IPropManagerActions {
-  setPageData(pageData: IComponentData): void;
+  setPageData(
+    componentMap: Record<string, IComponentData>,
+    pageId: string
+  ): void;
   getPageData(): Omit<IComponentData, 'parentId'>;
   addComponent(componentData: IComponentData): void;
   removeComponent(id: string): void;
@@ -34,7 +37,7 @@ export interface IPropManagerActions {
   updateComponent(
     id: string,
     newComponentData: Partial<
-      Pick<IComponentData, 'name' | 'parentId' | 'childrenPropData'>
+      Pick<IComponentData, 'name' | 'parentId' | 'children'>
     >
   ): void;
   getComponent(id: string): IComponentData | undefined;
@@ -57,7 +60,7 @@ export interface IComponentData {
   componentKey: string;
   metadata?: IComponentMetadata;
   props: Record<string, IBreakPointPropsData>;
-  childrenPropData?: Record<string, IComponentData>;
+  children?: string[];
 }
 
 export interface IComponentMetadata {

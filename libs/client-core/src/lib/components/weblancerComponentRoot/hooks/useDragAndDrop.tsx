@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import {
   useWeblancerClientContext,
-  useWeblancerContext,
   useWeblancerManager,
 } from '@weblancer-ui/editor-core';
 import {
@@ -10,7 +9,10 @@ import {
   DraggableEventHandler,
 } from 'react-draggable';
 import { useRef } from 'react';
-import { SetPositionAction } from '@weblancer-ui/layout-manager';
+import {
+  DropItemAction,
+  SetPositionAction,
+} from '@weblancer-ui/layout-manager';
 import {
   AdjustmentManager,
   IAdjustmentManagerActions,
@@ -36,7 +38,6 @@ export const useDragAndDrop = (
   const itemRect = useRef<DOMRect>();
   const itemRectAndPointerOffset = useRef<{ x: number; y: number }>();
   const { document } = useWeblancerClientContext();
-  const { callEditorAction } = useWeblancerContext();
 
   const adjustmentManager =
     useWeblancerManager<IAdjustmentManagerActions>(AdjustmentManager);
@@ -65,6 +66,7 @@ export const useDragAndDrop = (
     clonedNodeRef.current!.style.left = `${itemRect.current.left}px`;
     clonedNodeRef.current!.style.top = `${itemRect.current.top}px`;
     clonedNodeRef.current!.style.margin = `unset`;
+    clonedNodeRef.current!.style.pointerEvents = `none`;
   };
 
   const handleDragStart: DraggableEventHandler = (
@@ -98,14 +100,12 @@ export const useDragAndDrop = (
   };
 
   const autoDockingOnStop = (data: DraggableData) => {
-    const setPositionAction = EditorAction.getActionInstance(
-      SetPositionAction
-    ).prepare(itemId, {
-      x: data.x - itemRectAndPointerOffset.current!.x,
-      y: data.y - itemRectAndPointerOffset.current!.y,
-    });
-
-    callEditorAction(setPositionAction);
+    EditorAction.getActionInstance(SetPositionAction)
+      .prepare(itemId, {
+        x: data.x - itemRectAndPointerOffset.current!.x,
+        y: data.y - itemRectAndPointerOffset.current!.y,
+      })
+      .perform();
   };
 
   const destroyClone = () => {
@@ -120,8 +120,21 @@ export const useDragAndDrop = (
 
     data.node.style.visibility = 'unset';
 
-    autoDockingOnStop(data);
     destroyClone();
+    autoDockingOnStop(data);
+    handleDrop(data);
+  };
+
+  const handleDrop = (data: DraggableData) => {
+    const newParentId = adjustmentManager.getHoveredContainerId();
+    if (newParentId && newParentId !== parentId) {
+      EditorAction.getActionInstance(DropItemAction)
+        .prepare(itemId, newParentId, {
+          x: data.x - itemRectAndPointerOffset.current!.x,
+          y: data.y - itemRectAndPointerOffset.current!.y,
+        })
+        .perform();
+    }
   };
 
   const handleMouseDown = () => {

@@ -6,36 +6,36 @@ import {
 } from '../../../types';
 import { AdjustmentManager } from '../../../adjustment-manager';
 import { useSelector } from 'react-redux';
-import styles from './mouseOver.module.scss';
+import styles from './mouseOverParentOnDrag.module.scss';
 import { useEffect, useState } from 'react';
 
-export const MouseOver = () => {
+export const MouseOverParentOnDrag = () => {
   const adjustmentManager =
     useWeblancerEditorManager<IAdjustmentManagerActions>(AdjustmentManager);
-  const mouseOverItemId = useSelector(
-    (state: IStoreRootState) => state[AdjustmentManagerService].mouseOverItemId
+  const hoveredContainerId = useSelector(
+    (state: IStoreRootState) =>
+      state[AdjustmentManagerService].hoveredContainerId
   );
   const draggingItemId = useSelector(
     (state: IStoreRootState) => state[AdjustmentManagerService].draggingItemId
   );
   const targetItemRef = adjustmentManager.getItemRootRef(
-    draggingItemId ?? mouseOverItemId ?? ''
+    hoveredContainerId ?? ''
   );
 
   const [itemRect, setItemRect] = useState<DOMRect>();
 
   useEffect(() => {
-    // TODO must show the rect on dragging item
-    if (!mouseOverItemId || !targetItemRef || draggingItemId) {
+    if (!hoveredContainerId || !targetItemRef) {
       setItemRect(undefined);
       return;
     }
 
     const itemRect = targetItemRef.current?.getBoundingClientRect();
     setItemRect(itemRect);
-  }, [mouseOverItemId, targetItemRef, draggingItemId]);
+  }, [hoveredContainerId, targetItemRef, draggingItemId]);
 
-  if (!itemRect) return null;
+  if (!itemRect || !draggingItemId) return null;
 
   return (
     <div

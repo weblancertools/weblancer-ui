@@ -38,7 +38,7 @@ export const ComponentRenderer = ({ itemId }: IComponentRenderer) => {
     [itemId, propManager]
   );
 
-  const children = Object.values(componentData.childrenPropData ?? {});
+  const children = Object.values(componentData.children ?? {});
 
   return (
     <WeblancerComponentRoot
@@ -53,7 +53,7 @@ export const ComponentRenderer = ({ itemId }: IComponentRenderer) => {
             componentData={componentData}
             defineProp={defineProp}
           >
-            {children.map(({ id: childItemId }) => {
+            {children.map((childItemId) => {
               return (
                 <ComponentRenderer key={childItemId} itemId={childItemId} />
               );

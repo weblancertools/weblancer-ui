@@ -1,8 +1,8 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { IComponentData, IDefaultPropData, IPropManagerSlice } from '../types';
 import { PropManagerService } from '../constants';
 import {
-  addComponentDataToMapRecursively,
   removeComponentsRecursively,
   updateComponentDataBasedOnBreakpoints,
 } from '../helpers';
@@ -20,14 +20,14 @@ export const propSlice = createSlice({
     setPageData: (
       state,
       action: PayloadAction<{
-        pageData: IComponentData;
+        componentMap: Record<string, IComponentData>;
+        pageId: string;
       }>
     ) => {
-      const { pageData } = action.payload;
-      const componentMap = addComponentDataToMapRecursively(pageData);
+      const { componentMap, pageId } = action.payload;
 
       state.componentMap = componentMap;
-      state.pageId = pageData.id;
+      state.pageId = pageId;
     },
     addComponent: (
       state,
@@ -42,10 +42,9 @@ export const propSlice = createSlice({
         const parentComponentData = state.componentMap[componentData.parentId];
         if (!parentComponentData) return;
 
-        if (!parentComponentData.childrenPropData)
-          parentComponentData.childrenPropData = {};
+        if (!parentComponentData.children) parentComponentData.children = [];
 
-        parentComponentData.childrenPropData[componentData.id] = componentData;
+        parentComponentData.children.push(componentData.id);
       }
     },
     removeComponent: (
@@ -62,8 +61,10 @@ export const propSlice = createSlice({
       if (componentData.parentId) {
         const parentComponentData = state.componentMap[componentData.parentId];
 
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        delete parentComponentData.childrenPropData![componentData.id];
+        const indexToDelete = parentComponentData.children!.indexOf(
+          componentData.id
+        );
+        parentComponentData.children!.splice(indexToDelete, 1);
       }
     },
     defineComponentProp: (
@@ -138,7 +139,7 @@ export const propSlice = createSlice({
       action: PayloadAction<{
         id: string;
         newData: Partial<
-          Pick<IComponentData, 'parentId' | 'name' | 'childrenPropData'>
+          Pick<IComponentData, 'parentId' | 'name' | 'children'>
         >;
       }>
     ) => {

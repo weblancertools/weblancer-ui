@@ -11,26 +11,10 @@ export const removeComponentsRecursively = (
   const componentData = componentMap[id];
   delete componentMap[id];
 
-  if (componentData.childrenPropData)
-    Object.values(componentData.childrenPropData).forEach(({ id }) => {
-      removeComponentsRecursively(id, componentMap);
+  if (componentData.children)
+    componentData.children.forEach((childId) => {
+      removeComponentsRecursively(childId, componentMap);
     });
-};
-
-export const addComponentDataToMapRecursively = (
-  componentData: IComponentData,
-  componentMap: Record<string, IComponentData> = {}
-) => {
-  componentMap[componentData.id] = componentData;
-
-  if (componentData.childrenPropData)
-    Object.values(componentData.childrenPropData).forEach(
-      (childComponentData) => {
-        addComponentDataToMapRecursively(childComponentData, componentMap);
-      }
-    );
-
-  return componentMap;
 };
 
 export const updateComponentDataBasedOnBreakpoints = (
