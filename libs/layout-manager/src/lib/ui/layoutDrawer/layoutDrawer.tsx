@@ -38,8 +38,6 @@ export const LayoutDrawer = ({ onClose }: IEditorDrawerProps) => {
     adjustmentManager.setSelectedItemId(nodeId);
   };
 
-  console.log('LayoutDrawer', pageData);
-
   return (
     <div className={styles.root}>
       <TreeView
