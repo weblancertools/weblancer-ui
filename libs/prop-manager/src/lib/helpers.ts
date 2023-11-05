@@ -42,6 +42,10 @@ export const updateComponentDataBasedOnBreakpoints = (
   allBreakpoints: IBreakpoint[],
   objectAssign?: boolean
 ) => {
+  if (newValue === undefined) {
+    delete componentData.props[name][currentBreakpointId];
+  }
+
   if (!componentData.props[name][currentBreakpointId]) {
     // There is no override for this prob data on this breakpoint
 

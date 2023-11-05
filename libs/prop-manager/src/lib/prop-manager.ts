@@ -170,6 +170,9 @@ export class PropManager
             [
               (store: IStoreRootState) => {
                 const componentData = this.getComponent(id);
+
+                if (!componentData) return undefined;
+
                 const values: unknown[] = [];
                 Object.keys(componentData.props).forEach((propName) => {
                   const availableBreakpoint =
@@ -198,7 +201,7 @@ export class PropManager
           (store: IStoreRootState) => store.PropManager.componentMap[id],
           (store: IStoreRootState) =>
             Object.keys(
-              store.PropManager.componentMap[id].childrenPropData ?? {}
+              store.PropManager.componentMap[id]?.childrenPropData ?? {}
             ).length,
         ],
         (componentData) => ({ ...componentData })

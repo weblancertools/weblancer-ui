@@ -1,10 +1,15 @@
 import { useWeblancerEditorManager } from '@weblancer-ui/editor-core';
-import { IPropManagerActions, PropManager } from '@weblancer-ui/prop-manager';
+import {
+  IPropManagerActions,
+  PropManager,
+  UpdateComponentPropAction,
+} from '@weblancer-ui/prop-manager';
 import { IInspectorComponentProps } from '../../../types';
 import { useSelector } from 'react-redux';
 import { InspectorManager } from '../../../inspector-manager';
 import { PropTypes } from '@weblancer-ui/types';
 import { useCallback } from 'react';
+import { EditorAction } from '@weblancer-ui/undo-manager';
 
 export const String = ({ itemId, propName }: IInspectorComponentProps) => {
   const propManager =
@@ -17,9 +22,12 @@ export const String = ({ itemId, propName }: IInspectorComponentProps) => {
   const handleChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       const newValue = e.target.value;
-      propManager.updateComponentProp(itemId, propName, newValue);
+
+      EditorAction.getActionInstance(UpdateComponentPropAction)
+        .prepare(itemId, propName, newValue)
+        .perform();
     },
-    [itemId, propName, propManager]
+    [itemId, propName]
   );
 
   return <input value={value} onChange={handleChange}></input>;
