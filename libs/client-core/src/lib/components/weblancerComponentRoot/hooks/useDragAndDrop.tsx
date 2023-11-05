@@ -121,11 +121,12 @@ export const useDragAndDrop = (
     data.node.style.visibility = 'unset';
 
     destroyClone();
-    autoDockingOnStop(data);
-    handleDrop(data);
+    if (!handleDropInNewParent(data)) {
+      autoDockingOnStop(data);
+    }
   };
 
-  const handleDrop = (data: DraggableData) => {
+  const handleDropInNewParent = (data: DraggableData) => {
     const newParentId = adjustmentManager.getHoveredContainerId();
     if (newParentId && newParentId !== parentId) {
       EditorAction.getActionInstance(DropItemAction)
@@ -134,7 +135,11 @@ export const useDragAndDrop = (
           y: data.y - itemRectAndPointerOffset.current!.y,
         })
         .perform();
+
+      return true;
     }
+
+    return false;
   };
 
   const handleMouseDown = () => {
