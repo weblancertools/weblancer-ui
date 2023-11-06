@@ -9,7 +9,6 @@ import { StateManager } from '@weblancer-ui/state-manager';
 import { PropManager } from '@weblancer-ui/prop-manager';
 import {
   ComponentManager,
-  WeblancerText,
   componentPlugin,
 } from '@weblancer-ui/component-manager';
 import {
@@ -24,8 +23,9 @@ import { LayoutManager, layoutPlugin } from '@weblancer-ui/layout-manager';
 import { UndoManager } from '@weblancer-ui/undo-manager';
 import { undoPlugin } from '@weblancer-ui/undo-plugin';
 import { extraAdjustmentPlugin } from '@weblancer-ui/adjustment-plugin';
-import { Container, Page, Text } from '@weblancer-ui/component-kit';
-import { ResizeSide } from '@weblancer-ui/types';
+import { importWeblancerComponentKit } from '@weblancer-ui/component-kit';
+
+importWeblancerComponentKit();
 
 export function App() {
   return (
@@ -56,45 +56,3 @@ export function App() {
 }
 
 export default App;
-
-ComponentManager.register('weblancer-text', WeblancerText, {
-  groups: 'Texts',
-  categories: 'Weblancer',
-  label: 'Test-text',
-});
-ComponentManager.register('weblancer-component-kit-text', Text, {
-  groups: 'Texts',
-  categories: 'Weblancer',
-  label: 'Text',
-});
-ComponentManager.register('weblancer-component-kit-container', Container, {
-  groups: 'Containers',
-  categories: 'Weblancer',
-  label: 'Container',
-  componentMetadata: {
-    isContainer: true,
-  },
-});
-ComponentManager.register('weblancer-component-kit-page', Page, {
-  groups: 'Containers',
-  categories: 'Weblancer',
-  label: 'Page',
-  componentMetadata: {
-    isContainer: true,
-    resize: {
-      restrictedResizeSides: [
-        ResizeSide.E,
-        ResizeSide.N,
-        ResizeSide.NE,
-        ResizeSide.NW,
-        ResizeSide.S,
-        ResizeSide.SE,
-        ResizeSide.SW,
-        ResizeSide.W,
-      ],
-    },
-    dragging: {
-      restrictedMovementAxises: ['x', 'y'],
-    },
-  },
-});

@@ -36,7 +36,7 @@ export function ClientCoreComponent() {
         },
         text1: {
           id: 'text1',
-          componentKey: 'weblancer-text',
+          componentKey: 'weblancer-component-kit-text',
           parentId: 'page1',
           props: {
             text: {
@@ -60,7 +60,7 @@ export function ClientCoreComponent() {
         },
         text2: {
           id: 'text2',
-          componentKey: 'weblancer-text',
+          componentKey: 'weblancer-component-kit-text',
           parentId: 'page1',
           props: {
             text: {

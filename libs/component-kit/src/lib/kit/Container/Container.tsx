@@ -1,5 +1,6 @@
 import { IWeblancerComponentProps } from '@weblancer-ui/prop-manager';
 import { Container as BaseContainer } from '../../components/Container/Container';
+import { ComponentManager } from '@weblancer-ui/component-manager';
 
 export const Container = ({
   defineProp,
@@ -7,3 +8,12 @@ export const Container = ({
 }: IWeblancerComponentProps) => {
   return <BaseContainer>{children}</BaseContainer>;
 };
+
+ComponentManager.register('weblancer-component-kit-container', Container, {
+  groups: 'Containers',
+  categories: 'Weblancer',
+  label: 'Container',
+  componentMetadata: {
+    isContainer: true,
+  },
+});
