@@ -21,7 +21,7 @@ export function ClientCoreComponent() {
       {
         page1: {
           id: 'page1',
-          componentKey: 'weblancer-text',
+          componentKey: 'weblancer-component-kit-page',
           parentId: 'none',
           metadata: {
             isContainer: true,

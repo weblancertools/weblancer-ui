@@ -24,7 +24,7 @@ import { LayoutManager, layoutPlugin } from '@weblancer-ui/layout-manager';
 import { UndoManager } from '@weblancer-ui/undo-manager';
 import { undoPlugin } from '@weblancer-ui/undo-plugin';
 import { extraAdjustmentPlugin } from '@weblancer-ui/adjustment-plugin';
-import { Container, Text } from '@weblancer-ui/component-kit';
+import { Container, Page, Text } from '@weblancer-ui/component-kit';
 
 export function App() {
   return (
@@ -70,6 +70,16 @@ ComponentManager.register('weblancer-component-kit-container', Container, {
   groups: 'Containers',
   categories: 'Weblancer',
   label: 'Container',
+  defaultComponentData: {
+    metadata: {
+      isContainer: true,
+    },
+  },
+});
+ComponentManager.register('weblancer-component-kit-page', Page, {
+  groups: 'Containers',
+  categories: 'Weblancer',
+  label: 'Page',
   defaultComponentData: {
     metadata: {
       isContainer: true,
