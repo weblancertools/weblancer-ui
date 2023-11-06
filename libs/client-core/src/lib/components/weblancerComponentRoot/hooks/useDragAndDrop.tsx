@@ -29,6 +29,7 @@ export const useDragAndDrop = (itemId: string) => {
     e: DraggableEvent,
     data: DraggableData
   ) => {
+    console.log('handleDragStart');
     return dragManager.handleStart(e, data, itemId, document);
   };
 
@@ -36,6 +37,7 @@ export const useDragAndDrop = (itemId: string) => {
     e: DraggableEvent,
     data: DraggableData
   ) => {
+    console.log('handleDrag');
     dragManager.handleDrag(e, data);
   };
 
@@ -47,6 +49,7 @@ export const useDragAndDrop = (itemId: string) => {
   };
 
   const handleMouseDown = () => {
+    console.log('handleMouseDown');
     adjustmentManager.setSelectedItemId(itemId);
   };
 

@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import styles from './weblancerComponentRoot.module.scss';
 import {
   useWeblancerClientContext,
@@ -14,7 +14,7 @@ import {
   AdjustmentManager,
   ComponentChildStyle,
   IAdjustmentManagerActions,
-  IChildComponentTransform,
+  IChildTransform,
 } from '@weblancer-ui/adjustment-manager';
 import {
   ComponentManager,
@@ -44,7 +44,7 @@ export const WeblancerComponentRoot = ({
 
   const isContainer = componentManager.getMetadata(itemId)?.isContainer;
 
-  const childComponentTransform = defineProp<IChildComponentTransform>({
+  const childTransform = defineProp<IChildTransform>({
     name: ComponentChildStyle,
     typeInfo: {
       typeName: ComponentChildStyle,
@@ -57,26 +57,49 @@ export const WeblancerComponentRoot = ({
     isContainer,
   });
 
-  return (
-    <DraggableCore
-      ref={draggableRef}
-      nodeRef={rootRef}
-      offsetParent={document?.body}
-      {...draggableProps}
-    >
-      <div
-        ref={rootRef}
-        className={classNames(
-          styles.root,
-          isContainer && styles.container,
-          styles.child
-        )}
-        {...{ [WeblancerComponentIdAttributeName]: itemId }}
-        {...mouseEventProps}
-        style={childComponentTransform?.style}
+  const rootProps = {
+    ref: rootRef,
+    className: classNames(
+      styles.root,
+      isContainer && styles.container,
+      styles.child
+    ),
+    ...{ [WeblancerComponentIdAttributeName]: itemId },
+    ...mouseEventProps,
+    style: childTransform?.style,
+  };
+
+  if (!isContainer) {
+    return (
+      <DraggableCore
+        ref={draggableRef}
+        nodeRef={rootRef}
+        offsetParent={document?.body}
+        {...draggableProps}
       >
-        {children}
-      </div>
-    </DraggableCore>
-  );
+        <div {...rootProps}>{children}</div>
+      </DraggableCore>
+    );
+  } else {
+    const child =
+      React.Children.map(children, (child) => {
+        if (React.isValidElement(child)) {
+          return React.cloneElement(child, {
+            ...child.props,
+            rootProps,
+          });
+        }
+        return child;
+      }) ?? [];
+    return (
+      <DraggableCore
+        ref={draggableRef}
+        nodeRef={rootRef}
+        offsetParent={document?.body}
+        {...draggableProps}
+      >
+        {child[0]}
+      </DraggableCore>
+    );
+  }
 };

@@ -12,7 +12,7 @@ import {
   AdjustmentManager,
   ComponentChildStyle,
   IAdjustmentManagerActions,
-  IChildComponentTransform,
+  IChildTransform,
 } from '@weblancer-ui/adjustment-manager';
 
 @injectable()
@@ -107,7 +107,7 @@ export class LayoutManager extends IManager implements ILayoutManagerActions {
 
     const parentRect = parentRootDiv.getBoundingClientRect();
 
-    this.propManager.deepAssignComponentProp<IChildComponentTransform>(
+    this.propManager.deepAssignComponentProp<IChildTransform>(
       itemId,
       ComponentChildStyle,
       {

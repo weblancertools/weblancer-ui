@@ -11,3 +11,4 @@ export * from './lib/PartialBy';
 export * from './lib/IPosition';
 export * from './lib/ResizeSide';
 export * from './lib/IComponentMetadata';
+export * from './lib/IContainerProps';

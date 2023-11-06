@@ -32,7 +32,7 @@ export interface IAdjustmentManagerActions {
   getMousePosition(): IPosition;
 }
 
-export interface IChildComponentTransform {
+export interface IChildTransform {
   style?: React.CSSProperties;
   // transform: {
   //   gridArea: {

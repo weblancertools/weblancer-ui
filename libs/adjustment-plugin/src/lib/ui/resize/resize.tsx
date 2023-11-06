@@ -16,7 +16,7 @@ import {
   AdjustmentManagerService,
   ComponentChildStyle,
   IAdjustmentManagerActions,
-  IChildComponentTransform,
+  IChildTransform,
   useAdjustmentManagerSelector,
 } from '@weblancer-ui/adjustment-manager';
 import {
@@ -76,7 +76,7 @@ export const Resize = () => {
 
   const handleTransformChange = (resizeData: ResizeData) => {
     // No need to handle with undo manager nad actions while resizing
-    propManager.deepAssignComponentProp<IChildComponentTransform>(
+    propManager.deepAssignComponentProp<IChildTransform>(
       selectedItemId,
       ComponentChildStyle,
       {

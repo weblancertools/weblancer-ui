@@ -1,4 +1,4 @@
-import { IComponentMetadata } from '@weblancer-ui/types';
+import { IComponentMetadata, IContainerProps } from '@weblancer-ui/types';
 import { ComponentManagerService } from './constants';
 import {
   IComponentData,
@@ -39,7 +39,9 @@ export interface IComponentHolder {
   metadata?: IComponentRegisterMetadata;
 }
 
-export type WeblancerComponent = React.ComponentType<IWeblancerComponentProps>;
+export type WeblancerComponent =
+  | React.ComponentType<IWeblancerComponentProps>
+  | React.ComponentType<IWeblancerComponentProps & IContainerProps>;
 
 export interface IComponentRegisterMetadata {
   label?: string;

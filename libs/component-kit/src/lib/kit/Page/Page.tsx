@@ -1,10 +1,28 @@
 import { IWeblancerComponentProps } from '@weblancer-ui/prop-manager';
 import { Page as BasePage } from '../../components/Page/Page';
 import { ComponentManager } from '@weblancer-ui/component-manager';
-import { ResizeSide } from '@weblancer-ui/types';
+import { IContainerProps, ResizeSide } from '@weblancer-ui/types';
+import styles from './Page.module.scss';
 
-export const Page = ({ defineProp, children }: IWeblancerComponentProps) => {
-  return <BasePage>{children}</BasePage>;
+export const Page = ({
+  defineProp,
+  children,
+  rootProps,
+  onMouseDown,
+  onMouseUp,
+  onTouchEnd,
+}: IWeblancerComponentProps & IContainerProps) => {
+  return (
+    <div
+      {...rootProps}
+      onMouseDown={onMouseDown}
+      onMouseUp={onMouseUp}
+      onTouchEnd={onTouchEnd}
+      className={styles.root}
+    >
+      <BasePage>{children}</BasePage>
+    </div>
+  );
 };
 
 ComponentManager.register('weblancer-component-kit-page', Page, {
@@ -24,9 +42,18 @@ ComponentManager.register('weblancer-component-kit-page', Page, {
         ResizeSide.SW,
         ResizeSide.W,
       ],
+      // childrenRestrictedResizeSides: [
+      //   ResizeSide.E,
+      //   ResizeSide.N,
+      //   ResizeSide.NE,
+      //   ResizeSide.NW,
+      //   ResizeSide.SE,
+      //   ResizeSide.SW,
+      // ],
     },
     dragging: {
       restrictedMovementAxises: ['x', 'y'],
+      // childrenRestrictedMovementAxises: ['x', 'y'],
     },
   },
 });
