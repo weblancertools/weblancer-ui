@@ -13,7 +13,10 @@ interface IResizeHandlerProps {
   side: ResizeSide;
   onTransformChange(resizeData: ResizeData): void;
   onResizingStart(): void;
-  onResizingStop(): void;
+  onResizingStop(
+    lastResizeData: ResizeData,
+    initialResizeData: ResizeData
+  ): void;
 }
 
 export const ResizeHandler = ({
@@ -25,6 +28,7 @@ export const ResizeHandler = ({
   onResizingStop,
 }: IResizeHandlerProps) => {
   const currentResizeData = useRef<ResizeData>();
+  const initialResizeData = useRef<ResizeData>();
   const nodeRef = useRef<HTMLDivElement>(null);
   const clone = useRef<HTMLElement>();
   const firstSkipped = useRef(false);
@@ -42,6 +46,8 @@ export const ResizeHandler = ({
       deltaX: 0,
       deltaY: 0,
     };
+
+    initialResizeData.current = currentResizeData.current;
 
     clone.current?.remove();
 
@@ -80,7 +86,7 @@ export const ResizeHandler = ({
   };
 
   const handleStop = (e: DraggableEvent, data: DraggableData) => {
-    onResizingStop();
+    onResizingStop(currentResizeData.current!, initialResizeData.current!);
   };
 
   return (

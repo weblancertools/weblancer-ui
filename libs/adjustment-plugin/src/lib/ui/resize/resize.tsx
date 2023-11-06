@@ -1,7 +1,11 @@
 import { useWeblancerEditorManager } from '@weblancer-ui/editor-core';
 import styles from './resize.module.scss';
 import { useEffect, useRef, useState } from 'react';
-import { IPropManagerActions, PropManager } from '@weblancer-ui/prop-manager';
+import {
+  IPropManagerActions,
+  PropManager,
+  UpdateComponentPropAction,
+} from '@weblancer-ui/prop-manager';
 import { useSelector } from 'react-redux';
 import { allSides } from './helpers';
 import { ResizeHandler } from './resizeHandler';
@@ -19,6 +23,7 @@ import {
   LayoutManager,
 } from '@weblancer-ui/layout-manager';
 import classNames from 'classnames';
+import { EditorAction } from '@weblancer-ui/undo-manager';
 
 export const Resize = () => {
   const [resizing, setResizing] = useState(false);
@@ -80,6 +85,37 @@ export const Resize = () => {
     });
   };
 
+  const handleResizeStop = (
+    lastResizeData: ResizeData,
+    initialResizeData: ResizeData
+  ) => {
+    setResizing(false);
+
+    EditorAction.getActionInstance(UpdateComponentPropAction)
+      .prepare(
+        selectedItemId,
+        ComponentChildStyle,
+        {
+          style: {
+            width: lastResizeData.width,
+            height: lastResizeData.height,
+          },
+        },
+        {
+          style: {
+            width: initialResizeData.width,
+            height: initialResizeData.height,
+          },
+        }
+      )
+      .perform();
+
+    layoutManager.setPositionInParent(selectedItemId, {
+      x: lastResizeData.left,
+      y: lastResizeData.top,
+    });
+  };
+
   return (
     <>
       <div className={classNames(resizing && styles.interacting)}></div>
@@ -101,7 +137,7 @@ export const Resize = () => {
               itemRef={selectedItemRef}
               rootRef={rootRef}
               onResizingStart={() => setResizing(true)}
-              onResizingStop={() => setResizing(false)}
+              onResizingStop={handleResizeStop}
               onTransformChange={handleTransformChange}
             />
           );

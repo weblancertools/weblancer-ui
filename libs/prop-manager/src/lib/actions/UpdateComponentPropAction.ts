@@ -29,26 +29,28 @@ export class UpdateComponentPropAction extends EditorAction {
 
   private id!: string;
   private name!: string;
-  private value!: unknown;
+  private newValue!: unknown;
   private oldValue!: unknown;
-  prepare(id: string, name: string, value: unknown) {
+  prepare(id: string, name: string, newValue: unknown, oldValue?: unknown) {
     this.id = id;
     this.name = name;
-    this.value = value;
+    this.newValue = newValue;
     this.oldValue =
-      this.propManager.getComponent(id)?.props[name][
-        this.breakpointManager.getCurrentBreakpoint().id
-      ]?.value;
+      oldValue !== undefined
+        ? oldValue
+        : this.propManager.getComponent(id)?.props[name][
+            this.breakpointManager.getCurrentBreakpoint().id
+          ]?.value;
 
     return this;
   }
 
   public override execute(): void {
-    this.propManager.updateComponentProp(this.id, this.name, this.value);
+    this.propManager.deepAssignComponentProp(this.id, this.name, this.newValue);
   }
 
   public override undo(): void {
-    this.propManager.updateComponentProp(this.id, this.name, this.oldValue);
+    this.propManager.deepAssignComponentProp(this.id, this.name, this.oldValue);
   }
 }
 
