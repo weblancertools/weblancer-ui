@@ -32,6 +32,7 @@ export class SetPositionAction extends EditorAction {
   private data!: IPosition & {
     node?: HTMLElement | undefined;
   };
+  private oldPosition?: IPosition;
   private previewsData!: IPosition & {
     node?: HTMLElement | undefined;
   };
@@ -39,10 +40,13 @@ export class SetPositionAction extends EditorAction {
     itemId: string,
     data: IPosition & {
       node?: HTMLElement | undefined;
-    }
+    },
+    oldPosition?: IPosition
   ) {
     this.itemId = itemId;
     this.data = data;
+    this.oldPosition = oldPosition;
+
     return this;
   }
 
@@ -50,13 +54,21 @@ export class SetPositionAction extends EditorAction {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const itemRootDiv = this.adjustmentManager.getItemRootRef(this.itemId)
       .current!;
-    const itemRect = itemRootDiv.getBoundingClientRect();
 
-    this.previewsData = {
-      node: this.data.node,
-      x: itemRect.left,
-      y: itemRect.top,
-    };
+    if (!this.oldPosition) {
+      const itemRect = itemRootDiv.getBoundingClientRect();
+
+      this.previewsData = {
+        node: this.data.node,
+        x: itemRect.left,
+        y: itemRect.top,
+      };
+    } else {
+      this.previewsData = {
+        node: this.data.node,
+        ...this.oldPosition,
+      };
+    }
 
     this.layoutManager.setPositionInParent(this.itemId, this.data);
   }

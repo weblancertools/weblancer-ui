@@ -21,9 +21,10 @@ import {
 import {
   ILayoutManagerActions,
   LayoutManager,
+  SetPositionAction,
 } from '@weblancer-ui/layout-manager';
 import classNames from 'classnames';
-import { EditorAction } from '@weblancer-ui/undo-manager';
+import { BatchAction, EditorAction } from '@weblancer-ui/undo-manager';
 
 export const Resize = () => {
   const [resizing, setResizing] = useState(false);
@@ -67,7 +68,7 @@ export const Resize = () => {
   if (!itemRect || !selectedItemId) return null;
 
   const handleTransformChange = (resizeData: ResizeData) => {
-    // console.log(JSON.stringify(resizeData));
+    // No need to handle with undo manager nad actions while resizing
     propManager.deepAssignComponentProp<IChildComponentTransform>(
       selectedItemId,
       ComponentChildStyle,
@@ -91,29 +92,40 @@ export const Resize = () => {
   ) => {
     setResizing(false);
 
-    EditorAction.getActionInstance(UpdateComponentPropAction)
-      .prepare(
-        selectedItemId,
-        ComponentChildStyle,
-        {
-          style: {
-            width: lastResizeData.width,
-            height: lastResizeData.height,
-          },
+    const resizeAction = EditorAction.getActionInstance(
+      UpdateComponentPropAction
+    ).prepare(
+      selectedItemId,
+      ComponentChildStyle,
+      {
+        style: {
+          width: lastResizeData.width,
+          height: lastResizeData.height,
         },
-        {
-          style: {
-            width: initialResizeData.width,
-            height: initialResizeData.height,
-          },
-        }
-      )
-      .perform();
+      },
+      {
+        style: {
+          width: initialResizeData.width,
+          height: initialResizeData.height,
+        },
+      }
+    );
 
-    layoutManager.setPositionInParent(selectedItemId, {
-      x: lastResizeData.left,
-      y: lastResizeData.top,
-    });
+    const positionAction = EditorAction.getActionInstance(
+      SetPositionAction
+    ).prepare(
+      selectedItemId,
+      {
+        x: lastResizeData.left,
+        y: lastResizeData.top,
+      },
+      {
+        x: initialResizeData.left,
+        y: initialResizeData.top,
+      }
+    );
+
+    BatchAction.batchPerform([resizeAction, positionAction]);
   };
 
   return (
