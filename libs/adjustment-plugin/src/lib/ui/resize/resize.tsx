@@ -148,7 +148,7 @@ export const Resize = () => {
       >
         {allSides
           .filter((side) => {
-            return isRestrictedSide(
+            return !isRestrictedSide(
               side,
               componentData.metadata,
               parentComponentData.metadata

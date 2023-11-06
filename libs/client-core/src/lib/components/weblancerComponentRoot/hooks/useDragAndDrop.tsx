@@ -17,15 +17,7 @@ import {
   IDragManagerActions,
 } from '../../../managers/dragManager/dragManager';
 
-interface IUseDragAndDropOptions {
-  isDraggable?: boolean;
-}
-
-export const useDragAndDrop = (
-  itemId: string,
-  options: IUseDragAndDropOptions = {}
-) => {
-  const { isDraggable = true } = options;
+export const useDragAndDrop = (itemId: string) => {
   const { document } = useWeblancerClientContext();
 
   const adjustmentManager =
@@ -37,9 +29,7 @@ export const useDragAndDrop = (
     e: DraggableEvent,
     data: DraggableData
   ) => {
-    if (!isDraggable) return false;
-
-    dragManager.handleStart(e, data, itemId, document);
+    return dragManager.handleStart(e, data, itemId, document);
   };
 
   const handleDrag: DraggableEventHandler = (

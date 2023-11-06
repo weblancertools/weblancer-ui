@@ -68,10 +68,13 @@ export function isRestrictedSide(
   parentMetaData?: IComponentMetadata
 ) {
   if (metadata?.resize?.restrictedResizeSides) {
-    return metadata.resize.restrictedResizeSides.includes(side);
+    if (metadata.resize.restrictedResizeSides.includes(side)) return true;
   }
 
   if (parentMetaData?.resize?.childrenRestrictedResizeSides) {
-    return parentMetaData.resize.childrenRestrictedResizeSides.includes(side);
+    if (parentMetaData.resize.childrenRestrictedResizeSides.includes(side))
+      return true;
   }
+
+  return false;
 }

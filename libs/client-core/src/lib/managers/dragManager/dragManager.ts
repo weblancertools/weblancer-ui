@@ -19,7 +19,7 @@ export interface IDragManagerActions {
     data: DraggableData,
     itemId: string,
     document: Document
-  ): void;
+  ): void | false;
   handleDrag(e: DraggableEvent, data: DraggableData): void;
   handleStop(e: DraggableEvent, data: DraggableData): void;
 }
@@ -43,15 +43,14 @@ export class DragManager extends IManager implements IDragManagerActions {
   private itemRectAndPointerOffset!: IPosition;
   private parentId!: string;
   private itemId!: string;
-  private metadata!: IComponentMetadata;
+  private metadata?: IComponentMetadata;
 
   handleStart(
     e: DraggableEvent,
     data: DraggableData,
     itemId: string,
     document: Document
-  ): void {
-    this.adjustmentManager.setDraggingItemId(itemId);
+  ): void | false {
     e.stopPropagation();
 
     const componentData = this.propManager.getComponent(itemId);
@@ -62,6 +61,11 @@ export class DragManager extends IManager implements IDragManagerActions {
     this.itemId = itemId;
 
     this.metadata = componentData.metadata ?? {};
+
+    if (this.isRestrictedOnAxis('y') && this.isRestrictedOnAxis('y'))
+      return false;
+
+    this.adjustmentManager.setDraggingItemId(itemId);
 
     this.prepareNode(data.node, data, document);
   }
@@ -160,8 +164,9 @@ export class DragManager extends IManager implements IDragManagerActions {
   }
 
   private isRestrictedOnAxis(axis: 'x' | 'y') {
-    if (this.metadata.dragging?.restrictedMovementAxises) {
-      return this.metadata.dragging.restrictedMovementAxises.includes(axis);
+    if (this.metadata?.dragging?.restrictedMovementAxises) {
+      if (this.metadata.dragging.restrictedMovementAxises.includes(axis))
+        return true;
     }
 
     const parentMetaData = this.propManager.getComponent(
@@ -169,10 +174,13 @@ export class DragManager extends IManager implements IDragManagerActions {
     )?.metadata;
 
     if (parentMetaData?.dragging?.childrenRestrictedMovementAxises) {
-      return parentMetaData.dragging.childrenRestrictedMovementAxises.includes(
-        axis
-      );
+      if (
+        parentMetaData.dragging.childrenRestrictedMovementAxises.includes(axis)
+      )
+        return true;
     }
+
+    return false;
   }
 
   private getAbsoluteX(data: DraggableData) {
