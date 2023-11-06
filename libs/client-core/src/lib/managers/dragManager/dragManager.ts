@@ -3,6 +3,10 @@ import {
   IAdjustmentManagerActions,
 } from '@weblancer-ui/adjustment-manager';
 import {
+  ComponentManager,
+  IComponentManagerActions,
+} from '@weblancer-ui/component-manager';
+import {
   DropItemAction,
   SetPositionAction,
 } from '@weblancer-ui/layout-manager';
@@ -33,7 +37,9 @@ export class DragManager extends IManager implements IDragManagerActions {
     @inject(AdjustmentManager)
     private adjustmentManager: IAdjustmentManagerActions,
     @inject(PropManager)
-    private propManager: IPropManagerActions
+    private propManager: IPropManagerActions,
+    @inject(ComponentManager)
+    private componentManager: IComponentManagerActions
   ) {
     super();
   }
@@ -60,7 +66,7 @@ export class DragManager extends IManager implements IDragManagerActions {
     this.parentId = componentData?.parentId;
     this.itemId = itemId;
 
-    this.metadata = componentData.metadata ?? {};
+    this.metadata = this.componentManager.getMetadata(itemId) ?? {};
 
     if (this.isRestrictedOnAxis('y') && this.isRestrictedOnAxis('y'))
       return false;
@@ -169,9 +175,7 @@ export class DragManager extends IManager implements IDragManagerActions {
         return true;
     }
 
-    const parentMetaData = this.propManager.getComponent(
-      this.parentId
-    )?.metadata;
+    const parentMetaData = this.componentManager.getMetadata(this.parentId);
 
     if (parentMetaData?.dragging?.childrenRestrictedMovementAxises) {
       if (

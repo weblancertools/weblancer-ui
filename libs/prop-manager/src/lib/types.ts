@@ -1,9 +1,4 @@
-import {
-  IComponentMetadata,
-  IReduxSelector,
-  ITypeInfo,
-  ResizeSide,
-} from '@weblancer-ui/types';
+import { IReduxSelector, ITypeInfo } from '@weblancer-ui/types';
 import { PropManagerService } from './constants';
 import { ReactNode } from 'react';
 
@@ -63,7 +58,6 @@ export interface IComponentData {
   name?: string;
   parentId: string;
   componentKey: string;
-  metadata?: IComponentMetadata;
   props: Record<string, IBreakPointPropsData>;
   children?: string[];
 }

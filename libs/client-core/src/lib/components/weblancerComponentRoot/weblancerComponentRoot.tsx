@@ -4,10 +4,7 @@ import {
   useWeblancerClientContext,
   useWeblancerManager,
 } from '@weblancer-ui/editor-core';
-import {
-  IComponentData,
-  IWeblancerComponentProps,
-} from '@weblancer-ui/prop-manager';
+import { IWeblancerComponentProps } from '@weblancer-ui/prop-manager';
 import Draggable, { DraggableCore } from 'react-draggable';
 import { useDragAndDrop } from './hooks/useDragAndDrop';
 import { useMouseEventsHandler } from './hooks/useMouseEventsHandler';
@@ -19,15 +16,17 @@ import {
   IAdjustmentManagerActions,
   IChildComponentTransform,
 } from '@weblancer-ui/adjustment-manager';
+import {
+  ComponentManager,
+  IComponentManagerActions,
+} from '@weblancer-ui/component-manager';
 
 export interface IWeblancerComponentRootProps extends IWeblancerComponentProps {
   itemId: string;
-  componentData: IComponentData;
 }
 
 export const WeblancerComponentRoot = ({
   itemId,
-  componentData,
   defineProp,
   children,
 }: IWeblancerComponentRootProps) => {
@@ -36,12 +35,14 @@ export const WeblancerComponentRoot = ({
   const draggableRef = useRef<Draggable>(null);
   const adjustmentManager =
     useWeblancerManager<IAdjustmentManagerActions>(AdjustmentManager);
+  const componentManager =
+    useWeblancerManager<IComponentManagerActions>(ComponentManager);
 
   useEffect(() => {
     adjustmentManager.addItemRootRef(itemId, rootRef);
   }, [adjustmentManager, itemId]);
 
-  const isContainer = componentData.metadata?.isContainer;
+  const isContainer = componentManager.getMetadata(itemId)?.isContainer;
 
   const childComponentTransform = defineProp<IChildComponentTransform>({
     name: ComponentChildStyle,

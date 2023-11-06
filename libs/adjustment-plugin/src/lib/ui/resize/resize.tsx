@@ -26,6 +26,10 @@ import {
 } from '@weblancer-ui/layout-manager';
 import classNames from 'classnames';
 import { BatchAction, EditorAction } from '@weblancer-ui/undo-manager';
+import {
+  ComponentManager,
+  IComponentManagerActions,
+} from '@weblancer-ui/component-manager';
 
 export const Resize = () => {
   const [resizing, setResizing] = useState(false);
@@ -34,6 +38,8 @@ export const Resize = () => {
 
   const adjustmentManager =
     useWeblancerEditorManager<IAdjustmentManagerActions>(AdjustmentManager);
+  const componentManager =
+    useWeblancerEditorManager<IComponentManagerActions>(ComponentManager);
   const propManager =
     useWeblancerEditorManager<IPropManagerActions>(PropManager);
   const layoutManager =
@@ -48,10 +54,6 @@ export const Resize = () => {
 
   const componentData: IComponentData = useSelector(
     propManager.getComponentChangeSelector(selectedItemId ?? '')
-  );
-
-  const parentComponentData: IComponentData = useSelector(
-    propManager.getComponentChangeSelector(componentData.parentId)
   );
 
   const selectedItemRef = adjustmentManager.getItemRootRef(
@@ -150,8 +152,8 @@ export const Resize = () => {
           .filter((side) => {
             return !isRestrictedSide(
               side,
-              componentData.metadata,
-              parentComponentData.metadata
+              componentManager.getMetadata(selectedItemId),
+              componentManager.getMetadata(componentData.parentId)
             );
           })
           .map((side) => {

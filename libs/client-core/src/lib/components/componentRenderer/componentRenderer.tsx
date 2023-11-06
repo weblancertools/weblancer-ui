@@ -41,11 +41,7 @@ export const ComponentRenderer = ({ itemId }: IComponentRenderer) => {
   const children = Object.values(componentData.children ?? {});
 
   return (
-    <WeblancerComponentRoot
-      itemId={itemId}
-      componentData={componentData}
-      defineProp={defineProp}
-    >
+    <WeblancerComponentRoot itemId={itemId} defineProp={defineProp}>
       <Component defineProp={defineProp}>
         {children.length > 0 && (
           <ChildrenContainer

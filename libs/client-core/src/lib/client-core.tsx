@@ -8,7 +8,7 @@ import {
 import { ComponentRenderer } from './components/componentRenderer/componentRenderer';
 import { useSelector } from 'react-redux';
 import { memo, useEffect } from 'react';
-import { PropTypes, ResizeSide } from '@weblancer-ui/types';
+import { PropTypes } from '@weblancer-ui/types';
 
 export function ClientCoreComponent() {
   const propManager = useWeblancerManager<IPropManagerActions>(PropManager);
@@ -23,24 +23,6 @@ export function ClientCoreComponent() {
           id: 'page1',
           componentKey: 'weblancer-component-kit-page',
           parentId: 'none',
-          metadata: {
-            isContainer: true,
-            resize: {
-              restrictedResizeSides: [
-                ResizeSide.E,
-                ResizeSide.N,
-                ResizeSide.NE,
-                ResizeSide.NW,
-                ResizeSide.S,
-                ResizeSide.SE,
-                ResizeSide.SW,
-                ResizeSide.W,
-              ],
-            },
-            dragging: {
-              restrictedMovementAxises: ['x', 'y'],
-            },
-          },
           props: {
             text: {
               large: {
@@ -56,9 +38,6 @@ export function ClientCoreComponent() {
           id: 'text1',
           componentKey: 'weblancer-text',
           parentId: 'page1',
-          // metadata: {
-          //   restrictedMoveAxises: ['x'],
-          // },
           props: {
             text: {
               large: {
@@ -83,9 +62,6 @@ export function ClientCoreComponent() {
           id: 'text2',
           componentKey: 'weblancer-text',
           parentId: 'page1',
-          // metadata: {
-          //   restrictedMoveAxises: ['x'],
-          // },
           props: {
             text: {
               large: {

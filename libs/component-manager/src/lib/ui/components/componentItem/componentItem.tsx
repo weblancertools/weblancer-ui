@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import styles from './componentItem.module.scss';
-import { IComponentHolder } from '../../../types';
+import { IComponentHolder, IComponentManagerActions } from '../../../types';
 import {
   useWeblancerContext,
   useWeblancerEditorManager,
@@ -13,6 +13,7 @@ import {
   IAdjustmentManagerActions,
 } from '@weblancer-ui/adjustment-manager';
 import { IPropManagerActions, PropManager } from '@weblancer-ui/prop-manager';
+import { ComponentManager } from '../../../component-manager';
 
 interface IComponentItemProps {
   component: IComponentHolder;
@@ -26,14 +27,17 @@ export const ComponentItem = ({ component }: IComponentItemProps) => {
     useWeblancerEditorManager<IAdjustmentManagerActions>(AdjustmentManager);
   const propManager =
     useWeblancerEditorManager<IPropManagerActions>(PropManager);
+  const componentManager =
+    useWeblancerEditorManager<IComponentManagerActions>(ComponentManager);
 
   const handleClick = () => {
     const selectedItemId = adjustmentManager.getSelectedItemId();
-    const componentData = propManager.getComponent(selectedItemId ?? '');
 
-    const parentId = componentData?.metadata?.isContainer
-      ? componentData.id
-      : propManager.getPageData().id;
+    const parentId =
+      selectedItemId &&
+      componentManager.getMetadata(selectedItemId)?.isContainer
+        ? selectedItemId
+        : propManager.getPageData().id;
 
     const parentRootDiv = adjustmentManager.getItemRootRef(parentId).current;
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion

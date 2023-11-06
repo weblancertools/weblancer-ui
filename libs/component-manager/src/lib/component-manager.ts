@@ -23,6 +23,7 @@ import {
   generateRandomString,
   waitForComponentPropsDefined,
 } from '@weblancer-ui/utils';
+import { IComponentMetadata } from '@weblancer-ui/types';
 
 const componentMap: IComponentMap = {};
 
@@ -101,6 +102,14 @@ export class ComponentManager
 
   deleteItem(itemId: string): void {
     this.propManager.removeComponent(itemId);
+  }
+
+  getMetadata(itemId: string): IComponentMetadata | undefined {
+    const componentData = this.propManager.getComponent(itemId);
+
+    if (!componentData) return;
+
+    return componentMap[componentData.componentKey].metadata?.componentMetadata;
   }
 
   public static register(

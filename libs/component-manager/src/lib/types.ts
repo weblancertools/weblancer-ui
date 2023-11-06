@@ -1,3 +1,4 @@
+import { IComponentMetadata } from '@weblancer-ui/types';
 import { ComponentManagerService } from './constants';
 import {
   IComponentData,
@@ -25,6 +26,7 @@ export interface IComponentManagerActions {
     onItemCreated?: (itemId: string) => void
   ): void;
   deleteItem(itemId: string): void;
+  getMetadata(itemId: string): IComponentMetadata | undefined;
 }
 
 export interface IComponentMap {
@@ -43,7 +45,6 @@ export interface IComponentRegisterMetadata {
   label?: string;
   categories?: string | string[];
   groups?: string | string[];
-  defaultComponentData?: Partial<
-    Pick<IComponentData, 'props' | 'children' | 'metadata'>
-  >;
+  componentMetadata?: IComponentMetadata;
+  defaultComponentData?: Partial<Pick<IComponentData, 'props' | 'children'>>;
 }

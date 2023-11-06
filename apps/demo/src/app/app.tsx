@@ -25,6 +25,7 @@ import { UndoManager } from '@weblancer-ui/undo-manager';
 import { undoPlugin } from '@weblancer-ui/undo-plugin';
 import { extraAdjustmentPlugin } from '@weblancer-ui/adjustment-plugin';
 import { Container, Page, Text } from '@weblancer-ui/component-kit';
+import { ResizeSide } from '@weblancer-ui/types';
 
 export function App() {
   return (
@@ -60,11 +61,6 @@ ComponentManager.register('weblancer-text', WeblancerText, {
   groups: 'Texts',
   categories: 'Weblancer',
   label: 'Test-text',
-  // defaultComponentData: {
-  // metadata: {
-  //   restrictedMoveAxises: ['x'],
-  // },
-  // },
 });
 ComponentManager.register('weblancer-component-kit-text', Text, {
   groups: 'Texts',
@@ -75,19 +71,30 @@ ComponentManager.register('weblancer-component-kit-container', Container, {
   groups: 'Containers',
   categories: 'Weblancer',
   label: 'Container',
-  defaultComponentData: {
-    metadata: {
-      isContainer: true,
-    },
+  componentMetadata: {
+    isContainer: true,
   },
 });
 ComponentManager.register('weblancer-component-kit-page', Page, {
   groups: 'Containers',
   categories: 'Weblancer',
   label: 'Page',
-  defaultComponentData: {
-    metadata: {
-      isContainer: true,
+  componentMetadata: {
+    isContainer: true,
+    resize: {
+      restrictedResizeSides: [
+        ResizeSide.E,
+        ResizeSide.N,
+        ResizeSide.NE,
+        ResizeSide.NW,
+        ResizeSide.S,
+        ResizeSide.SE,
+        ResizeSide.SW,
+        ResizeSide.W,
+      ],
+    },
+    dragging: {
+      restrictedMovementAxises: ['x', 'y'],
     },
   },
 });
