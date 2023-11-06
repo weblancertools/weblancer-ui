@@ -60,6 +60,11 @@ ComponentManager.register('weblancer-text', WeblancerText, {
   groups: 'Texts',
   categories: 'Weblancer',
   label: 'Test-text',
+  // defaultComponentData: {
+  // metadata: {
+  //   restrictedMoveAxises: ['x'],
+  // },
+  // },
 });
 ComponentManager.register('weblancer-component-kit-text', Text, {
   groups: 'Texts',

@@ -41,6 +41,9 @@ export function ClientCoreComponent() {
           id: 'text1',
           componentKey: 'weblancer-text',
           parentId: 'page1',
+          // metadata: {
+          //   restrictedMoveAxises: ['x'],
+          // },
           props: {
             text: {
               large: {
@@ -65,6 +68,9 @@ export function ClientCoreComponent() {
           id: 'text2',
           componentKey: 'weblancer-text',
           parentId: 'page1',
+          // metadata: {
+          //   restrictedMoveAxises: ['x'],
+          // },
           props: {
             text: {
               large: {

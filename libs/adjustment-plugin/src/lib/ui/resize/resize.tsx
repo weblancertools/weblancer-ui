@@ -2,12 +2,13 @@ import { useWeblancerEditorManager } from '@weblancer-ui/editor-core';
 import styles from './resize.module.scss';
 import { useEffect, useRef, useState } from 'react';
 import {
+  IComponentData,
   IPropManagerActions,
   PropManager,
   UpdateComponentPropAction,
 } from '@weblancer-ui/prop-manager';
 import { useSelector } from 'react-redux';
-import { allSides } from './helpers';
+import { allSides, isRestrictedSide } from './helpers';
 import { ResizeHandler } from './resizeHandler';
 import { ResizeData } from './types';
 import {
@@ -45,8 +46,12 @@ export const Resize = () => {
     (state) => state[AdjustmentManagerService].draggingItemId
   );
 
-  const componentData = useSelector(
+  const componentData: IComponentData = useSelector(
     propManager.getComponentChangeSelector(selectedItemId ?? '')
+  );
+
+  const parentComponentData: IComponentData = useSelector(
+    propManager.getComponentChangeSelector(componentData.parentId)
   );
 
   const selectedItemRef = adjustmentManager.getItemRootRef(
@@ -141,19 +146,27 @@ export const Resize = () => {
           top: itemRect.top,
         }}
       >
-        {allSides.map((side) => {
-          return (
-            <ResizeHandler
-              key={side}
-              side={side}
-              itemRef={selectedItemRef}
-              rootRef={rootRef}
-              onResizingStart={() => setResizing(true)}
-              onResizingStop={handleResizeStop}
-              onTransformChange={handleTransformChange}
-            />
-          );
-        })}
+        {allSides
+          .filter((side) => {
+            return isRestrictedSide(
+              side,
+              componentData.metadata,
+              parentComponentData.metadata
+            );
+          })
+          .map((side) => {
+            return (
+              <ResizeHandler
+                key={side}
+                side={side}
+                itemRef={selectedItemRef}
+                rootRef={rootRef}
+                onResizingStart={() => setResizing(true)}
+                onResizingStop={handleResizeStop}
+                onTransformChange={handleTransformChange}
+              />
+            );
+          })}
       </div>
     </>
   );

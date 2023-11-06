@@ -1,4 +1,4 @@
-import { ResizeSide } from '@weblancer-ui/types';
+import { IComponentMetadata, ResizeSide } from '@weblancer-ui/types';
 import { IDelta, ITransform, ResizeData } from './types';
 
 export function getResizeData(
@@ -61,3 +61,17 @@ export const allSides = [
   ResizeSide.SW,
   ResizeSide.W,
 ];
+
+export function isRestrictedSide(
+  side: ResizeSide,
+  metadata?: IComponentMetadata,
+  parentMetaData?: IComponentMetadata
+) {
+  if (metadata?.resize?.restrictedResizeSides) {
+    return metadata.resize.restrictedResizeSides.includes(side);
+  }
+
+  if (parentMetaData?.resize?.childrenRestrictedResizeSides) {
+    return parentMetaData.resize.childrenRestrictedResizeSides.includes(side);
+  }
+}

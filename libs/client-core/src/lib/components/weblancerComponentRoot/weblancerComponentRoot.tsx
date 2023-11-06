@@ -42,7 +42,6 @@ export const WeblancerComponentRoot = ({
   }, [adjustmentManager, itemId]);
 
   const isContainer = componentData.metadata?.isContainer;
-  const parentId = componentData.parentId;
 
   const childComponentTransform = defineProp<IChildComponentTransform>({
     name: ComponentChildStyle,
@@ -51,9 +50,7 @@ export const WeblancerComponentRoot = ({
     },
   });
 
-  const { draggableProps } = useDragAndDrop(itemId, parentId, {
-    childComponentTransform,
-  });
+  const { draggableProps } = useDragAndDrop(itemId);
 
   const { mouseEventProps } = useMouseEventsHandler(itemId, {
     isContainer,
