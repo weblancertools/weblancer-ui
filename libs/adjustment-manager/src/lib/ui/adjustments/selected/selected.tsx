@@ -8,7 +8,6 @@ import { AdjustmentManager } from '../../../adjustment-manager';
 import styles from './selected.module.scss';
 import { useEffect, useState } from 'react';
 import { IPropManagerActions, PropManager } from '@weblancer-ui/prop-manager';
-import { ComponentChildStyle } from '../../../constants';
 import { useSelector } from 'react-redux';
 
 export const Selected = () => {
@@ -34,7 +33,6 @@ export const Selected = () => {
 
   const [itemRect, setItemRect] = useState<DOMRect>();
 
-  console.log('selectedItemId', selectedItemId);
   useEffect(() => {
     if (!selectedItemId || !selectedItemRef || draggingItemId) {
       setItemRect(undefined);
