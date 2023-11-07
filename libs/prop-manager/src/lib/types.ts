@@ -69,7 +69,7 @@ export interface IBreakPointPropsData<TPropType = unknown> {
 export interface IPropData<TPropType = unknown> {
   name: string;
   value?: TPropType;
-  typeInfo: ITypeInfo;
+  typeInfo?: ITypeInfo;
 }
 
 export interface IDefaultPropData<TPropType = unknown> {

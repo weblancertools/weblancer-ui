@@ -16,6 +16,9 @@ export const InspectorView = ({ itemId, propName }: IInspectorViewProps) => {
     useWeblancerEditorManager<IPropManagerActions>(PropManager);
 
   const propData = propManager.getComponentProp(itemId, propName);
+
+  if (!propData.typeInfo) return null;
+
   const inspectorData = inspectorManager.getInspector(
     propData.typeInfo.typeName
   );

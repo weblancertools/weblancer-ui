@@ -102,6 +102,15 @@ export class DragManager extends IManager implements IDragManagerActions {
     this.clonedNode.style.top = `${this.itemRect.top}px`;
     this.clonedNode.style.margin = `unset`;
     this.clonedNode.style.pointerEvents = `none`;
+
+    const borderDiv = document.createElement('div');
+
+    // Set the styles for the new div
+    borderDiv.style.position = 'absolute';
+    borderDiv.style.inset = '0px';
+    borderDiv.style.border = '1px solid blue';
+
+    this.clonedNode.appendChild(borderDiv);
   }
 
   handleDrag(e: DraggableEvent, data: DraggableData): void {

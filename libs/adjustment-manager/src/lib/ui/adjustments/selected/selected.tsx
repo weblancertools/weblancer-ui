@@ -34,6 +34,7 @@ export const Selected = () => {
 
   const [itemRect, setItemRect] = useState<DOMRect>();
 
+  console.log('selectedItemId', selectedItemId);
   useEffect(() => {
     if (!selectedItemId || !selectedItemRef || draggingItemId) {
       setItemRect(undefined);

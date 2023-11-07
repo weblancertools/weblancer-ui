@@ -1,13 +1,29 @@
 import { IWeblancerComponentProps } from '@weblancer-ui/prop-manager';
 import { Container as BaseContainer } from '../../components/Container/Container';
 import { ComponentManager } from '@weblancer-ui/component-manager';
-import { ResizeSide } from '@weblancer-ui/types';
+import { IContainerProps, ResizeSide } from '@weblancer-ui/types';
+import styles from './HorizontalSection.module.scss';
+import classNames from 'classnames';
 
 export const HorizontalSection = ({
   defineProp,
   children,
-}: IWeblancerComponentProps) => {
-  return <BaseContainer>{children}</BaseContainer>;
+  rootProps,
+  onMouseDown,
+  onMouseUp,
+  onTouchEnd,
+}: IWeblancerComponentProps & IContainerProps) => {
+  return (
+    <div
+      {...rootProps}
+      onMouseDown={onMouseDown}
+      onMouseUp={onMouseUp}
+      onTouchEnd={onTouchEnd}
+      className={classNames(styles.root, rootProps?.className)}
+    >
+      <BaseContainer>{children}</BaseContainer>
+    </div>
+  );
 };
 
 ComponentManager.register(

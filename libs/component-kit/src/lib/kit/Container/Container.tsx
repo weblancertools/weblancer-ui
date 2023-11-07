@@ -2,6 +2,7 @@ import { IWeblancerComponentProps } from '@weblancer-ui/prop-manager';
 import { Container as BaseContainer } from '../../components/Container/Container';
 import { ComponentManager } from '@weblancer-ui/component-manager';
 import { IContainerProps } from '@weblancer-ui/types';
+import { ComponentChildStyle } from '@weblancer-ui/adjustment-manager';
 
 export const Container = ({
   defineProp,
@@ -11,12 +12,17 @@ export const Container = ({
   onMouseUp,
   onTouchEnd,
 }: IWeblancerComponentProps & IContainerProps) => {
+  const { className, style: rootStyle, ...restRootProps } = rootProps ?? {};
   return (
     <div
-      {...rootProps}
+      {...restRootProps}
       onMouseDown={onMouseDown}
       onMouseUp={onMouseUp}
       onTouchEnd={onTouchEnd}
+      className={className}
+      style={{
+        ...rootStyle,
+      }}
     >
       <BaseContainer>{children}</BaseContainer>
     </div>
@@ -29,5 +35,20 @@ ComponentManager.register('weblancer-component-kit-container', Container, {
   label: 'Container',
   componentMetadata: {
     isContainer: true,
+  },
+  defaultComponentData: {
+    props: {
+      [ComponentChildStyle]: {
+        large: {
+          name: ComponentChildStyle,
+          value: {
+            style: {
+              width: 100,
+              height: 100,
+            },
+          },
+        },
+      },
+    },
   },
 });

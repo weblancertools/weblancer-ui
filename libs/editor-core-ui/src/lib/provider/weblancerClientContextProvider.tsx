@@ -3,6 +3,10 @@ import { ReactNode, useCallback, useMemo } from 'react';
 import { weblancerRegistry } from '@weblancer-ui/manager-registry';
 import { useFrame } from 'react-frame-component';
 import { WeblancerClientContext } from '@weblancer-ui/editor-core';
+import {
+  ILayoutManagerActions,
+  LayoutManager,
+} from '@weblancer-ui/layout-manager';
 
 export interface IWeblancerContextClientProviderProps {
   children?: ReactNode;
@@ -15,6 +19,8 @@ export const WeblancerContextClientProvider: React.FC<
     return weblancerRegistry.getManagerInstance<TType>(_class);
   }, []);
   const { document: iFrameDocument, window: iFrameWindow } = useFrame();
+  const layoutManager =
+    weblancerRegistry.getManagerInstance<ILayoutManagerActions>(LayoutManager);
 
   const value = useMemo(
     () => ({
@@ -24,6 +30,8 @@ export const WeblancerContextClientProvider: React.FC<
     }),
     [getManager, iFrameDocument, iFrameWindow]
   );
+
+  layoutManager.setClientDocument(iFrameDocument);
 
   return (
     <WeblancerClientContext.Provider value={value}>

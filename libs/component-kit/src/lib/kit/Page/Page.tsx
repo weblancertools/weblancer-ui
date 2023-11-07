@@ -3,6 +3,7 @@ import { Page as BasePage } from '../../components/Page/Page';
 import { ComponentManager } from '@weblancer-ui/component-manager';
 import { IContainerProps, ResizeSide } from '@weblancer-ui/types';
 import styles from './Page.module.scss';
+import classNames from 'classnames';
 
 export const Page = ({
   defineProp,
@@ -12,13 +13,17 @@ export const Page = ({
   onMouseUp,
   onTouchEnd,
 }: IWeblancerComponentProps & IContainerProps) => {
+  const { className, style: rootStyle, ...restRootProps } = rootProps ?? {};
   return (
     <div
-      {...rootProps}
+      {...restRootProps}
       onMouseDown={onMouseDown}
       onMouseUp={onMouseUp}
       onTouchEnd={onTouchEnd}
-      className={styles.root}
+      className={classNames(className, styles.root)}
+      style={{
+        ...rootStyle,
+      }}
     >
       <BasePage>{children}</BasePage>
     </div>
@@ -42,18 +47,9 @@ ComponentManager.register('weblancer-component-kit-page', Page, {
         ResizeSide.SW,
         ResizeSide.W,
       ],
-      // childrenRestrictedResizeSides: [
-      //   ResizeSide.E,
-      //   ResizeSide.N,
-      //   ResizeSide.NE,
-      //   ResizeSide.NW,
-      //   ResizeSide.SE,
-      //   ResizeSide.SW,
-      // ],
     },
     dragging: {
       restrictedMovementAxises: ['x', 'y'],
-      // childrenRestrictedMovementAxises: ['x', 'y'],
     },
   },
 });

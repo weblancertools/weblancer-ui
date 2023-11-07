@@ -7,6 +7,10 @@ import { inject } from 'inversify';
 import { IComponentManagerActions } from '../types';
 import { ComponentManager } from '../component-manager';
 import { IPosition } from '@weblancer-ui/types';
+import {
+  AdjustmentManager,
+  IAdjustmentManagerActions,
+} from '@weblancer-ui/adjustment-manager';
 
 export class CreateItemAction extends EditorAction {
   public subject = 'Create Item';
@@ -17,7 +21,9 @@ export class CreateItemAction extends EditorAction {
 
   constructor(
     @inject(UndoManager) public override undoManager: IUndoManagerActions,
-    @inject(ComponentManager) public componentManager: IComponentManagerActions
+    @inject(ComponentManager) public componentManager: IComponentManagerActions,
+    @inject(AdjustmentManager)
+    public adjustmentManager: IAdjustmentManagerActions
   ) {
     super(undoManager);
   }
@@ -26,6 +32,7 @@ export class CreateItemAction extends EditorAction {
   private parentId!: string;
   private position!: IPosition;
   private itemId!: string;
+  private oldSelectedItemId?: string | null;
   prepare(componentKey: string, parentId: string, position: IPosition) {
     this.componentKey = componentKey;
     this.parentId = parentId;
@@ -34,6 +41,7 @@ export class CreateItemAction extends EditorAction {
   }
 
   public override execute(): void {
+    this.oldSelectedItemId = this.adjustmentManager.getSelectedItemId();
     this.componentManager.createItem(
       this.componentKey,
       this.parentId,
@@ -41,12 +49,14 @@ export class CreateItemAction extends EditorAction {
       this.itemId,
       (itemId) => {
         this.itemId = itemId;
+        this.adjustmentManager.setSelectedItemId(itemId);
       }
     );
   }
 
   public override undo(): void {
     this.componentManager.deleteItem(this.itemId);
+    this.adjustmentManager.setSelectedItemId(this.oldSelectedItemId ?? null);
   }
 }
 

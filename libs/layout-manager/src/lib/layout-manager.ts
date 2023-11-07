@@ -18,6 +18,7 @@ import {
 @injectable()
 export class LayoutManager extends IManager implements ILayoutManagerActions {
   public name = LayoutManagerService;
+  private document?: Document;
 
   constructor(
     @inject(PropManager) private propManager: IPropManagerActions,
@@ -25,6 +26,14 @@ export class LayoutManager extends IManager implements ILayoutManagerActions {
     private adjustmentManager: IAdjustmentManagerActions
   ) {
     super();
+  }
+
+  setClientDocument(document?: Document): void {
+    this.document = document;
+  }
+
+  getClientDocument(): Document {
+    return this.document!;
   }
 
   getLayout(): Omit<IComponentData, 'parentId'> {

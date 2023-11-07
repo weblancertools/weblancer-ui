@@ -28,4 +28,6 @@ export interface ILayoutManagerActions {
     itemId: string,
     data: IPosition & { node?: HTMLElement }
   ): void;
+  setClientDocument(document?: Document): void;
+  getClientDocument(): Document;
 }

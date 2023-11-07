@@ -86,17 +86,21 @@ export class ComponentManager
 
     const newComponentId = forceItemId ?? this.getRandomId();
 
+    waitForComponentPropsDefined(
+      newComponentId,
+      this.layoutManager.getClientDocument(),
+      () => {
+        this.layoutManager.setPositionInParent(newComponentId, position);
+        onItemCreated?.(newComponentId);
+      }
+    );
+
     this.propManager.addComponent({
       id: newComponentId,
       parentId,
       componentKey,
       props: {},
       ...componentHolder.metadata?.defaultComponentData,
-    });
-
-    waitForComponentPropsDefined(this.storeManager.store, () => {
-      this.layoutManager.setPositionInParent(newComponentId, position);
-      onItemCreated?.(newComponentId);
     });
   }
 
