@@ -81,7 +81,7 @@ export const WeblancerComponentRoot = ({
       </DraggableCore>
     );
   } else {
-    const child =
+    const _children =
       React.Children.map(children, (child) => {
         if (React.isValidElement(child)) {
           return React.cloneElement(child, {
@@ -98,7 +98,7 @@ export const WeblancerComponentRoot = ({
         offsetParent={document?.body}
         {...draggableProps}
       >
-        {child[0]}
+        {_children[0]}
       </DraggableCore>
     );
   }

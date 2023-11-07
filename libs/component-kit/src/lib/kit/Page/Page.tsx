@@ -1,11 +1,20 @@
-import { IWeblancerComponentProps } from '@weblancer-ui/prop-manager';
+import {
+  IPropManagerActions,
+  IWeblancerComponentProps,
+  PropManager,
+} from '@weblancer-ui/prop-manager';
 import { Page as BasePage } from '../../components/Page/Page';
 import { ComponentManager } from '@weblancer-ui/component-manager';
-import { IContainerProps, ResizeSide } from '@weblancer-ui/types';
+import { IContainerProps, PropTypes, ResizeSide } from '@weblancer-ui/types';
 import styles from './Page.module.scss';
 import classNames from 'classnames';
+import React, { useEffect } from 'react';
+import { ISectionData, ISectionProps } from './types';
+import { reArrangeSections } from './helpers';
+import { useWeblancerManager } from '@weblancer-ui/editor-core';
 
 export const Page = ({
+  itemId,
   defineProp,
   children,
   rootProps,
@@ -14,6 +23,53 @@ export const Page = ({
   onTouchEnd,
 }: IWeblancerComponentProps & IContainerProps) => {
   const { className, style: rootStyle, ...restRootProps } = rootProps ?? {};
+
+  const propManager = useWeblancerManager<IPropManagerActions>(PropManager);
+
+  const sectionsData = defineProp<Record<string, ISectionData>>({
+    name: 'sections',
+    typeInfo: {
+      typeName: PropTypes.None,
+      defaultValue: {},
+    },
+  });
+
+  const childrenCount = React.Children.count(children);
+
+  const handleChildrenCountChange = () => {
+    const reArrangedSectionsData = reArrangeSections(children, sectionsData);
+    propManager.updateComponentProp(itemId, 'sections', reArrangedSectionsData);
+  };
+
+  useEffect(() => {
+    handleChildrenCountChange();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [childrenCount]);
+
+  const handleSectionUp = () => {
+    // TODO
+  };
+
+  const handleSectionDown = () => {
+    // TODO
+  };
+
+  const modifiedChildren = React.Children.map(children, (child) => {
+    if (React.isValidElement(child)) {
+      const sectionProps: ISectionProps = {
+        handleSectionDown,
+        handleSectionUp,
+        sectionData: sectionsData[child.key as string],
+      };
+
+      return React.cloneElement(child, {
+        ...child.props,
+        ...sectionProps,
+      });
+    }
+    return child;
+  });
+
   return (
     <div
       {...restRootProps}
@@ -25,7 +81,7 @@ export const Page = ({
         ...rootStyle,
       }}
     >
-      <BasePage>{children}</BasePage>
+      <BasePage>{modifiedChildren}</BasePage>
     </div>
   );
 };

@@ -78,6 +78,7 @@ export interface IDefaultPropData<TPropType = unknown> {
 }
 
 export interface IWeblancerComponentProps {
+  itemId: string;
   defineProp<TPropType = unknown>(
     propData: IDefaultPropData<TPropType>
   ): TPropType;

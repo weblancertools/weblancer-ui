@@ -1,4 +1,5 @@
 export enum PropTypes {
+  None = 'None',
   String = 'String',
   RichText = 'RichText',
   Number = 'Number',

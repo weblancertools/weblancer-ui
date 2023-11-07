@@ -41,7 +41,11 @@ export interface IComponentHolder {
 
 export type WeblancerComponent =
   | React.ComponentType<IWeblancerComponentProps>
-  | React.ComponentType<IWeblancerComponentProps & IContainerProps>;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  | React.ComponentType<IWeblancerComponentProps & any>
+  | React.ComponentType<IWeblancerComponentProps & IContainerProps>
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  | React.ComponentType<IWeblancerComponentProps & IContainerProps & any>;
 
 export interface IComponentRegisterMetadata {
   label?: string;

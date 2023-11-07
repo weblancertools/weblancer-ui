@@ -86,6 +86,14 @@ export class ComponentManager
 
     const newComponentId = forceItemId ?? this.getRandomId();
 
+    this.propManager.addComponent({
+      id: newComponentId,
+      parentId,
+      componentKey,
+      props: {},
+      ...componentHolder.metadata?.defaultComponentData,
+    });
+
     waitForComponentPropsDefined(
       newComponentId,
       this.layoutManager.getClientDocument(),
@@ -94,14 +102,6 @@ export class ComponentManager
         onItemCreated?.(newComponentId);
       }
     );
-
-    this.propManager.addComponent({
-      id: newComponentId,
-      parentId,
-      componentKey,
-      props: {},
-      ...componentHolder.metadata?.defaultComponentData,
-    });
   }
 
   deleteItem(itemId: string): void {
