@@ -5,13 +5,7 @@ import {
   IStoreManagerActions,
   StoreManager,
 } from '@weblancer-ui/store-manager';
-import {
-  IComponentData,
-  IDefaultPropData,
-  IPropData,
-  IPropManagerActions,
-  IStoreRootState,
-} from './types';
+import { IPropManagerActions, IStoreRootState } from './types';
 import propSlice, {
   addComponent,
   deepAssignComponentProp,
@@ -27,7 +21,12 @@ import {
   IBreakpointManagerActions,
 } from '@weblancer-ui/breakpoint-manager';
 import { getFirstUpperBreakpointOverrideInComponentData } from './helpers';
-import { IReduxSelector } from '@weblancer-ui/types';
+import {
+  IComponentData,
+  IDefaultPropData,
+  IPropData,
+  IReduxSelector,
+} from '@weblancer-ui/types';
 import { createDraftSafeSelector } from '@reduxjs/toolkit';
 import { shallowEqual } from 'react-redux';
 

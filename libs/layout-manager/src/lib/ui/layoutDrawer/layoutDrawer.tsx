@@ -7,11 +7,7 @@ import {
   TreeItemProps,
   useTreeItem,
 } from '@mui/x-tree-view';
-import {
-  IComponentData,
-  IPropManagerActions,
-  PropManager,
-} from '@weblancer-ui/prop-manager';
+import { IPropManagerActions, PropManager } from '@weblancer-ui/prop-manager';
 import {
   AdjustmentManager,
   IAdjustmentManagerActions,
@@ -19,7 +15,7 @@ import {
 import { forwardRef } from 'react';
 import classNames from 'classnames';
 import { useSelector } from 'react-redux';
-import { IEditorDrawerProps } from '@weblancer-ui/types';
+import { IComponentData, IEditorDrawerProps } from '@weblancer-ui/types';
 
 export const LayoutDrawer = ({ onClose }: IEditorDrawerProps) => {
   const propManager =

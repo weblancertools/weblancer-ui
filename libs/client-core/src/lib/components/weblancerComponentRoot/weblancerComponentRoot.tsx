@@ -4,11 +4,13 @@ import {
   useWeblancerClientContext,
   useWeblancerManager,
 } from '@weblancer-ui/editor-core';
-import { IWeblancerComponentProps } from '@weblancer-ui/prop-manager';
 import Draggable, { DraggableCore } from 'react-draggable';
 import { useDragAndDrop } from './hooks/useDragAndDrop';
 import { useMouseEventsHandler } from './hooks/useMouseEventsHandler';
-import { WeblancerComponentIdAttributeName } from '@weblancer-ui/types';
+import {
+  IWeblancerComponentProps,
+  WeblancerComponentIdAttributeName,
+} from '@weblancer-ui/types';
 import classNames from 'classnames';
 import {
   AdjustmentManager,

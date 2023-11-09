@@ -1,12 +1,13 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { IComponentData, IDefaultPropData, IPropManagerSlice } from '../types';
+import { IPropManagerSlice } from '../types';
 import { PropManagerService } from '../constants';
 import {
   removeComponentsRecursively,
   updateComponentDataBasedOnBreakpoints,
 } from '../helpers';
 import { IBreakpoint } from '@weblancer-ui/breakpoint-manager';
+import { IComponentData, IDefaultPropData } from '@weblancer-ui/types';
 
 const initialState: IPropManagerSlice = {
   componentMap: {},

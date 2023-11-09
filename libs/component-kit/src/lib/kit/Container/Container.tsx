@@ -1,7 +1,6 @@
-import { IWeblancerComponentProps } from '@weblancer-ui/prop-manager';
 import { Container as BaseContainer } from '../../components/Container/Container';
 import { ComponentManager } from '@weblancer-ui/component-manager';
-import { IContainerProps } from '@weblancer-ui/types';
+import { IContainerProps, IWeblancerComponentProps } from '@weblancer-ui/types';
 import { ComponentChildStyle } from '@weblancer-ui/adjustment-manager';
 
 export const Container = ({

@@ -1,9 +1,10 @@
-import { IComponentMetadata, IContainerProps } from '@weblancer-ui/types';
-import { ComponentManagerService } from './constants';
 import {
   IComponentData,
+  IComponentMetadata,
+  IContainerProps,
   IWeblancerComponentProps,
-} from '@weblancer-ui/prop-manager';
+} from '@weblancer-ui/types';
+import { ComponentManagerService } from './constants';
 
 export interface IStoreRootState {
   [ComponentManagerService]: IComponentManagerSlice;

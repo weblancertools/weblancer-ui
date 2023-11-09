@@ -3,15 +3,11 @@ import {
   IComponentManagerActions,
 } from '@weblancer-ui/component-manager';
 import { useWeblancerManager } from '@weblancer-ui/editor-core';
-import {
-  IComponentData,
-  IDefaultPropData,
-  IPropManagerActions,
-  PropManager,
-} from '@weblancer-ui/prop-manager';
+import { IPropManagerActions, PropManager } from '@weblancer-ui/prop-manager';
 import { useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import { WeblancerComponentRoot } from '../weblancerComponentRoot/weblancerComponentRoot';
+import { IComponentData, IDefaultPropData } from '@weblancer-ui/types';
 
 export interface IComponentRenderer {
   itemId: string;

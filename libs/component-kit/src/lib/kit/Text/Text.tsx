@@ -1,6 +1,5 @@
-import { IWeblancerComponentProps } from '@weblancer-ui/prop-manager';
 import { Text as BaseText } from '../../components/Text/Text';
-import { PropTypes } from '@weblancer-ui/types';
+import { IWeblancerComponentProps, PropTypes } from '@weblancer-ui/types';
 import { ComponentManager } from '@weblancer-ui/component-manager';
 
 export const Text = ({ defineProp }: IWeblancerComponentProps) => {

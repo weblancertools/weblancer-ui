@@ -2,7 +2,6 @@ import { useWeblancerEditorManager } from '@weblancer-ui/editor-core';
 import styles from './resize.module.scss';
 import { useEffect, useRef, useState } from 'react';
 import {
-  IComponentData,
   IPropManagerActions,
   PropManager,
   UpdateComponentPropAction,
@@ -30,6 +29,7 @@ import {
   ComponentManager,
   IComponentManagerActions,
 } from '@weblancer-ui/component-manager';
+import { IComponentData } from '@weblancer-ui/types';
 
 export const Resize = () => {
   const [resizing, setResizing] = useState(false);

@@ -6,7 +6,8 @@ import {
 } from '@weblancer-ui/undo-manager';
 import { inject } from 'inversify';
 import { PropManager } from '../prop-manager';
-import { IComponentData, IPropManagerActions } from '../types';
+import { IPropManagerActions } from '../types';
+import { IComponentData } from '@weblancer-ui/types';
 
 export class RemoveComponentAction extends EditorAction {
   public subject = 'Remove Component';

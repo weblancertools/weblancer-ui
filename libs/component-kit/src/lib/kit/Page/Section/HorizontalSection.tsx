@@ -1,7 +1,10 @@
-import { IWeblancerComponentProps } from '@weblancer-ui/prop-manager';
 import { Container as BaseContainer } from '../../../components/Container/Container';
 import { ComponentManager } from '@weblancer-ui/component-manager';
-import { IContainerProps, ResizeSide } from '@weblancer-ui/types';
+import {
+  IContainerProps,
+  IWeblancerComponentProps,
+  ResizeSide,
+} from '@weblancer-ui/types';
 import styles from './HorizontalSection.module.scss';
 import classNames from 'classnames';
 import { ISectionProps } from '../types';

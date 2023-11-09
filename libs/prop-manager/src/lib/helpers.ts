@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { IBreakpoint } from '@weblancer-ui/breakpoint-manager';
-import { IComponentData } from './types';
 import { cloneDeep } from 'lodash';
-import { deepAssign } from '@weblancer-ui/utils';
+import { IFrameId, deepAssign } from '@weblancer-ui/utils';
+import { IComponentData } from '@weblancer-ui/types';
 
 export const removeComponentsRecursively = (
   id: string,
@@ -80,3 +80,8 @@ export function getFirstUpperBreakpointOverrideInComponentData(
 
   return currentBreakpointId;
 }
+
+export const getClientIFrameDocument = () => {
+  const frameObj = document.getElementById(IFrameId) as HTMLIFrameElement;
+  return frameObj.contentWindow!.document;
+};

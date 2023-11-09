@@ -2,9 +2,9 @@ import { useWeblancerContext } from '@weblancer-ui/editor-core';
 import styles from './adjustmentRenderer.module.scss';
 import { Fragment } from 'react';
 import { useEffect } from 'react';
-import { IFrameId } from '../../layouts/clientView/clientIFrame/constants';
 import { useState } from 'react';
 import { useBreakpointManagerSelector } from '@weblancer-ui/breakpoint-manager';
+import { IFrameId } from '@weblancer-ui/utils';
 
 export const AdjustmentRenderer = () => {
   const [iframeRect, setIframeRect] = useState<DOMRect>();

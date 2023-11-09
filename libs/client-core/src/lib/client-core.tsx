@@ -1,14 +1,10 @@
 import styles from './client-core.module.scss';
 import { useWeblancerManager } from '@weblancer-ui/editor-core';
-import {
-  IComponentData,
-  IPropManagerActions,
-  PropManager,
-} from '@weblancer-ui/prop-manager';
+import { IPropManagerActions, PropManager } from '@weblancer-ui/prop-manager';
 import { ComponentRenderer } from './components/componentRenderer/componentRenderer';
 import { useSelector } from 'react-redux';
 import { memo, useEffect } from 'react';
-import { PropTypes } from '@weblancer-ui/types';
+import { IComponentData, PropTypes } from '@weblancer-ui/types';
 
 export function ClientCoreComponent() {
   const propManager = useWeblancerManager<IPropManagerActions>(PropManager);

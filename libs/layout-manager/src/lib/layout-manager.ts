@@ -1,13 +1,9 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { IManager, IPosition } from '@weblancer-ui/types';
+import { IComponentData, IManager, IPosition } from '@weblancer-ui/types';
 import { inject, injectable } from 'inversify';
 import { ILayoutManagerActions, LayoutManagerService } from './types';
 import { weblancerRegistry } from '@weblancer-ui/manager-registry';
-import {
-  IComponentData,
-  IPropManagerActions,
-  PropManager,
-} from '@weblancer-ui/prop-manager';
+import { IPropManagerActions, PropManager } from '@weblancer-ui/prop-manager';
 import {
   AdjustmentManager,
   ComponentChildStyle,
