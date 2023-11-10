@@ -25,7 +25,7 @@ export interface IComponentManagerActions {
     position: { x: number; y: number },
     forceItemId?: string,
     onItemCreated?: (itemId: string) => void
-  ): void;
+  ): string;
   deleteItem(itemId: string): void;
   getMetadata(itemId: string): IComponentMetadata | undefined;
 }

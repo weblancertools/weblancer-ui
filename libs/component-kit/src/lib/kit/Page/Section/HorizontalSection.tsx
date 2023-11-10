@@ -8,6 +8,7 @@ import {
 import styles from './HorizontalSection.module.scss';
 import classNames from 'classnames';
 import { ISectionProps } from '../types';
+import { SectionComponentKey } from '../constants';
 
 export const HorizontalSection = ({
   defineProp,
@@ -17,8 +18,7 @@ export const HorizontalSection = ({
   onMouseUp,
   onTouchEnd,
   sectionData,
-  handleSectionUp,
-  handleSectionDown,
+  moveSection,
 }: IWeblancerComponentProps & IContainerProps & ISectionProps) => {
   const { className, style: rootStyle, ...restRootProps } = rootProps ?? {};
 
@@ -32,6 +32,10 @@ export const HorizontalSection = ({
       className={classNames(styles.root, className)}
       style={{
         ...rootStyle,
+        gridRowStart: sectionData.gridArea.rowStart,
+        gridRowEnd: sectionData.gridArea.rowEnd,
+        gridColumnStart: sectionData.gridArea.columnStart,
+        gridColumnEnd: sectionData.gridArea.columnEnd,
       }}
     >
       <BaseContainer>{children}</BaseContainer>
@@ -39,8 +43,7 @@ export const HorizontalSection = ({
   );
 };
 
-const ComponentKey = 'weblancer-component-kit-horizontal-section';
-ComponentManager.register(ComponentKey, HorizontalSection, {
+ComponentManager.register(SectionComponentKey, HorizontalSection, {
   groups: 'Section',
   categories: 'Weblancer',
   label: 'Horizontal Section',

@@ -102,6 +102,8 @@ export class ComponentManager
         onItemCreated?.(newComponentId);
       }
     );
+
+    return newComponentId;
   }
 
   deleteItem(itemId: string): void {

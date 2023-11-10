@@ -9,9 +9,10 @@ import {
 import styles from './Page.module.scss';
 import classNames from 'classnames';
 import React from 'react';
-import { ISectionData, ISectionProps } from './types';
-import { reArrangeSections } from './helpers';
-import { useWeblancerEffect } from '@weblancer-ui/utils';
+import { ISectionProps, MoveDirection, SectionIndexMap } from './types';
+import { useWeblancerManager } from '@weblancer-ui/editor-core';
+import { SectionManager } from './pageManager/sectionManager';
+import { ISectionManagerActions } from './pageManager/types';
 import { useWeblancerCommonManager } from '@weblancer-ui/tool-kit';
 
 export const Page = ({
@@ -25,50 +26,44 @@ export const Page = ({
 }: IWeblancerComponentProps & IContainerProps) => {
   const { className, style: rootStyle, ...restRootProps } = rootProps ?? {};
 
+  const sectionManager =
+    useWeblancerManager<ISectionManagerActions>(SectionManager);
   const { propManager } = useWeblancerCommonManager();
 
-  const sectionsData = defineProp<Record<string, ISectionData>>({
-    name: 'sections',
+  const sectionMap = defineProp<SectionIndexMap>({
+    name: 'sectionMap',
     typeInfo: {
       typeName: PropTypes.None,
       defaultValue: {},
     },
   });
 
-  const childrenCount = React.Children.count(children);
+  const moveSection = (sectionId: string, direction: MoveDirection) => {
+    const newSectionMap = sectionManager.moveSection(
+      sectionId,
+      direction,
+      sectionMap
+    );
 
-  const handleChildrenCountChange = () => {
-    const reArrangedSectionsData = reArrangeSections(children, sectionsData);
-    propManager.updateComponentProp(itemId, 'sections', reArrangedSectionsData);
+    propManager.updateComponentProp(itemId, 'sectionMap', newSectionMap);
   };
 
-  useWeblancerEffect(() => {
-    handleChildrenCountChange();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [childrenCount]);
+  const modifiedChildren = Object.values(sectionMap).map((sectionData) => {
+    const child = React.Children.toArray(children).find(
+      (child) => React.isValidElement(child) && child.key === sectionData.id
+    );
 
-  const handleSectionUp = () => {
-    // TODO
-  };
+    if (!React.isValidElement(child)) return null;
 
-  const handleSectionDown = () => {
-    // TODO
-  };
+    const sectionProps: ISectionProps = {
+      moveSection,
+      sectionData,
+    };
 
-  const modifiedChildren = React.Children.map(children, (child) => {
-    if (React.isValidElement(child)) {
-      const sectionProps: ISectionProps = {
-        handleSectionDown,
-        handleSectionUp,
-        sectionData: sectionsData[child.key as string],
-      };
-
-      return React.cloneElement(child, {
-        ...child.props,
-        ...sectionProps,
-      });
-    }
-    return child;
+    return React.cloneElement(child, {
+      ...child.props,
+      ...sectionProps,
+    });
   });
 
   return (
@@ -80,6 +75,9 @@ export const Page = ({
       className={classNames(className, styles.root)}
       style={{
         ...rootStyle,
+        gridTemplateRows: new Array(Object.keys(sectionMap).length)
+          .fill('auto')
+          .join(' '),
       }}
     >
       <BasePage>{modifiedChildren}</BasePage>

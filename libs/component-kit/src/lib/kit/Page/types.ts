@@ -1,10 +1,11 @@
 export interface ISectionProps {
   sectionData: ISectionData;
-  handleSectionUp(): void;
-  handleSectionDown(): void;
+  moveSection(sectionId: string, direction: MoveDirection): void;
 }
 
 export interface ISectionData {
+  id: string;
+  index: number;
   gridArea: {
     rowStart: number;
     columnStart: number;
@@ -12,3 +13,8 @@ export interface ISectionData {
     columnEnd: number;
   };
 }
+
+export type SectionIndexMap = Record<number, ISectionData>;
+export type SectionIdMap = Record<string, ISectionData>;
+
+export type MoveDirection = 'up' | 'down';
