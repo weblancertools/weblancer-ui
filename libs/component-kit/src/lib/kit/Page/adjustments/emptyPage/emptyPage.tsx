@@ -3,15 +3,12 @@ import { SectionMapPropName } from '../../constants';
 import { SectionIndexMap } from '../../types';
 import { useSelector } from 'react-redux';
 import styles from './emptyPage.module.scss';
-import { useWeblancerEditorManager } from '@weblancer-ui/editor-core';
-import { ISectionManagerActions } from '../../pageManager/types';
-import { SectionManager } from '../../pageManager/sectionManager';
 import { IComponentData } from '@weblancer-ui/types';
+import { EditorAction } from '@weblancer-ui/undo-manager';
+import { AddSectionAction } from '../../sectionManager/actions/AddSectionAction';
 
 export const EmptyPage = () => {
   const { propManager } = useWeblancerCommonManager();
-  const sectionManager =
-    useWeblancerEditorManager<ISectionManagerActions>(SectionManager);
 
   const pageData: IComponentData = useSelector(
     propManager.getPageDataSelector()
@@ -29,14 +26,7 @@ export const EmptyPage = () => {
   }
 
   const createNewSection = () => {
-    const newSectionMap = sectionManager.addSection(0, {});
-
-    propManager.updateComponentProp(
-      pageData.id,
-      SectionMapPropName,
-      newSectionMap,
-      true
-    );
+    EditorAction.getActionInstance(AddSectionAction).prepare(0, {}).perform();
   };
 
   return (

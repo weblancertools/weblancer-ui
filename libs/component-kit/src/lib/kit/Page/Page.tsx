@@ -11,10 +11,10 @@ import classNames from 'classnames';
 import React from 'react';
 import { ISectionProps, MoveDirection, SectionIndexMap } from './types';
 import { useWeblancerManager } from '@weblancer-ui/editor-core';
-import { SectionManager } from './pageManager/sectionManager';
-import { ISectionManagerActions } from './pageManager/types';
 import { useWeblancerCommonManager } from '@weblancer-ui/tool-kit';
 import { SectionMapPropName } from './constants';
+import { ISectionManagerActions } from './sectionManager/types';
+import { SectionManager } from './sectionManager/sectionManager';
 
 export const Page = ({
   itemId,

@@ -21,11 +21,18 @@ export class SectionManager extends IManager implements ISectionManagerActions {
     super();
   }
 
-  addSection(index: number, sectionMap: SectionIndexMap): SectionIndexMap {
+  addSection(
+    index: number,
+    sectionMap: SectionIndexMap,
+    forceItemId?: string,
+    onComplete?: (itemId: string) => void
+  ): SectionIndexMap {
     const sectionId = this.componentManager.createItem(
       SectionComponentKey,
       this.propManager.getPageData().id,
-      { x: 0, y: 0 }
+      { x: 0, y: 0 },
+      forceItemId,
+      onComplete
     );
 
     const newSectionArray: ISectionData[] = new Array(
@@ -69,23 +76,25 @@ export class SectionManager extends IManager implements ISectionManagerActions {
 
     const newSectionArray: ISectionData[] = new Array(
       Object.keys(sectionMap).length - 1
-    ).map((_, _index) => {
-      if (_index < index) {
-        return sectionMap[_index];
-      } else {
-        const sectionData = sectionMap[_index + 1];
-        return {
-          id: sectionData.id,
-          index: _index,
-          gridArea: {
-            columnStart: 1,
-            columnEnd: 2,
-            rowStart: _index + 1,
-            rowEnd: _index + 2,
-          },
-        };
-      }
-    });
+    )
+      .fill({})
+      .map((_, _index) => {
+        if (_index < index) {
+          return sectionMap[_index];
+        } else {
+          const sectionData = sectionMap[_index + 1];
+          return {
+            id: sectionData.id,
+            index: _index,
+            gridArea: {
+              columnStart: 1,
+              columnEnd: 2,
+              rowStart: _index + 1,
+              rowEnd: _index + 2,
+            },
+          };
+        }
+      });
 
     const newSectionMap: SectionIndexMap = Object.fromEntries(
       newSectionArray.map((value, index) => [index, value])
@@ -111,23 +120,25 @@ export class SectionManager extends IManager implements ISectionManagerActions {
 
     const newSectionArray: ISectionData[] = new Array(
       Object.keys(sectionMap).length
-    ).map((_, _index) => {
-      if (_index === index) {
-        return {
-          id: sectionMap[switchIndex].id,
-          index: _index,
-          gridArea: sectionMap[index].gridArea,
-        };
-      }
-      if (_index === switchIndex) {
-        return {
-          id: sectionMap[index].id,
-          index: _index,
-          gridArea: sectionMap[switchIndex].gridArea,
-        };
-      }
-      return sectionMap[index];
-    });
+    )
+      .fill({})
+      .map((_, _index) => {
+        if (_index === index) {
+          return {
+            id: sectionMap[switchIndex].id,
+            index: _index,
+            gridArea: sectionMap[index].gridArea,
+          };
+        }
+        if (_index === switchIndex) {
+          return {
+            id: sectionMap[index].id,
+            index: _index,
+            gridArea: sectionMap[switchIndex].gridArea,
+          };
+        }
+        return sectionMap[index];
+      });
 
     const newSectionMap: SectionIndexMap = Object.fromEntries(
       newSectionArray.map((value, index) => [index, value])
