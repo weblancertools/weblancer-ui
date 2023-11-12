@@ -14,4 +14,5 @@ export interface IDraggingMetadata {
 export interface IResizeMetadata {
   restrictedResizeSides?: ResizeSide[];
   childrenRestrictedResizeSides?: ResizeSide[];
+  restrictedChildrenPositioning?: boolean;
 }

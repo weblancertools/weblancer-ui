@@ -14,37 +14,37 @@ export function getResizeData(
   switch (side) {
     case ResizeSide.N:
       resizeData.top += delta.deltaY;
-      resizeData.height -= delta.deltaY;
+      resizeData.height = (resizeData.height ?? 0) - delta.deltaY;
       break;
     case ResizeSide.NE:
       resizeData.top += delta.deltaY;
-      resizeData.height -= delta.deltaY;
-      resizeData.width += delta.deltaX;
+      resizeData.height = (resizeData.height ?? 0) - delta.deltaY;
+      resizeData.width = (resizeData.width ?? 0) + delta.deltaX;
       break;
     case ResizeSide.E:
-      resizeData.width += delta.deltaX;
+      resizeData.width = (resizeData.width ?? 0) + delta.deltaX;
       break;
     case ResizeSide.SE:
-      resizeData.width += delta.deltaX;
-      resizeData.height += delta.deltaY;
+      resizeData.width = (resizeData.width ?? 0) + delta.deltaX;
+      resizeData.height = (resizeData.height ?? 0) + delta.deltaY;
       break;
     case ResizeSide.S:
-      resizeData.height += delta.deltaY;
+      resizeData.height = (resizeData.height ?? 0) + delta.deltaY;
       break;
     case ResizeSide.SW:
-      resizeData.height += delta.deltaY;
+      resizeData.height = (resizeData.height ?? 0) + delta.deltaY;
       resizeData.left += delta.deltaX;
-      resizeData.width -= delta.deltaX;
+      resizeData.width = (resizeData.width ?? 0) - delta.deltaX;
       break;
     case ResizeSide.W:
       resizeData.left += delta.deltaX;
-      resizeData.width -= delta.deltaX;
+      resizeData.width = (resizeData.width ?? 0) - delta.deltaX;
       break;
     case ResizeSide.NW:
       resizeData.left += delta.deltaX;
-      resizeData.width -= delta.deltaX;
+      resizeData.width = (resizeData.width ?? 0) - delta.deltaX;
       resizeData.top += delta.deltaY;
-      resizeData.height -= delta.deltaY;
+      resizeData.height = (resizeData.height ?? 0) - delta.deltaY;
       break;
   }
 
@@ -77,4 +77,10 @@ export function isRestrictedSide(
   }
 
   return false;
+}
+
+export function isRestrictedForPositioning(
+  parentMetaData?: IComponentMetadata
+) {
+  return parentMetaData?.resize?.restrictedChildrenPositioning;
 }

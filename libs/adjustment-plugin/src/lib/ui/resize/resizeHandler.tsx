@@ -39,13 +39,19 @@ export const ResizeHandler = ({
     const itemRect = itemRef.current.getBoundingClientRect();
 
     currentResizeData.current = {
-      height: itemRect.height,
+      // height: itemRect.height,
       left: itemRect.left,
       top: itemRect.top,
-      width: itemRect.width,
+      // width: itemRect.width,
       deltaX: 0,
       deltaY: 0,
     };
+
+    if (side.includes('w') || side.includes('e'))
+      currentResizeData.current.width = itemRect.width;
+
+    if (side.includes('n') || side.includes('s'))
+      currentResizeData.current.height = itemRect.height;
 
     initialResizeData.current = currentResizeData.current;
 

@@ -9,6 +9,7 @@ import styles from './HorizontalSection.module.scss';
 import classNames from 'classnames';
 import { ISectionProps } from '../types';
 import { SectionComponentKey } from '../constants';
+import { ComponentChildStyle } from '@weblancer-ui/adjustment-manager';
 
 export const HorizontalSection = ({
   defineProp,
@@ -62,6 +63,20 @@ ComponentManager.register(SectionComponentKey, HorizontalSection, {
     },
     dragging: {
       restrictedMovementAxises: ['x', 'y'],
+    },
+  },
+  defaultComponentData: {
+    props: {
+      [ComponentChildStyle]: {
+        large: {
+          name: ComponentChildStyle,
+          value: {
+            style: {
+              height: 500,
+            },
+          },
+        },
+      },
     },
   },
 });

@@ -4,7 +4,7 @@ import { IPropManagerActions, PropManager } from '@weblancer-ui/prop-manager';
 import { ComponentRenderer } from './components/componentRenderer/componentRenderer';
 import { useSelector } from 'react-redux';
 import { memo, useEffect } from 'react';
-import { IComponentData, PropTypes } from '@weblancer-ui/types';
+import { IComponentData } from '@weblancer-ui/types';
 
 export function ClientCoreComponent() {
   const propManager = useWeblancerManager<IPropManagerActions>(PropManager);
@@ -19,54 +19,8 @@ export function ClientCoreComponent() {
           id: 'page1',
           componentKey: 'weblancer-component-kit-page',
           parentId: 'none',
-          props: {
-            text: {
-              large: {
-                name: 'text',
-                value: 'page1',
-                typeInfo: { typeName: PropTypes.String },
-              },
-            },
-          },
-          children: ['text1', 'text2'],
-        },
-        text1: {
-          id: 'text1',
-          componentKey: 'weblancer-component-kit-text',
-          parentId: 'page1',
-          props: {
-            text: {
-              large: {
-                name: 'text',
-                value: 'text13',
-                typeInfo: { typeName: PropTypes.String },
-              },
-              medium: {
-                name: 'text',
-                value: 'text12',
-                typeInfo: { typeName: PropTypes.String },
-              },
-              small: {
-                name: 'text',
-                value: 'text11',
-                typeInfo: { typeName: PropTypes.String },
-              },
-            },
-          },
-        },
-        text2: {
-          id: 'text2',
-          componentKey: 'weblancer-component-kit-text',
-          parentId: 'page1',
-          props: {
-            text: {
-              large: {
-                name: 'text',
-                value: 'text2',
-                typeInfo: { typeName: PropTypes.String },
-              },
-            },
-          },
+          props: {},
+          children: [],
         },
       },
       'page1'

@@ -3,8 +3,8 @@ export interface IDelta {
   deltaY: number;
 }
 export interface ITransform {
-  width: number;
-  height: number;
+  width?: number;
+  height?: number;
   left: number;
   top: number;
 }

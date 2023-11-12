@@ -23,7 +23,10 @@ import { LayoutManager, layoutPlugin } from '@weblancer-ui/layout-manager';
 import { UndoManager } from '@weblancer-ui/undo-manager';
 import { undoPlugin } from '@weblancer-ui/undo-plugin';
 import { extraAdjustmentPlugin } from '@weblancer-ui/adjustment-plugin';
-import { importWeblancerComponentKit } from '@weblancer-ui/component-kit';
+import {
+  importWeblancerComponentKit,
+  pagePlugin,
+} from '@weblancer-ui/component-kit';
 
 importWeblancerComponentKit();
 
@@ -39,6 +42,7 @@ export function App() {
         componentPlugin,
         undoPlugin,
         extraAdjustmentPlugin,
+        pagePlugin,
       ]}
       initialManagers={[
         BreakpointManager,

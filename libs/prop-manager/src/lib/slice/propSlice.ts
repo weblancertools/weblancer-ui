@@ -95,10 +95,17 @@ export const propSlice = createSlice({
         value: any;
         currentBreakpointId: string;
         allBreakpoints: IBreakpoint[];
+        ignoreBreakpoint?: boolean;
       }>
     ) => {
-      const { id, name, value, currentBreakpointId, allBreakpoints } =
-        action.payload;
+      const {
+        id,
+        name,
+        value,
+        currentBreakpointId,
+        allBreakpoints,
+        ignoreBreakpoint,
+      } = action.payload;
 
       const componentData = state.componentMap[id];
 
@@ -107,7 +114,8 @@ export const propSlice = createSlice({
         name,
         value,
         currentBreakpointId,
-        allBreakpoints
+        allBreakpoints,
+        ignoreBreakpoint
       );
     },
     deepAssignComponentProp: (
@@ -119,10 +127,17 @@ export const propSlice = createSlice({
         value: any;
         currentBreakpointId: string;
         allBreakpoints: IBreakpoint[];
+        ignoreBreakpoint?: boolean;
       }>
     ) => {
-      const { id, name, value, currentBreakpointId, allBreakpoints } =
-        action.payload;
+      const {
+        id,
+        name,
+        value,
+        currentBreakpointId,
+        allBreakpoints,
+        ignoreBreakpoint,
+      } = action.payload;
 
       const componentData = state.componentMap[id];
 
@@ -132,6 +147,7 @@ export const propSlice = createSlice({
         value,
         currentBreakpointId,
         allBreakpoints,
+        ignoreBreakpoint,
         true
       );
     },
@@ -149,6 +165,8 @@ export const propSlice = createSlice({
       const componentData = state.componentMap[id];
 
       Object.assign(componentData, newData);
+
+      state.componentMap[id] = { ...componentData };
     },
   },
 });

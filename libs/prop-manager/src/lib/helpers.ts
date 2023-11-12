@@ -24,37 +24,44 @@ export const updateComponentDataBasedOnBreakpoints = (
   newValue: any,
   currentBreakpointId: string,
   allBreakpoints: IBreakpoint[],
+  ignoreBreakpoint?: boolean,
   objectAssign?: boolean
 ) => {
-  if (newValue === undefined) {
-    delete componentData.props[name][currentBreakpointId];
+  let targetBreakpointId = currentBreakpointId;
+
+  if (ignoreBreakpoint) {
+    targetBreakpointId = allBreakpoints[0].id; // use biggest breakpoint
   }
 
-  if (!componentData.props[name][currentBreakpointId]) {
+  if (newValue === undefined) {
+    delete componentData.props[name][targetBreakpointId];
+  }
+
+  if (!componentData.props[name][targetBreakpointId]) {
     // There is no override for this prob data on this breakpoint
 
     const firstUpperBreakpointOverrideId =
       getFirstUpperBreakpointOverrideInComponentData(
         componentData,
         name,
-        currentBreakpointId,
+        targetBreakpointId,
         allBreakpoints
       );
 
     // Override the prop data for new breakpoint (must be copied with no linking to other breakpoint)
-    componentData.props[name][currentBreakpointId] = cloneDeep(
+    componentData.props[name][targetBreakpointId] = cloneDeep(
       componentData.props[name][firstUpperBreakpointOverrideId]
     );
   }
 
-  if (objectAssign && componentData.props[name][currentBreakpointId]!.value) {
-    deepAssign(componentData.props[name][currentBreakpointId]!.value, newValue);
-    componentData.props[name][currentBreakpointId]!.value = {
+  if (objectAssign && componentData.props[name][targetBreakpointId]!.value) {
+    deepAssign(componentData.props[name][targetBreakpointId]!.value, newValue);
+    componentData.props[name][targetBreakpointId]!.value = {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      ...(componentData.props[name][currentBreakpointId]!.value as any),
+      ...(componentData.props[name][targetBreakpointId]!.value as any),
     };
   } else {
-    componentData.props[name][currentBreakpointId]!.value = newValue;
+    componentData.props[name][targetBreakpointId]!.value = newValue;
   }
 };
 

@@ -6,7 +6,7 @@ import {
 } from '@weblancer-ui/types';
 import { PropManagerService } from './constants';
 
-export interface IStoreRootState {
+export interface IPropManagerStoreRootState {
   [PropManagerService]: IPropManagerSlice;
   [key: string]: unknown;
 }
@@ -31,12 +31,14 @@ export interface IPropManagerActions {
   updateComponentProp<TValue = unknown>(
     id: string,
     name: string,
-    value: TValue
+    value: TValue,
+    ignoreBreakpoint?: boolean
   ): void;
   deepAssignComponentProp<TValue>(
     id: string,
     name: string,
-    value: TValue
+    value: TValue,
+    ignoreBreakpoint?: boolean
   ): void;
   updateComponent(
     id: string,

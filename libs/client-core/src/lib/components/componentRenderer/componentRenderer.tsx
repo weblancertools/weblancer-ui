@@ -11,9 +11,10 @@ import { IComponentData, IDefaultPropData } from '@weblancer-ui/types';
 
 export interface IComponentRenderer {
   itemId: string;
+  [key: string]: unknown;
 }
 
-export const ComponentRenderer = ({ itemId }: IComponentRenderer) => {
+export const ComponentRenderer = ({ itemId, ...rest }: IComponentRenderer) => {
   const propManager = useWeblancerManager<IPropManagerActions>(PropManager);
   const componentManager =
     useWeblancerManager<IComponentManagerActions>(ComponentManager);
@@ -37,7 +38,7 @@ export const ComponentRenderer = ({ itemId }: IComponentRenderer) => {
 
   return (
     <WeblancerComponentRoot itemId={itemId} defineProp={defineProp}>
-      <Component defineProp={defineProp} itemId={itemId}>
+      <Component defineProp={defineProp} itemId={itemId} {...rest}>
         {children.length > 0 &&
           children.map((childItemId) => {
             return <ComponentRenderer key={childItemId} itemId={childItemId} />;

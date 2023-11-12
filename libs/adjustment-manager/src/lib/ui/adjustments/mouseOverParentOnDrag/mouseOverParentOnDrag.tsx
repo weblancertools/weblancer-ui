@@ -1,24 +1,17 @@
 import { useWeblancerEditorManager } from '@weblancer-ui/editor-core';
-import {
-  AdjustmentManagerService,
-  IAdjustmentManagerActions,
-  IStoreRootState,
-} from '../../../types';
+import { IAdjustmentManagerActions } from '../../../types';
 import { AdjustmentManager } from '../../../adjustment-manager';
-import { useSelector } from 'react-redux';
 import styles from './mouseOverParentOnDrag.module.scss';
 import { useEffect, useState } from 'react';
+import { useAdjustmentVersion } from '../../../hooks/useAdjustmentVersion';
 
 export const MouseOverParentOnDrag = () => {
   const adjustmentManager =
     useWeblancerEditorManager<IAdjustmentManagerActions>(AdjustmentManager);
-  const hoveredContainerId = useSelector(
-    (state: IStoreRootState) =>
-      state[AdjustmentManagerService].hoveredContainerId
-  );
-  const draggingItemId = useSelector(
-    (state: IStoreRootState) => state[AdjustmentManagerService].draggingItemId
-  );
+
+  const { draggingItemId, hoveredContainerId, version } =
+    useAdjustmentVersion();
+
   const targetItemRef = adjustmentManager.getItemRootRef(
     hoveredContainerId ?? ''
   );
@@ -33,7 +26,7 @@ export const MouseOverParentOnDrag = () => {
 
     const itemRect = targetItemRef.current?.getBoundingClientRect();
     setItemRect(itemRect);
-  }, [hoveredContainerId, targetItemRef, draggingItemId]);
+  }, [hoveredContainerId, targetItemRef, draggingItemId, version]);
 
   if (!itemRect || !draggingItemId) return null;
 

@@ -14,6 +14,7 @@ import { useWeblancerManager } from '@weblancer-ui/editor-core';
 import { SectionManager } from './pageManager/sectionManager';
 import { ISectionManagerActions } from './pageManager/types';
 import { useWeblancerCommonManager } from '@weblancer-ui/tool-kit';
+import { SectionMapPropName } from './constants';
 
 export const Page = ({
   itemId,
@@ -31,7 +32,7 @@ export const Page = ({
   const { propManager } = useWeblancerCommonManager();
 
   const sectionMap = defineProp<SectionIndexMap>({
-    name: 'sectionMap',
+    name: SectionMapPropName,
     typeInfo: {
       typeName: PropTypes.None,
       defaultValue: {},
@@ -45,12 +46,18 @@ export const Page = ({
       sectionMap
     );
 
-    propManager.updateComponentProp(itemId, 'sectionMap', newSectionMap);
+    propManager.updateComponentProp(
+      itemId,
+      SectionMapPropName,
+      newSectionMap,
+      true
+    );
   };
 
   const modifiedChildren = Object.values(sectionMap).map((sectionData) => {
     const child = React.Children.toArray(children).find(
-      (child) => React.isValidElement(child) && child.key === sectionData.id
+      (child) =>
+        React.isValidElement(child) && child.props.itemId === sectionData.id
     );
 
     if (!React.isValidElement(child)) return null;
@@ -102,6 +109,7 @@ ComponentManager.register('weblancer-component-kit-page', Page, {
         ResizeSide.SW,
         ResizeSide.W,
       ],
+      restrictedChildrenPositioning: true,
     },
     dragging: {
       restrictedMovementAxises: ['x', 'y'],

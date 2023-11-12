@@ -1,14 +1,11 @@
 import { useWeblancerEditorManager } from '@weblancer-ui/editor-core';
-import {
-  AdjustmentManagerService,
-  IAdjustmentManagerActions,
-  useAdjustmentManagerSelector,
-} from '../../../types';
+import { IAdjustmentManagerActions } from '../../../types';
 import { AdjustmentManager } from '../../../adjustment-manager';
 import styles from './selected.module.scss';
 import { useEffect, useState } from 'react';
 import { IPropManagerActions, PropManager } from '@weblancer-ui/prop-manager';
 import { useSelector } from 'react-redux';
+import { useAdjustmentVersion } from '../../../hooks/useAdjustmentVersion';
 
 export const Selected = () => {
   const adjustmentManager =
@@ -16,12 +13,7 @@ export const Selected = () => {
   const propManager =
     useWeblancerEditorManager<IPropManagerActions>(PropManager);
 
-  const selectedItemId = useAdjustmentManagerSelector(
-    (state) => state[AdjustmentManagerService].selectedItemId
-  );
-  const draggingItemId = useAdjustmentManagerSelector(
-    (state) => state[AdjustmentManagerService].draggingItemId
-  );
+  const { draggingItemId, selectedItemId, version } = useAdjustmentVersion();
 
   const componentData = useSelector(
     propManager.getComponentChangeSelector(selectedItemId ?? '')
@@ -41,7 +33,7 @@ export const Selected = () => {
 
     const itemRect = selectedItemRef.current?.getBoundingClientRect();
     setItemRect(itemRect);
-  }, [selectedItemId, selectedItemRef, componentData, draggingItemId]);
+  }, [selectedItemId, selectedItemRef, componentData, draggingItemId, version]);
 
   if (!itemRect) return null;
 

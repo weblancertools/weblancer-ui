@@ -112,13 +112,22 @@ export class LayoutManager extends IManager implements ILayoutManagerActions {
 
     const parentRect = parentRootDiv.getBoundingClientRect();
 
+    console.log(
+      'setPositionInParent',
+      data.y,
+      parentRect.top,
+      parentRootDiv.scrollTop
+    );
+
     this.propManager.deepAssignComponentProp<IChildTransform>(
       itemId,
       ComponentChildStyle,
       {
         style: {
-          marginLeft: `${data.x - parentRect.left}px`,
-          marginTop: `${data.y - parentRect.top}px`,
+          marginLeft: `${
+            data.x - parentRect.left + parentRootDiv.scrollLeft
+          }px`,
+          marginTop: `${data.y - parentRect.top + parentRootDiv.scrollTop}px`,
         },
       }
     );

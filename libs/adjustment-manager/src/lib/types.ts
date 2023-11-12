@@ -13,6 +13,7 @@ export interface IAdjustmentManagerSlice {
   mouseOverItemId?: string | null;
   selectedItemId?: string | null;
   draggingItemId?: string | null;
+  scrollHash?: string | null;
 }
 
 export interface IAdjustmentManagerActions {
@@ -28,6 +29,7 @@ export interface IAdjustmentManagerActions {
   setSelectedItemId(itemId: string | null): void;
   getSelectedItemId(): string | null | undefined;
   setDraggingItemId(itemId: string | null): void;
+  setScrollUpdated(): void;
   getDraggingItemId(): string | null | undefined;
   getMousePosition(): IPosition;
 }

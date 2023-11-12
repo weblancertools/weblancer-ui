@@ -42,26 +42,28 @@ export const LayoutDrawer = ({ onClose }: IEditorDrawerProps) => {
         defaultCollapseIcon={'▾'}
         defaultExpandIcon={'▸'}
       >
-        <RenderLeaf componentData={pageData} />
+        <RenderLeaf itemId={pageData.id} />
       </TreeView>
     </div>
   );
 };
 
-const RenderLeaf = ({
-  componentData,
-}: {
-  componentData: IComponentData | Omit<IComponentData, 'parentId'>;
-}) => {
+const RenderLeaf = ({ itemId }: { itemId: string }) => {
   const propManager =
     useWeblancerEditorManager<IPropManagerActions>(PropManager);
+
+  const componentData: IComponentData = useSelector(
+    propManager.getComponentChangeSelector(itemId)
+  );
+
+  if (!componentData) return null;
+
   const children = (componentData.children ?? []).map((childId) => {
-    const componentData = propManager.getComponent(childId);
     return (
       <RenderLeaf
         key={childId}
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        componentData={componentData!}
+        itemId={childId}
       />
     );
   });
