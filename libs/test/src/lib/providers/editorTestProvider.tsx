@@ -8,20 +8,22 @@ import {
   configureStore,
 } from '@weblancer-ui/store-manager';
 import { IEditorUIPlugin } from '@weblancer-ui/types';
-import { ReactNode, useCallback, useMemo } from 'react';
+import { PropsWithChildren, ReactNode, useCallback, useMemo } from 'react';
 import { Provider } from 'react-redux';
 
-export function EditorTestProvider<TStoreRootState>({
-  preloadedState,
-  plugins = [],
-  children,
-  requiredManagers = [],
-}: {
+interface IEditorTestProviderProps<TStoreRootState> {
   preloadedState?: TStoreRootState;
   plugins?: IEditorUIPlugin[];
   children?: ReactNode;
   requiredManagers?: any[];
-}) {
+}
+
+export function EditorTestProvider<TStoreRootState = unknown>({
+  preloadedState,
+  plugins = [],
+  children,
+  requiredManagers = [],
+}: IEditorTestProviderProps<TStoreRootState>) {
   const store = preloadedState
     ? configureMockStore(preloadedState)
     : configureStore({
@@ -32,6 +34,7 @@ export function EditorTestProvider<TStoreRootState>({
     Weblancer.setStore(store);
 
     for (const _c of requiredManagers) {
+      Weblancer.registerManager(_c);
       Weblancer.getManagerInstance(_c);
     }
   }, [store, requiredManagers]);
@@ -47,5 +50,21 @@ export function EditorTestProvider<TStoreRootState>({
       {/* TODO Fix this typing issue */}
       {(<Provider store={store}>{children}</Provider>) as any}
     </WeblancerContext.Provider>
+  );
+}
+
+export function getTestWrapper<TStoreRootState = unknown>({
+  preloadedState,
+  plugins = [],
+  requiredManagers = [],
+}: IEditorTestProviderProps<TStoreRootState>) {
+  return ({ children }: PropsWithChildren) => (
+    <EditorTestProvider
+      preloadedState={preloadedState}
+      plugins={plugins}
+      requiredManagers={requiredManagers}
+    >
+      {children}
+    </EditorTestProvider>
   );
 }

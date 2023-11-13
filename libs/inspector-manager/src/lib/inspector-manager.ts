@@ -36,5 +36,3 @@ export class InspectorManager
     ).addInspector(inspector);
   }
 }
-
-Weblancer.registerManager<IInspectorManagerActions>(InspectorManager);

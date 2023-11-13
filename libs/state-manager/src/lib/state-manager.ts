@@ -18,8 +18,10 @@ import {
   StoreManager,
 } from '@weblancer-ui/store-manager';
 import { StateManagerService } from './constants';
+import { importManager } from '@weblancer-ui/utils';
 
 @injectable()
+@importManager([StoreManager])
 export class StateManager
   extends IManagerWithStore
   implements IStateManagerActions

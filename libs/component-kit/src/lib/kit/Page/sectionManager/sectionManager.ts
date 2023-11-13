@@ -1,15 +1,17 @@
 import { ISectionData, MoveDirection, SectionIndexMap } from '../types';
 import { ISectionManagerActions, SectionManagerService } from './types';
 import { IManager } from '@weblancer-ui/types';
-import { inject } from 'inversify';
+import { inject, injectable } from 'inversify';
 import {
   ComponentManager,
   IComponentManagerActions,
 } from '@weblancer-ui/component-manager';
 import { SectionComponentKey } from '../constants';
 import { IPropManagerActions, PropManager } from '@weblancer-ui/prop-manager';
-import { Weblancer } from '@weblancer-ui/manager-registry';
+import { importManager } from '@weblancer-ui/utils';
 
+@injectable()
+@importManager([ComponentManager, PropManager])
 export class SectionManager extends IManager implements ISectionManagerActions {
   public name = SectionManagerService;
 
@@ -147,5 +149,3 @@ export class SectionManager extends IManager implements ISectionManagerActions {
     return newSectionMap;
   }
 }
-
-Weblancer.registerManager<ISectionManagerActions>(SectionManager);

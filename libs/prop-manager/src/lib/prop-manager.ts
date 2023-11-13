@@ -15,7 +15,6 @@ import propSlice, {
   updateComponent,
   updateComponentProp,
 } from './slice/propSlice';
-import { Weblancer } from '@weblancer-ui/manager-registry';
 import {
   BreakpointManager,
   IBreakpointManagerActions,
@@ -29,8 +28,10 @@ import {
 } from '@weblancer-ui/types';
 import { createDraftSafeSelector } from '@reduxjs/toolkit';
 import { shallowEqual } from 'react-redux';
+import { importManager } from '@weblancer-ui/utils';
 
 @injectable()
+@importManager([StoreManager, BreakpointManager])
 export class PropManager
   extends IManagerWithStore
   implements IPropManagerActions
@@ -272,5 +273,3 @@ export class PropManager
       .componentMap;
   }
 }
-
-Weblancer.registerManager<IPropManagerActions>(PropManager);

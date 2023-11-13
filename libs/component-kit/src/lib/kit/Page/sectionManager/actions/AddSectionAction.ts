@@ -3,7 +3,7 @@ import {
   IUndoManagerActions,
   UndoManager,
 } from '@weblancer-ui/undo-manager';
-import { inject } from 'inversify';
+import { inject, injectable } from 'inversify';
 import { SectionManager } from '../sectionManager';
 import { ISectionManagerActions } from '../types';
 import { SectionIndexMap } from '../../types';
@@ -13,7 +13,10 @@ import {
 } from '@weblancer-ui/adjustment-manager';
 import { SectionMapPropName } from '../../constants';
 import { IPropManagerActions, PropManager } from '@weblancer-ui/prop-manager';
+import { importManager } from '@weblancer-ui/utils';
 
+@injectable()
+@importManager([UndoManager, SectionManager, PropManager, AdjustmentManager])
 export class AddSectionAction extends EditorAction {
   public subject = 'Create Item';
 

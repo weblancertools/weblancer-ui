@@ -4,7 +4,6 @@ import {
   IAdjustmentManagerActions,
   IStoreRootState,
 } from './types';
-import { Weblancer } from '@weblancer-ui/manager-registry';
 import {
   IManagerWithStore,
   IStoreManagerActions,
@@ -12,11 +11,11 @@ import {
 } from '@weblancer-ui/store-manager';
 import adjustmentSlice, { setStateValue } from './slice/adjustmentSlice';
 import { RefObject } from 'react';
-import { IPosition } from '@weblancer-ui/types';
-import { generateRandomString } from '@weblancer-ui/utils';
+import { generateRandomString, importManager } from '@weblancer-ui/utils';
 import { debounce, throttle } from 'lodash';
 
 @injectable()
+@importManager(StoreManager)
 export class AdjustmentManager
   extends IManagerWithStore
   implements IAdjustmentManagerActions
@@ -31,19 +30,6 @@ export class AdjustmentManager
     super();
 
     this.injectSlice(storeManager);
-    this.init();
-  }
-
-  private mousePosition: IPosition = { x: 0, y: 0 };
-
-  init() {
-    window.addEventListener('mousemove', (event) => {
-      this.mousePosition = { x: event.clientX, y: event.clientY };
-    });
-  }
-
-  getMousePosition(): IPosition {
-    return this.mousePosition;
   }
 
   addItemRootRef(
@@ -122,5 +108,3 @@ export class AdjustmentManager
     );
   }, 10);
 }
-
-Weblancer.registerManager<IAdjustmentManagerActions>(AdjustmentManager);

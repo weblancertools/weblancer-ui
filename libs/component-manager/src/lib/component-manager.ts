@@ -15,6 +15,7 @@ import {
 } from '@weblancer-ui/layout-manager';
 import {
   generateRandomString,
+  importManager,
   waitForComponentPropsDefined,
 } from '@weblancer-ui/utils';
 import {
@@ -25,6 +26,7 @@ import {
 } from '@weblancer-ui/types';
 
 @injectable()
+@importManager([StoreManager, PropManager, LayoutManager])
 export class ComponentManager
   extends IManagerWithStore
   implements IComponentManagerActions
@@ -116,5 +118,3 @@ export class ComponentManager
       ?.componentMetadata;
   }
 }
-
-Weblancer.registerManager<IComponentManagerActions>(ComponentManager);

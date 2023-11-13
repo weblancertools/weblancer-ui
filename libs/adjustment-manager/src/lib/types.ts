@@ -1,4 +1,3 @@
-import { IPosition } from '@weblancer-ui/types';
 import { TypedUseSelectorHook, useSelector } from 'react-redux';
 
 export const AdjustmentManagerService = 'AdjustmentManager';
@@ -31,7 +30,6 @@ export interface IAdjustmentManagerActions {
   setDraggingItemId(itemId: string | null): void;
   setScrollUpdated(): void;
   getDraggingItemId(): string | null | undefined;
-  getMousePosition(): IPosition;
 }
 
 export interface IChildTransform {

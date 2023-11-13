@@ -11,6 +11,7 @@ import { ComponentManager } from '@weblancer-ui/component-manager';
 import { AdjustmentManager } from '@weblancer-ui/adjustment-manager';
 import { InspectorManager } from '@weblancer-ui/inspector-manager';
 import { LayoutManager } from '@weblancer-ui/layout-manager';
+import { PageManager } from '@weblancer-ui/page-manager';
 
 export interface IWeblancerContextProvider {
   store: IReduxStore;
@@ -29,6 +30,7 @@ const requiredManagers = [
   LayoutManager,
   ComponentManager,
   UndoManager,
+  PageManager,
 ];
 
 export const WeblancerContextProvider = ({
@@ -44,6 +46,7 @@ export const WeblancerContextProvider = ({
     Weblancer.setStore(store);
 
     for (const _c of requiredManagers) {
+      Weblancer.registerManager(_c);
       Weblancer.getManagerInstance(_c);
     }
   }, [store]);

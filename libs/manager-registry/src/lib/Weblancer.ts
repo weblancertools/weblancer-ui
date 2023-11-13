@@ -1,7 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import 'reflect-metadata';
 import {
   IComponentMap,
   IComponentRegisterMetadata,
+  IManager,
   WeblancerComponent,
 } from '@weblancer-ui/types';
 import { weblancerContainer } from './container/container';
@@ -9,10 +11,13 @@ import { Store } from '@reduxjs/toolkit';
 import { StoreService } from './manager-registry/storeService';
 
 export class Weblancer {
-  private static hasStore = false;
   private static componentMap: IComponentMap = {};
 
   public static registerManager<TActions>(managerClass: any) {
+    if (weblancerContainer.isBound(managerClass)) return;
+
+    bindDependencies(managerClass);
+
     return weblancerContainer
       .bind<TActions>(managerClass)
       .to(managerClass)
@@ -24,6 +29,8 @@ export class Weblancer {
   }
 
   public static bindHandler(_handlerClass: any) {
+    bindDependencies(_handlerClass);
+
     weblancerContainer.bind(_handlerClass).toSelf();
   }
 
@@ -49,10 +56,37 @@ export class Weblancer {
     return Weblancer.componentMap;
   }
 
-  public static setStore(store: Store) {
-    if (Weblancer.hasStore) return;
+  private static store: Store;
 
-    Weblancer.hasStore = true;
-    weblancerContainer.bind(StoreService).toDynamicValue(() => store);
+  public static setStore(store: Store) {
+    Weblancer.store = store;
+
+    if (!weblancerContainer.isBound(StoreService))
+      weblancerContainer
+        .bind(StoreService)
+        .toDynamicValue(() => Weblancer.store);
+  }
+
+  public static clear() {
+    weblancerContainer.unbindAll();
+  }
+}
+
+function bindDependencies(_class: any) {
+  const dependencies:
+    | (new (...args: any[]) => IManager)
+    | (new (...args: any[]) => IManager)[] = Reflect.getOwnMetadata(
+    'dependencies',
+    _class
+  );
+
+  if (!dependencies) return;
+
+  if (Array.isArray(dependencies)) {
+    for (const _d of dependencies) {
+      Weblancer.registerManager(_d);
+    }
+  } else {
+    Weblancer.registerManager(dependencies);
   }
 }

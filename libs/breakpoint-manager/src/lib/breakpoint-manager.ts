@@ -4,7 +4,7 @@ import {
   IBreakpointStoreRootState,
 } from './types';
 import { BreakpointManagerService } from './constants';
-import { inject } from 'inversify';
+import { inject, injectable } from 'inversify';
 import {
   IManagerWithStore,
   IStoreManagerActions,
@@ -17,8 +17,10 @@ import breakpointSlice, {
   updateBreakpoint,
 } from './slice/breakpointSlice';
 import { getSortedBreakpoints } from './helpers';
-import { Weblancer } from '@weblancer-ui/manager-registry';
+import { importManager } from '@weblancer-ui/utils';
 
+@injectable()
+@importManager(StoreManager)
 export class BreakpointManager
   extends IManagerWithStore
   implements IBreakpointManagerActions
@@ -66,5 +68,3 @@ export class BreakpointManager
     this.storeManager.dispatch(updateBreakpoint(breakpoint));
   }
 }
-
-Weblancer.registerManager<IBreakpointManagerActions>(BreakpointManager);
