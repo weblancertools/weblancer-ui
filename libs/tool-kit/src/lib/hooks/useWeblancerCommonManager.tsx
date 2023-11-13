@@ -14,7 +14,7 @@ import {
   ILayoutManagerActions,
   LayoutManager,
 } from '@weblancer-ui/layout-manager';
-import { weblancerRegistry } from '@weblancer-ui/manager-registry';
+import { Weblancer } from '@weblancer-ui/manager-registry';
 import { IPageManagerAction, PageManager } from '@weblancer-ui/page-manager';
 import { IPropManagerActions, PropManager } from '@weblancer-ui/prop-manager';
 import {
@@ -28,34 +28,28 @@ import {
 
 export const useWeblancerCommonManager = () => {
   const propManager =
-    weblancerRegistry.getManagerInstance<IPropManagerActions>(PropManager);
+    Weblancer.getManagerInstance<IPropManagerActions>(PropManager);
 
   const pageManager =
-    weblancerRegistry.getManagerInstance<IPageManagerAction>(PageManager);
+    Weblancer.getManagerInstance<IPageManagerAction>(PageManager);
 
   const adjustmentManager =
-    weblancerRegistry.getManagerInstance<IAdjustmentManagerActions>(
-      AdjustmentManager
-    );
+    Weblancer.getManagerInstance<IAdjustmentManagerActions>(AdjustmentManager);
 
   const breakpointManager =
-    weblancerRegistry.getManagerInstance<IBreakpointManagerActions>(
-      BreakpointManager
-    );
+    Weblancer.getManagerInstance<IBreakpointManagerActions>(BreakpointManager);
 
   const componentManager =
-    weblancerRegistry.getManagerInstance<IComponentManagerActions>(
-      ComponentManager
-    );
+    Weblancer.getManagerInstance<IComponentManagerActions>(ComponentManager);
 
   const layoutManager =
-    weblancerRegistry.getManagerInstance<ILayoutManagerActions>(LayoutManager);
+    Weblancer.getManagerInstance<ILayoutManagerActions>(LayoutManager);
 
   const stateManager =
-    weblancerRegistry.getManagerInstance<IStateManagerActions>(StateManager);
+    Weblancer.getManagerInstance<IStateManagerActions>(StateManager);
 
   const storeManager =
-    weblancerRegistry.getManagerInstance<IStoreManagerActions>(StoreManager);
+    Weblancer.getManagerInstance<IStoreManagerActions>(StoreManager);
 
   return {
     propManager,

@@ -9,14 +9,11 @@ import { WeblancerContextProvider } from './provider/weblancerContextProvider';
 export interface EditorCoreProps {
   store: IReduxStore;
   plugins?: IEditorUIPlugin[];
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  initialManagers?: any | any[];
 }
 
 export const EditorCore: FunctionComponent<EditorCoreProps> = ({
   store,
   plugins = [],
-  initialManagers = [],
 }) => {
   const leftMenus = plugins.filter((plugin) => {
     return plugin.leftMenu;
@@ -31,11 +28,7 @@ export const EditorCore: FunctionComponent<EditorCoreProps> = ({
   });
 
   return (
-    <WeblancerContextProvider
-      store={store}
-      plugins={plugins}
-      initialManagers={initialManagers}
-    >
+    <WeblancerContextProvider store={store} plugins={plugins}>
       <Provider store={store}>
         <EditorUI
           leftMenus={leftMenus}

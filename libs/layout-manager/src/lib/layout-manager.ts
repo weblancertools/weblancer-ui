@@ -2,7 +2,7 @@
 import { IComponentData, IManager, IPosition } from '@weblancer-ui/types';
 import { inject, injectable } from 'inversify';
 import { ILayoutManagerActions, LayoutManagerService } from './types';
-import { weblancerRegistry } from '@weblancer-ui/manager-registry';
+import { Weblancer } from '@weblancer-ui/manager-registry';
 import { IPropManagerActions, PropManager } from '@weblancer-ui/prop-manager';
 import {
   AdjustmentManager,
@@ -134,4 +134,4 @@ export class LayoutManager extends IManager implements ILayoutManagerActions {
   }
 }
 
-weblancerRegistry.registerManager<ILayoutManagerActions>(LayoutManager);
+Weblancer.registerManager<ILayoutManagerActions>(LayoutManager);

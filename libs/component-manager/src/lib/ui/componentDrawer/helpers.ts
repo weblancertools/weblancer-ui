@@ -1,4 +1,4 @@
-import { IComponentMap } from '../../types';
+import { IComponentMap } from '@weblancer-ui/types';
 
 export function getCategories(allComponent: IComponentMap) {
   return [

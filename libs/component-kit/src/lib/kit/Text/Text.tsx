@@ -1,6 +1,6 @@
 import { Text as BaseText } from '../../components/Text/Text';
 import { IWeblancerComponentProps, PropTypes } from '@weblancer-ui/types';
-import { ComponentManager } from '@weblancer-ui/component-manager';
+import { Weblancer } from '@weblancer-ui/manager-registry';
 
 export const Text = ({ defineProp }: IWeblancerComponentProps) => {
   return (
@@ -16,7 +16,7 @@ export const Text = ({ defineProp }: IWeblancerComponentProps) => {
   );
 };
 
-ComponentManager.register('weblancer-component-kit-text', Text, {
+Weblancer.registerComponent('weblancer-component-kit-text', Text, {
   groups: 'Texts',
   categories: 'Weblancer',
   label: 'Text',

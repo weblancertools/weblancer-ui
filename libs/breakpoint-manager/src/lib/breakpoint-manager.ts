@@ -17,7 +17,7 @@ import breakpointSlice, {
   updateBreakpoint,
 } from './slice/breakpointSlice';
 import { getSortedBreakpoints } from './helpers';
-import { weblancerRegistry } from '@weblancer-ui/manager-registry';
+import { Weblancer } from '@weblancer-ui/manager-registry';
 
 export class BreakpointManager
   extends IManagerWithStore
@@ -67,4 +67,4 @@ export class BreakpointManager
   }
 }
 
-weblancerRegistry.registerManager<IBreakpointManagerActions>(BreakpointManager);
+Weblancer.registerManager<IBreakpointManagerActions>(BreakpointManager);

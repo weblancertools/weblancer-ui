@@ -4,16 +4,10 @@ import {
   StoreManager,
 } from '@weblancer-ui/store-manager';
 import { inject, injectable } from 'inversify';
-import {
-  IComponentHolder,
-  IComponentManagerActions,
-  IComponentMap,
-  IComponentRegisterMetadata,
-  WeblancerComponent,
-} from './types';
+import { IComponentManagerActions } from './types';
 import componentSlice from './slice/componentSlice';
 import { ComponentManagerService } from './constants';
-import { weblancerRegistry } from '@weblancer-ui/manager-registry';
+import { Weblancer } from '@weblancer-ui/manager-registry';
 import { IPropManagerActions, PropManager } from '@weblancer-ui/prop-manager';
 import {
   ILayoutManagerActions,
@@ -23,9 +17,12 @@ import {
   generateRandomString,
   waitForComponentPropsDefined,
 } from '@weblancer-ui/utils';
-import { IComponentMetadata } from '@weblancer-ui/types';
-
-const componentMap: IComponentMap = {};
+import {
+  IComponentHolder,
+  IComponentMap,
+  IComponentMetadata,
+  WeblancerComponent,
+} from '@weblancer-ui/types';
 
 @injectable()
 export class ComponentManager
@@ -51,21 +48,21 @@ export class ComponentManager
   }
 
   getAllComponents(): IComponentMap {
-    return componentMap;
+    return Weblancer.getComponentMap();
   }
 
   getComponentByKey(key: string): WeblancerComponent {
-    if (!componentMap[key])
+    if (!Weblancer.getComponentMap()[key])
       throw new Error('Can not access to a non-registered component');
 
-    return componentMap[key].component;
+    return Weblancer.getComponentMap()[key].component;
   }
 
   getComponentHolderByKey(key: string): IComponentHolder {
-    if (!componentMap[key])
+    if (!Weblancer.getComponentMap()[key])
       throw new Error('Can not access to a non-registered component');
 
-    return componentMap[key];
+    return Weblancer.getComponentMap()[key];
   }
 
   createItem(
@@ -115,20 +112,9 @@ export class ComponentManager
 
     if (!componentData) return;
 
-    return componentMap[componentData.componentKey].metadata?.componentMetadata;
-  }
-
-  public static register(
-    key: string,
-    component: WeblancerComponent,
-    metadata?: IComponentRegisterMetadata
-  ) {
-    componentMap[key] = {
-      key,
-      component,
-      metadata,
-    };
+    return Weblancer.getComponentMap()[componentData.componentKey].metadata
+      ?.componentMetadata;
   }
 }
 
-weblancerRegistry.registerManager<IComponentManagerActions>(ComponentManager);
+Weblancer.registerManager<IComponentManagerActions>(ComponentManager);

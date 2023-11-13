@@ -3,12 +3,12 @@ import { ClientCore } from '@weblancer-ui/client-core';
 import { useDispatch } from 'react-redux';
 import { setCurrentBreakpoint } from '@weblancer-ui/breakpoint-manager';
 import { copyStylesToIFrame } from './helpers';
-import { useWeblancerClientContext } from '@weblancer-ui/editor-core';
+import { useWeblancerClient } from '@weblancer-ui/editor-core';
 
 const _document = document;
 
 export function ClientIFrameContent() {
-  const { window, document } = useWeblancerClientContext();
+  const { window, document } = useWeblancerClient();
   const dispatch = useDispatch();
 
   const handleClientWindowSizeChange = useCallback(() => {

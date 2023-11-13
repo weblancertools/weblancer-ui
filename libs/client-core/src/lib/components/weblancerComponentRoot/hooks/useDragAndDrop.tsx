@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import {
-  useWeblancerClientContext,
+  useWeblancerClient,
   useWeblancerManager,
 } from '@weblancer-ui/editor-core';
 import {
@@ -18,7 +18,7 @@ import {
 } from '../../../managers/dragManager/dragManager';
 
 export const useDragAndDrop = (itemId: string) => {
-  const { document } = useWeblancerClientContext();
+  const { document } = useWeblancerClient();
 
   const adjustmentManager =
     useWeblancerManager<IAdjustmentManagerActions>(AdjustmentManager);

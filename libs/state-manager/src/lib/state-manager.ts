@@ -11,7 +11,7 @@ import {
   IStoreRootState,
 } from './types';
 import { inject, injectable } from 'inversify';
-import { weblancerRegistry } from '@weblancer-ui/manager-registry';
+import { Weblancer } from '@weblancer-ui/manager-registry';
 import {
   IManagerWithStore,
   IStoreManagerActions,
@@ -73,4 +73,4 @@ export class StateManager
   }
 }
 
-weblancerRegistry.registerManager<IStateManagerActions>(StateManager);
+Weblancer.registerManager<IStateManagerActions>(StateManager);

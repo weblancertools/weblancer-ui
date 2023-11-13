@@ -17,7 +17,7 @@ import pageSlice, {
   updatePage,
 } from './slice/pageSlice';
 import { IPropManagerActions, PropManager } from '@weblancer-ui/prop-manager';
-import { weblancerRegistry } from '@weblancer-ui/manager-registry';
+import { Weblancer } from '@weblancer-ui/manager-registry';
 import { PageLoader } from './pageLoader.ts/pageLoader';
 import { DefaultPageLoader } from './pageLoader.ts/defaultPageLoader';
 import { IUndoManagerActions, UndoManager } from '@weblancer-ui/undo-manager';
@@ -41,8 +41,10 @@ export class PageManager
     this.injectSlice(storeManager);
   }
 
-  setPageLoader(pageLoader: PageLoader): void {
-    this.pageLoader = pageLoader;
+  public static setPageLoader(pageLoader: PageLoader): void {
+    const instance =
+      Weblancer.getManagerInstance<IPageManagerAction>(PageManager);
+    instance.pageLoader = pageLoader;
   }
 
   addPage(pageInfo: IPageInfo): void {
@@ -114,4 +116,4 @@ export class PageManager
   }
 }
 
-weblancerRegistry.registerManager<IPageManagerAction>(PageManager);
+Weblancer.registerManager<IPageManagerAction>(PageManager);

@@ -10,7 +10,7 @@ import {
   DropItemAction,
   SetPositionAction,
 } from '@weblancer-ui/layout-manager';
-import { weblancerRegistry } from '@weblancer-ui/manager-registry';
+import { Weblancer } from '@weblancer-ui/manager-registry';
 import { IPropManagerActions, PropManager } from '@weblancer-ui/prop-manager';
 import { IComponentMetadata, IManager, IPosition } from '@weblancer-ui/types';
 import { EditorAction } from '@weblancer-ui/undo-manager';
@@ -205,4 +205,4 @@ export class DragManager extends IManager implements IDragManagerActions {
   }
 }
 
-weblancerRegistry.registerManager<IDragManagerActions>(DragManager);
+Weblancer.registerManager<IDragManagerActions>(DragManager);

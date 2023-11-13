@@ -1,4 +1,4 @@
-import { weblancerContainer } from '@weblancer-ui/manager-registry';
+import { Weblancer } from '@weblancer-ui/manager-registry';
 import { EditorAction } from './EditorAction';
 import { UndoManager } from '../undo-manager';
 import { IUndoManagerActions } from '../types';
@@ -38,11 +38,11 @@ export class BatchAction extends EditorAction {
     actions: EditorAction[],
     subject = 'Batch Action'
   ) {
-    const batchAction = weblancerContainer.get<BatchAction>(BatchAction);
+    const batchAction = Weblancer.getHandlerInstance<BatchAction>(BatchAction);
     batchAction.prepare(actions, subject);
 
     const undoManager =
-      weblancerContainer.get<IUndoManagerActions>(UndoManager);
+      Weblancer.getManagerInstance<IUndoManagerActions>(UndoManager);
 
     undoManager.registerAndExecuteAction(batchAction);
   }

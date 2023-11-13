@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import styles from './weblancerComponentRoot.module.scss';
 import {
-  useWeblancerClientContext,
+  useWeblancerClient,
   useWeblancerManager,
 } from '@weblancer-ui/editor-core';
 import Draggable, { DraggableCore } from 'react-draggable';
@@ -32,7 +32,7 @@ export const WeblancerComponentRoot = ({
   defineProp,
   children,
 }: IWeblancerComponentRootProps) => {
-  const { document } = useWeblancerClientContext();
+  const { document } = useWeblancerClient();
   const rootRef = useRef<HTMLDivElement>(null);
   const draggableRef = useRef<Draggable>(null);
   const adjustmentManager =

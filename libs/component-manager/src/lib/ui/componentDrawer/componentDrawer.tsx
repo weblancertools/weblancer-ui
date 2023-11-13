@@ -1,4 +1,4 @@
-import { useWeblancerEditorManager } from '@weblancer-ui/editor-core';
+import { useWeblancerManager } from '@weblancer-ui/editor-core';
 import { IComponentManagerActions } from '../../types';
 import { ComponentManager } from '../../component-manager';
 import styles from './componentDrawer.module.scss';
@@ -28,7 +28,7 @@ const ComponentDrawerContainer = () => {
   const { category, group } = useComponentDrawerContext();
 
   const componentManager =
-    useWeblancerEditorManager<IComponentManagerActions>(ComponentManager);
+    useWeblancerManager<IComponentManagerActions>(ComponentManager);
 
   const allComponent = componentManager.getAllComponents();
 

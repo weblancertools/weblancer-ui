@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { ReactNode, useCallback, useMemo } from 'react';
-import { weblancerRegistry } from '@weblancer-ui/manager-registry';
+import { Weblancer } from '@weblancer-ui/manager-registry';
 import { useFrame } from 'react-frame-component';
 import { WeblancerClientContext } from '@weblancer-ui/editor-core';
 import {
@@ -16,11 +16,11 @@ export const WeblancerContextClientProvider: React.FC<
   IWeblancerContextClientProviderProps
 > = ({ children }) => {
   const getManager = useCallback(<TType,>(_class: unknown) => {
-    return weblancerRegistry.getManagerInstance<TType>(_class);
+    return Weblancer.getManagerInstance<TType>(_class);
   }, []);
   const { document: iFrameDocument, window: iFrameWindow } = useFrame();
   const layoutManager =
-    weblancerRegistry.getManagerInstance<ILayoutManagerActions>(LayoutManager);
+    Weblancer.getManagerInstance<ILayoutManagerActions>(LayoutManager);
 
   const value = useMemo(
     () => ({

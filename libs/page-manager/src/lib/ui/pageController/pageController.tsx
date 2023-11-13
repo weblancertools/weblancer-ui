@@ -1,4 +1,4 @@
-import { useWeblancerEditorManager } from '@weblancer-ui/editor-core';
+import { useWeblancerManager } from '@weblancer-ui/editor-core';
 import { PageManager } from '../../page-manager';
 import {
   IPageManagerAction,
@@ -12,10 +12,8 @@ import styles from './pageController.module.scss';
 import { generateRandomString } from '@weblancer-ui/utils';
 
 export const PageController = () => {
-  const pageManager =
-    useWeblancerEditorManager<IPageManagerAction>(PageManager);
-  const propManager =
-    useWeblancerEditorManager<IPropManagerActions>(PropManager);
+  const pageManager = useWeblancerManager<IPageManagerAction>(PageManager);
+  const propManager = useWeblancerManager<IPropManagerActions>(PropManager);
 
   const pages = usePageManagerSelector(
     (state) => state[PageManagerService].pages

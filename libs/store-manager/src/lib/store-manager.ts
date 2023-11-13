@@ -6,10 +6,7 @@ import {
   StoreManagerService,
 } from './types';
 import { inject, injectable } from 'inversify';
-import {
-  StoreService,
-  weblancerRegistry,
-} from '@weblancer-ui/manager-registry';
+import { StoreService, Weblancer } from '@weblancer-ui/manager-registry';
 import { freeze } from 'immer';
 
 @injectable()
@@ -34,4 +31,4 @@ export class StoreManager extends IManager implements IStoreManagerActions {
   }
 }
 
-weblancerRegistry.registerManager<IStoreManagerActions>(StoreManager);
+Weblancer.registerManager<IStoreManagerActions>(StoreManager);

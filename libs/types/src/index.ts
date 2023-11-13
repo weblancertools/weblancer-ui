@@ -13,3 +13,4 @@ export * from './lib/ResizeSide';
 export * from './lib/IComponentMetadata';
 export * from './lib/IContainerProps';
 export * from './lib/PropManager';
+export * from './lib/Component';

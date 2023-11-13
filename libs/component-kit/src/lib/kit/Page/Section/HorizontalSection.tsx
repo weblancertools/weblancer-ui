@@ -1,5 +1,4 @@
 import { Container as BaseContainer } from '../../../components/Container/Container';
-import { ComponentManager } from '@weblancer-ui/component-manager';
 import {
   IContainerProps,
   IWeblancerComponentProps,
@@ -10,6 +9,7 @@ import classNames from 'classnames';
 import { ISectionProps } from '../types';
 import { SectionComponentKey } from '../constants';
 import { ComponentChildStyle } from '@weblancer-ui/adjustment-manager';
+import { Weblancer } from '@weblancer-ui/manager-registry';
 
 export const HorizontalSection = ({
   defineProp,
@@ -44,7 +44,7 @@ export const HorizontalSection = ({
   );
 };
 
-ComponentManager.register(SectionComponentKey, HorizontalSection, {
+Weblancer.registerComponent(SectionComponentKey, HorizontalSection, {
   groups: 'Section',
   categories: 'Weblancer',
   label: 'Horizontal Section',

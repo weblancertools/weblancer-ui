@@ -1,4 +1,4 @@
-import { useWeblancerEditorManager } from '@weblancer-ui/editor-core';
+import { useWeblancerManager } from '@weblancer-ui/editor-core';
 import { IAdjustmentManagerActions } from '../../../types';
 import { AdjustmentManager } from '../../../adjustment-manager';
 import styles from './selected.module.scss';
@@ -9,9 +9,8 @@ import { useAdjustmentVersion } from '../../../hooks/useAdjustmentVersion';
 
 export const Selected = () => {
   const adjustmentManager =
-    useWeblancerEditorManager<IAdjustmentManagerActions>(AdjustmentManager);
-  const propManager =
-    useWeblancerEditorManager<IPropManagerActions>(PropManager);
+    useWeblancerManager<IAdjustmentManagerActions>(AdjustmentManager);
+  const propManager = useWeblancerManager<IPropManagerActions>(PropManager);
 
   const { draggingItemId, selectedItemId, version } = useAdjustmentVersion();
 

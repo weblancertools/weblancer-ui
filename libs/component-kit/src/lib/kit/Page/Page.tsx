@@ -1,5 +1,4 @@
 import { Page as BasePage } from '../../components/Page/Page';
-import { ComponentManager } from '@weblancer-ui/component-manager';
 import {
   IContainerProps,
   IWeblancerComponentProps,
@@ -15,6 +14,7 @@ import { useWeblancerCommonManager } from '@weblancer-ui/tool-kit';
 import { SectionMapPropName } from './constants';
 import { ISectionManagerActions } from './sectionManager/types';
 import { SectionManager } from './sectionManager/sectionManager';
+import { Weblancer } from '@weblancer-ui/manager-registry';
 
 export const Page = ({
   itemId,
@@ -94,7 +94,7 @@ export const Page = ({
 
 export const PageComponentKey = 'weblancer-component-kit-page';
 
-ComponentManager.register(PageComponentKey, Page, {
+Weblancer.registerComponent(PageComponentKey, Page, {
   groups: 'Containers',
   categories: 'Weblancer',
   label: 'Page',
