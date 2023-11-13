@@ -1,7 +1,6 @@
 import { useWeblancerEditorManager } from '@weblancer-ui/editor-core';
 import { PageManager } from '../../page-manager';
 import {
-  IPageInfo,
   IPageManagerAction,
   PageManagerService,
   usePageManagerSelector,
@@ -34,20 +33,7 @@ export const PageController = () => {
 
   const createNewPage = () => {
     const id = generateRandomString(8);
-    const newPageInfo: IPageInfo = {
-      id,
-      name: id,
-      componentMap: {
-        [id]: {
-          id,
-          name: id,
-          componentKey: 'weblancer-component-kit-page',
-          parentId: 'none',
-          props: {},
-          children: [],
-        },
-      },
-    };
+    const newPageInfo = pageManager.pageLoader.getDefaultPageInfo(id, id);
 
     pageManager.saveCurrentPage();
 

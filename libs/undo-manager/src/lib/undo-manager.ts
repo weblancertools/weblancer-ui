@@ -79,6 +79,14 @@ export class UndoManager
 
     action!.execute();
   }
+
+  clear(): void {
+    this.undoList = [];
+    this.redoList = [];
+
+    this.setUndo(false);
+    this.setRedo(false);
+  }
 }
 
 weblancerRegistry.registerManager<IUndoManagerActions>(UndoManager);

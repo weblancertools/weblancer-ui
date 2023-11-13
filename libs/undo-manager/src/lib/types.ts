@@ -14,6 +14,7 @@ export interface IUndoManagerSlice {
 
 export interface IUndoManagerActions {
   registerAndExecuteAction(action: EditorAction): void;
+  clear(): void;
   undo(): void;
   redo(): void;
 }

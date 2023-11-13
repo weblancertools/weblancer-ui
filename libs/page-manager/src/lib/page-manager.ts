@@ -18,6 +18,9 @@ import pageSlice, {
 } from './slice/pageSlice';
 import { IPropManagerActions, PropManager } from '@weblancer-ui/prop-manager';
 import { weblancerRegistry } from '@weblancer-ui/manager-registry';
+import { PageLoader } from './pageLoader.ts/pageLoader';
+import { DefaultPageLoader } from './pageLoader.ts/defaultPageLoader';
+import { IUndoManagerActions, UndoManager } from '@weblancer-ui/undo-manager';
 
 export class PageManager
   extends IManagerWithStore
@@ -26,13 +29,20 @@ export class PageManager
   public sliceReducer = pageSlice;
   public name = PageManagerService;
 
+  public pageLoader: PageLoader = new DefaultPageLoader();
+
   constructor(
     @inject(StoreManager) private readonly storeManager: IStoreManagerActions,
-    @inject(PropManager) private readonly propManager: IPropManagerActions
+    @inject(PropManager) private readonly propManager: IPropManagerActions,
+    @inject(UndoManager) private readonly undoManager: IUndoManagerActions
   ) {
     super();
 
     this.injectSlice(storeManager);
+  }
+
+  setPageLoader(pageLoader: PageLoader): void {
+    this.pageLoader = pageLoader;
   }
 
   addPage(pageInfo: IPageInfo): void {
@@ -53,12 +63,21 @@ export class PageManager
 
   async changePage(pageId: string): Promise<void> {
     const pages = this.getPages();
-    if (!pages[pageId].componentMap) {
-      // TODO load page data
+    let componentMap = pages[pageId].componentMap;
+    if (!componentMap) {
+      const loadedPage = await this.pageLoader.loadPage(pageId);
+
+      componentMap = loadedPage.componentMap;
+
+      this.updatePage(pageId, {
+        componentMap: loadedPage.componentMap,
+      });
     }
 
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    this.propManager.setPageData(pages[pageId].componentMap!, pageId);
+    this.propManager.setPageData(componentMap!, pageId);
+
+    this.undoManager.clear();
   }
 
   getPages(): Record<string, IPageInfo> {
@@ -81,20 +100,9 @@ export class PageManager
   }
 
   async loadFirstPage(): Promise<void> {
+    // TODO load first page by page loader
     // Test
-    this.addPage({
-      id: 'page1',
-      name: 'page1',
-      componentMap: {
-        page1: {
-          id: 'page1',
-          componentKey: 'weblancer-component-kit-page',
-          parentId: 'none',
-          props: {},
-          children: [],
-        },
-      },
-    });
+    this.addPage(this.pageLoader.getDefaultPageInfo('page1', 'page1'));
   }
 
   saveCurrentPage(): void {
