@@ -23,8 +23,14 @@ export class Weblancer {
     return weblancerContainer.get<TClass>(_class);
   }
 
-  public static bindAction(_actionClass: any) {
-    weblancerContainer.bind(_actionClass).toSelf();
+  public static bindHandler(_handlerClass: any) {
+    weblancerContainer.bind(_handlerClass).toSelf();
+  }
+
+  public static getHandlerInstance<Type>(_handlerClass: {
+    new (...args: any[]): Type;
+  }) {
+    return weblancerContainer.get<Type>(_handlerClass);
   }
 
   public static registerComponent(
