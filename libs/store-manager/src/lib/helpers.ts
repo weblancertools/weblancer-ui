@@ -4,6 +4,7 @@ import {
   ReducersMapObject,
   Store,
   combineReducers,
+  createSlice,
   configureStore as reduxConfigureStore,
 } from '@reduxjs/toolkit';
 import { InjectableStore } from './types';
@@ -20,8 +21,18 @@ export const createReducer = (
 
 export const configureStore = (options: ConfigureStoreOptions) => {
   const { reducer, ...restOptions } = options;
+
+  let _reducer = reducer;
+  // No reducer detected
+  if (Object.keys(_reducer).length === 0) {
+    _reducer = {
+      empty: createSlice({ name: 'empty', initialState: {}, reducers: {} })
+        .reducer,
+    };
+  }
+
   const store = reduxConfigureStore({
-    reducer: createReducer(reducer),
+    reducer: createReducer(_reducer),
     ...restOptions,
   }) as Store & InjectableStore;
 
