@@ -57,4 +57,5 @@ export interface IPropManagerActions {
     propName: string
   ): ReturnType<IReduxSelector>;
   getPageDataSelector(): ReturnType<IReduxSelector>;
+  getComponentMap(): Record<string, IComponentData>;
 }

@@ -92,7 +92,9 @@ export const Page = ({
   );
 };
 
-ComponentManager.register('weblancer-component-kit-page', Page, {
+export const PageComponentKey = 'weblancer-component-kit-page';
+
+ComponentManager.register(PageComponentKey, Page, {
   groups: 'Containers',
   categories: 'Weblancer',
   label: 'Page',

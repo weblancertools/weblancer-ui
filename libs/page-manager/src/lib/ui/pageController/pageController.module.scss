@@ -1,0 +1,18 @@
+.root {
+  box-sizing: border-box;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+
+  gap: 12px;
+
+  *{
+    box-sizing: border-box;
+  }
+}
+
+.select{
+    width: 150px;
+}

@@ -266,6 +266,11 @@ export class PropManager
 
     return this.selectorCache[PageDataSelectorKey];
   }
+
+  getComponentMap(): Record<string, IComponentData> {
+    return this.storeManager.getState<IPropManagerStoreRootState>().PropManager
+      .componentMap;
+  }
 }
 
 weblancerRegistry.registerManager<IPropManagerActions>(PropManager);

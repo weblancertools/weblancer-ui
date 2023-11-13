@@ -12,10 +12,11 @@ export const pageSlice = createSlice({
   reducers: {
     addPage: (state, action: PayloadAction<{ pageInfo: IPageInfo }>) => {
       const pageInfo = action.payload.pageInfo;
-      state.pages[pageInfo.id] = pageInfo;
+      state.pages = { ...state.pages, [pageInfo.id]: pageInfo };
     },
     removePage: (state, action: PayloadAction<{ pageId: string }>) => {
       delete state.pages[action.payload.pageId];
+      state.pages = { ...state.pages };
     },
     updatePage: (
       state,

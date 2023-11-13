@@ -25,8 +25,9 @@ import { undoPlugin } from '@weblancer-ui/undo-plugin';
 import { extraAdjustmentPlugin } from '@weblancer-ui/adjustment-plugin';
 import {
   importWeblancerComponentKit,
-  pagePlugin,
+  sectionPlugin,
 } from '@weblancer-ui/component-kit';
+import { pagePlugin } from '@weblancer-ui/page-manager';
 
 importWeblancerComponentKit();
 
@@ -42,6 +43,7 @@ export function App() {
         componentPlugin,
         undoPlugin,
         extraAdjustmentPlugin,
+        sectionPlugin,
         pagePlugin,
       ]}
       initialManagers={[

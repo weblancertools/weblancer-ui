@@ -28,6 +28,7 @@ export interface IPageManagerAction {
   getPages(): Record<string, IPageInfo>;
   getHomePage(): IPageInfo;
   loadFirstPage(): Promise<void>;
+  saveCurrentPage(): void;
 }
 
 export const usePageManagerSelector: TypedUseSelectorHook<IPageManagerStoreRootState> =

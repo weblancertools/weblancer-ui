@@ -96,6 +96,14 @@ export class PageManager
       },
     });
   }
+
+  saveCurrentPage(): void {
+    const pageData = this.propManager.getPageData();
+
+    this.updatePage(pageData.id, {
+      componentMap: this.propManager.getComponentMap(),
+    });
+  }
 }
 
 weblancerRegistry.registerManager<IPageManagerAction>(PageManager);
