@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { ReactNode, useCallback, useMemo } from 'react';
 import { IEditorUIPlugin, IReduxStore } from '@weblancer-ui/types';
-import { weblancerRegistry } from '@weblancer-ui/manager-registry';
 import { EditorAction } from '@weblancer-ui/undo-manager';
 import { WeblancerContext } from '@weblancer-ui/editor-core';
+import { Weblancer } from '@weblancer-ui/manager-registry';
 
 export interface IWeblancerContextProvider {
   store: IReduxStore;
@@ -21,7 +21,7 @@ export const WeblancerContextProvider = ({
   children,
 }: IWeblancerContextProvider) => {
   const getManager = useCallback(<TType,>(_class: unknown) => {
-    return weblancerRegistry.getManagerInstance<TType>(_class);
+    return Weblancer.getManagerInstance<TType>(_class);
   }, []);
 
   const getPlugins = useCallback(() => {
@@ -33,7 +33,7 @@ export const WeblancerContextProvider = ({
   }, []);
 
   useMemo(() => {
-    weblancerRegistry.setStore(store);
+    Weblancer.setStore(store);
 
     if (!Array.isArray(initialManagers)) {
       getManager(initialManagers);

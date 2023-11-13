@@ -4,7 +4,7 @@ import {
   IAdjustmentManagerActions,
   IStoreRootState,
 } from './types';
-import { weblancerRegistry } from '@weblancer-ui/manager-registry';
+import { Weblancer } from '@weblancer-ui/manager-registry';
 import {
   IManagerWithStore,
   IStoreManagerActions,
@@ -123,4 +123,4 @@ export class AdjustmentManager
   }, 10);
 }
 
-weblancerRegistry.registerManager<IAdjustmentManagerActions>(AdjustmentManager);
+Weblancer.registerManager<IAdjustmentManagerActions>(AdjustmentManager);

@@ -8,7 +8,7 @@ import {
 } from '@weblancer-ui/component-manager';
 import { SectionComponentKey } from '../constants';
 import { IPropManagerActions, PropManager } from '@weblancer-ui/prop-manager';
-import { weblancerRegistry } from '@weblancer-ui/manager-registry';
+import { Weblancer } from '@weblancer-ui/manager-registry';
 
 export class SectionManager extends IManager implements ISectionManagerActions {
   public name = SectionManagerService;
@@ -148,4 +148,4 @@ export class SectionManager extends IManager implements ISectionManagerActions {
   }
 }
 
-weblancerRegistry.registerManager<ISectionManagerActions>(SectionManager);
+Weblancer.registerManager<ISectionManagerActions>(SectionManager);

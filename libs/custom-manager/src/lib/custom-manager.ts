@@ -1,6 +1,6 @@
 import { IEditorUIPlugin, IManager } from '@weblancer-ui/types';
 import { inject, injectable } from 'inversify';
-import { weblancerRegistry } from '@weblancer-ui/manager-registry';
+import { Weblancer } from '@weblancer-ui/manager-registry';
 import { ICustomManagerActions } from './types';
 import { CustomManagerService } from './constants';
 import {
@@ -24,4 +24,4 @@ export class CustomManager extends IManager implements ICustomManagerActions {
   }
 }
 
-weblancerRegistry.registerManager<ICustomManagerActions>(CustomManager);
+Weblancer.registerManager<ICustomManagerActions>(CustomManager);

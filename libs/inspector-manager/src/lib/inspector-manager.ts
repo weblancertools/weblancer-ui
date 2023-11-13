@@ -4,7 +4,7 @@ import {
   IInspectorManagerActions,
   InspectorManagerService,
 } from './types';
-import { weblancerRegistry } from '@weblancer-ui/manager-registry';
+import { Weblancer } from '@weblancer-ui/manager-registry';
 import { IManager } from '@weblancer-ui/types';
 import { importInspectors } from './helpers';
 
@@ -31,10 +31,10 @@ export class InspectorManager
   }
 
   public static addInspector(inspector: IInspectorData): void {
-    weblancerRegistry
-      .getManagerInstance<IInspectorManagerActions>(InspectorManager)
-      .addInspector(inspector);
+    Weblancer.getManagerInstance<IInspectorManagerActions>(
+      InspectorManager
+    ).addInspector(inspector);
   }
 }
 
-weblancerRegistry.registerManager<IInspectorManagerActions>(InspectorManager);
+Weblancer.registerManager<IInspectorManagerActions>(InspectorManager);

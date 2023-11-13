@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { weblancerRegistry } from '@weblancer-ui/manager-registry';
+import { Weblancer } from '@weblancer-ui/manager-registry';
 import { inject, injectable } from 'inversify';
 import { IUndoManagerActions } from './types';
 import { UndoManagerService } from './constants';
@@ -89,4 +89,4 @@ export class UndoManager
   }
 }
 
-weblancerRegistry.registerManager<IUndoManagerActions>(UndoManager);
+Weblancer.registerManager<IUndoManagerActions>(UndoManager);

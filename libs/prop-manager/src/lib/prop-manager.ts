@@ -15,7 +15,7 @@ import propSlice, {
   updateComponent,
   updateComponentProp,
 } from './slice/propSlice';
-import { weblancerRegistry } from '@weblancer-ui/manager-registry';
+import { Weblancer } from '@weblancer-ui/manager-registry';
 import {
   BreakpointManager,
   IBreakpointManagerActions,
@@ -273,4 +273,4 @@ export class PropManager
   }
 }
 
-weblancerRegistry.registerManager<IPropManagerActions>(PropManager);
+Weblancer.registerManager<IPropManagerActions>(PropManager);

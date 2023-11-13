@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import styles from './componentItem.module.scss';
-import { IComponentHolder, IComponentManagerActions } from '../../../types';
+import { IComponentManagerActions } from '../../../types';
 import {
   useWeblancerContext,
   useWeblancerEditorManager,
@@ -14,6 +14,7 @@ import {
 } from '@weblancer-ui/adjustment-manager';
 import { IPropManagerActions, PropManager } from '@weblancer-ui/prop-manager';
 import { ComponentManager } from '../../../component-manager';
+import { IComponentHolder } from '@weblancer-ui/types';
 
 interface IComponentItemProps {
   component: IComponentHolder;
