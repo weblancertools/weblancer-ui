@@ -12,5 +12,5 @@ const initialState: IWeblancerContext = {
 
 export const WeblancerContext = createContext<IWeblancerContext>(initialState);
 
-export const useWeblancerContext = () =>
+export const useWeblancerEditor = () =>
   useContext<IWeblancerContext>(WeblancerContext);

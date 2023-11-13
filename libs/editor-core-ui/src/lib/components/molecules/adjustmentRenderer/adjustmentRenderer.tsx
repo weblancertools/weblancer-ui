@@ -1,4 +1,4 @@
-import { useWeblancerContext } from '@weblancer-ui/editor-core';
+import { useWeblancerEditor } from '@weblancer-ui/editor-core';
 import styles from './adjustmentRenderer.module.scss';
 import { Fragment } from 'react';
 import { useEffect } from 'react';
@@ -18,7 +18,7 @@ export const AdjustmentRenderer = () => {
   const { layoutManager, adjustmentManager, propManager } =
     useWeblancerCommonManager();
 
-  const { getPlugins } = useWeblancerContext();
+  const { getPlugins } = useWeblancerEditor();
 
   useEffect(() => {
     const iframe = document.getElementById(IFrameId);
