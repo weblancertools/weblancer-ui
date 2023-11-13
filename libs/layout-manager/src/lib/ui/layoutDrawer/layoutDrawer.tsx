@@ -7,11 +7,7 @@ import {
   TreeItemProps,
   useTreeItem,
 } from '@mui/x-tree-view';
-import {
-  IComponentData,
-  IPropManagerActions,
-  PropManager,
-} from '@weblancer-ui/prop-manager';
+import { IPropManagerActions, PropManager } from '@weblancer-ui/prop-manager';
 import {
   AdjustmentManager,
   IAdjustmentManagerActions,
@@ -19,7 +15,7 @@ import {
 import { forwardRef } from 'react';
 import classNames from 'classnames';
 import { useSelector } from 'react-redux';
-import { IEditorDrawerProps } from '@weblancer-ui/types';
+import { IComponentData, IEditorDrawerProps } from '@weblancer-ui/types';
 
 export const LayoutDrawer = ({ onClose }: IEditorDrawerProps) => {
   const propManager =
@@ -46,28 +42,31 @@ export const LayoutDrawer = ({ onClose }: IEditorDrawerProps) => {
         defaultCollapseIcon={'▾'}
         defaultExpandIcon={'▸'}
       >
-        <RenderLeaf componentData={pageData} />
+        <RenderLeaf itemId={pageData.id} />
       </TreeView>
     </div>
   );
 };
 
-const RenderLeaf = ({
-  componentData,
-}: {
-  componentData: IComponentData | Omit<IComponentData, 'parentId'>;
-}) => {
-  const children = Object.keys(componentData.childrenPropData ?? {}).map(
-    (childId) => {
-      return (
-        <RenderLeaf
-          key={childId}
-          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-          componentData={componentData.childrenPropData![childId]}
-        />
-      );
-    }
+const RenderLeaf = ({ itemId }: { itemId: string }) => {
+  const propManager =
+    useWeblancerEditorManager<IPropManagerActions>(PropManager);
+
+  const componentData: IComponentData = useSelector(
+    propManager.getComponentChangeSelector(itemId)
   );
+
+  if (!componentData) return null;
+
+  const children = (componentData.children ?? []).map((childId) => {
+    return (
+      <RenderLeaf
+        key={childId}
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        itemId={childId}
+      />
+    );
+  });
 
   return (
     <CustomTreeItem

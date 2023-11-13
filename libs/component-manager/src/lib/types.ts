@@ -1,8 +1,10 @@
-import { ComponentManagerService } from './constants';
 import {
   IComponentData,
+  IComponentMetadata,
+  IContainerProps,
   IWeblancerComponentProps,
-} from '@weblancer-ui/prop-manager';
+} from '@weblancer-ui/types';
+import { ComponentManagerService } from './constants';
 
 export interface IStoreRootState {
   [ComponentManagerService]: IComponentManagerSlice;
@@ -23,8 +25,9 @@ export interface IComponentManagerActions {
     position: { x: number; y: number },
     forceItemId?: string,
     onItemCreated?: (itemId: string) => void
-  ): void;
+  ): string;
   deleteItem(itemId: string): void;
+  getMetadata(itemId: string): IComponentMetadata | undefined;
 }
 
 export interface IComponentMap {
@@ -37,13 +40,18 @@ export interface IComponentHolder {
   metadata?: IComponentRegisterMetadata;
 }
 
-export type WeblancerComponent = React.ComponentType<IWeblancerComponentProps>;
+export type WeblancerComponent =
+  | React.ComponentType<IWeblancerComponentProps>
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  | React.ComponentType<IWeblancerComponentProps & any>
+  | React.ComponentType<IWeblancerComponentProps & IContainerProps>
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  | React.ComponentType<IWeblancerComponentProps & IContainerProps & any>;
 
 export interface IComponentRegisterMetadata {
   label?: string;
   categories?: string | string[];
   groups?: string | string[];
-  defaultComponentData?: Partial<
-    Pick<IComponentData, 'props' | 'childrenPropData' | 'metadata'>
-  >;
+  componentMetadata?: IComponentMetadata;
+  defaultComponentData?: Partial<Pick<IComponentData, 'props' | 'children'>>;
 }

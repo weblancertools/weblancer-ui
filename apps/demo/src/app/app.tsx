@@ -9,7 +9,6 @@ import { StateManager } from '@weblancer-ui/state-manager';
 import { PropManager } from '@weblancer-ui/prop-manager';
 import {
   ComponentManager,
-  WeblancerText,
   componentPlugin,
 } from '@weblancer-ui/component-manager';
 import {
@@ -24,6 +23,13 @@ import { LayoutManager, layoutPlugin } from '@weblancer-ui/layout-manager';
 import { UndoManager } from '@weblancer-ui/undo-manager';
 import { undoPlugin } from '@weblancer-ui/undo-plugin';
 import { extraAdjustmentPlugin } from '@weblancer-ui/adjustment-plugin';
+import {
+  importWeblancerComponentKit,
+  sectionPlugin,
+} from '@weblancer-ui/component-kit';
+import { pagePlugin } from '@weblancer-ui/page-manager';
+
+importWeblancerComponentKit();
 
 export function App() {
   return (
@@ -37,6 +43,8 @@ export function App() {
         componentPlugin,
         undoPlugin,
         extraAdjustmentPlugin,
+        sectionPlugin,
+        pagePlugin,
       ]}
       initialManagers={[
         BreakpointManager,
@@ -54,8 +62,3 @@ export function App() {
 }
 
 export default App;
-
-ComponentManager.register('weblancer-text', WeblancerText, {
-  groups: 'Text',
-  categories: 'Weblancer',
-});

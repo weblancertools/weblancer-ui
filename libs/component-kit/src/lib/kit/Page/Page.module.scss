@@ -1,0 +1,11 @@
+.root{
+  width: 100vw;
+  height: auto;
+  max-height: 100vh;
+
+  display: grid;
+  grid-template-rows: auto;
+  grid-template-columns: auto;
+
+  overflow: auto;
+}

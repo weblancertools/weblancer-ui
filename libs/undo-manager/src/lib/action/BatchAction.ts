@@ -1,0 +1,51 @@
+import { weblancerContainer } from '@weblancer-ui/manager-registry';
+import { EditorAction } from './EditorAction';
+import { UndoManager } from '../undo-manager';
+import { IUndoManagerActions } from '../types';
+
+export class BatchAction extends EditorAction {
+  public subject = 'Batch Action';
+
+  public get description() {
+    return 'Update Component Prop';
+  }
+
+  private actions: EditorAction[] = [];
+
+  public prepare(
+    actions: EditorAction[],
+    subject = 'Batch Action'
+  ): EditorAction {
+    this.actions = [...actions];
+    this.subject = subject;
+
+    return this;
+  }
+
+  public execute(): void {
+    this.actions.forEach((action) => {
+      action.execute();
+    });
+  }
+
+  public undo(): void {
+    [...this.actions].reverse().forEach((action) => {
+      action.undo();
+    });
+  }
+
+  public static batchPerform(
+    actions: EditorAction[],
+    subject = 'Batch Action'
+  ) {
+    const batchAction = weblancerContainer.get<BatchAction>(BatchAction);
+    batchAction.prepare(actions, subject);
+
+    const undoManager =
+      weblancerContainer.get<IUndoManagerActions>(UndoManager);
+
+    undoManager.registerAndExecuteAction(batchAction);
+  }
+}
+
+EditorAction.bindAction(BatchAction);

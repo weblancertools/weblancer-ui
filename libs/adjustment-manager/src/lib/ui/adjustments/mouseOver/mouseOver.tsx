@@ -1,35 +1,31 @@
 import { useWeblancerEditorManager } from '@weblancer-ui/editor-core';
-import {
-  AdjustmentManagerService,
-  IAdjustmentManagerActions,
-  IStoreRootState,
-} from '../../../types';
+import { IAdjustmentManagerActions } from '../../../types';
 import { AdjustmentManager } from '../../../adjustment-manager';
-import { useSelector } from 'react-redux';
 import styles from './mouseOver.module.scss';
 import { useEffect, useState } from 'react';
+import { useAdjustmentVersion } from '../../../hooks/useAdjustmentVersion';
 
 export const MouseOver = () => {
   const adjustmentManager =
     useWeblancerEditorManager<IAdjustmentManagerActions>(AdjustmentManager);
-  const mouseOverItemId = useSelector(
-    (state: IStoreRootState) => state[AdjustmentManagerService].mouseOverItemId
-  );
-  const mouseOverItemRef = adjustmentManager.getItemRootRef(
-    mouseOverItemId ?? ''
+
+  const { draggingItemId, mouseOverItemId, version } = useAdjustmentVersion();
+
+  const targetItemRef = adjustmentManager.getItemRootRef(
+    draggingItemId ?? mouseOverItemId ?? ''
   );
 
   const [itemRect, setItemRect] = useState<DOMRect>();
 
   useEffect(() => {
-    if (!mouseOverItemId || !mouseOverItemRef) {
+    if (!mouseOverItemId || !targetItemRef || draggingItemId) {
       setItemRect(undefined);
       return;
     }
 
-    const itemRect = mouseOverItemRef.current?.getBoundingClientRect();
+    const itemRect = targetItemRef.current?.getBoundingClientRect();
     setItemRect(itemRect);
-  }, [mouseOverItemId, mouseOverItemRef]);
+  }, [targetItemRef, version, draggingItemId, mouseOverItemId]);
 
   if (!itemRect) return null;
 

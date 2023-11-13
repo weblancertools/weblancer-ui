@@ -1,15 +1,17 @@
-import { Store } from '@reduxjs/toolkit';
+import { WeblancerComponentIdAttributeName } from '@weblancer-ui/types';
 
 export function waitForComponentPropsDefined(
-  store: Store,
+  itemId: string,
+  document: Document,
   callback: () => void
 ) {
-  let count = 0;
-  const unsubscribe = store.subscribe(() => {
-    count++;
-    if (count === 3) {
+  const intervalId = setInterval(() => {
+    const node = document.querySelector(
+      `[${WeblancerComponentIdAttributeName}="${itemId}"]`
+    );
+    if (node) {
+      clearInterval(intervalId);
       callback();
-      unsubscribe();
     }
-  });
+  }, 0);
 }

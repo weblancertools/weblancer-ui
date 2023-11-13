@@ -23,6 +23,7 @@ import {
   generateRandomString,
   waitForComponentPropsDefined,
 } from '@weblancer-ui/utils';
+import { IComponentMetadata } from '@weblancer-ui/types';
 
 const componentMap: IComponentMap = {};
 
@@ -93,14 +94,28 @@ export class ComponentManager
       ...componentHolder.metadata?.defaultComponentData,
     });
 
-    waitForComponentPropsDefined(this.storeManager.store, () => {
-      this.layoutManager.setPositionInParent(newComponentId, position);
-      onItemCreated?.(newComponentId);
-    });
+    waitForComponentPropsDefined(
+      newComponentId,
+      this.layoutManager.getClientDocument(),
+      () => {
+        this.layoutManager.setPositionInParent(newComponentId, position);
+        onItemCreated?.(newComponentId);
+      }
+    );
+
+    return newComponentId;
   }
 
   deleteItem(itemId: string): void {
     this.propManager.removeComponent(itemId);
+  }
+
+  getMetadata(itemId: string): IComponentMetadata | undefined {
+    const componentData = this.propManager.getComponent(itemId);
+
+    if (!componentData) return;
+
+    return componentMap[componentData.componentKey].metadata?.componentMetadata;
   }
 
   public static register(

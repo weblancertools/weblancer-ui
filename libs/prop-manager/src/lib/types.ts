@@ -1,8 +1,12 @@
-import { IReduxSelector, ITypeInfo } from '@weblancer-ui/types';
+import {
+  IComponentData,
+  IDefaultPropData,
+  IPropData,
+  IReduxSelector,
+} from '@weblancer-ui/types';
 import { PropManagerService } from './constants';
-import { ReactNode } from 'react';
 
-export interface IStoreRootState {
+export interface IPropManagerStoreRootState {
   [PropManagerService]: IPropManagerSlice;
   [key: string]: unknown;
 }
@@ -13,7 +17,10 @@ export interface IPropManagerSlice {
 }
 
 export interface IPropManagerActions {
-  setPageData(pageData: IComponentData): void;
+  setPageData(
+    componentMap: Record<string, IComponentData>,
+    pageId: string
+  ): void;
   getPageData(): Omit<IComponentData, 'parentId'>;
   addComponent(componentData: IComponentData): void;
   removeComponent(id: string): void;
@@ -24,17 +31,19 @@ export interface IPropManagerActions {
   updateComponentProp<TValue = unknown>(
     id: string,
     name: string,
-    value: TValue
+    value: TValue,
+    ignoreBreakpoint?: boolean
   ): void;
   deepAssignComponentProp<TValue>(
     id: string,
     name: string,
-    value: TValue
+    value: TValue,
+    ignoreBreakpoint?: boolean
   ): void;
   updateComponent(
     id: string,
     newComponentData: Partial<
-      Pick<IComponentData, 'name' | 'parentId' | 'childrenPropData'>
+      Pick<IComponentData, 'name' | 'parentId' | 'children'>
     >
   ): void;
   getComponent(id: string): IComponentData | undefined;
@@ -48,40 +57,5 @@ export interface IPropManagerActions {
     propName: string
   ): ReturnType<IReduxSelector>;
   getPageDataSelector(): ReturnType<IReduxSelector>;
-}
-
-export interface IComponentData {
-  id: string;
-  name?: string;
-  parentId: string;
-  componentKey: string;
-  metadata?: IComponentMetadata;
-  props: Record<string, IBreakPointPropsData>;
-  childrenPropData?: Record<string, IComponentData>;
-}
-
-export interface IComponentMetadata {
-  isContainer?: boolean;
-}
-
-export interface IBreakPointPropsData<TPropType = unknown> {
-  [breakpointName: string]: IPropData<TPropType> | undefined;
-}
-
-export interface IPropData<TPropType = unknown> {
-  name: string;
-  value?: TPropType;
-  typeInfo: ITypeInfo;
-}
-
-export interface IDefaultPropData<TPropType = unknown> {
-  name: string;
-  typeInfo: ITypeInfo<TPropType>;
-}
-
-export interface IWeblancerComponentProps {
-  defineProp<TPropType = unknown>(
-    propData: IDefaultPropData<TPropType>
-  ): TPropType;
-  children?: ReactNode;
+  getComponentMap(): Record<string, IComponentData>;
 }

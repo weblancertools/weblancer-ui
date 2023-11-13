@@ -13,6 +13,8 @@ import {
 import adjustmentSlice, { setStateValue } from './slice/adjustmentSlice';
 import { RefObject } from 'react';
 import { IPosition } from '@weblancer-ui/types';
+import { generateRandomString } from '@weblancer-ui/utils';
+import { debounce, throttle } from 'lodash';
 
 @injectable()
 export class AdjustmentManager
@@ -102,6 +104,23 @@ export class AdjustmentManager
       AdjustmentManagerService
     ].draggingItemId;
   }
+
+  setScrollUpdated(): void {
+    this.setScrollUpdatedThrottle();
+    this.setScrollUpdatedDebounced();
+  }
+
+  private setScrollUpdatedThrottle = throttle(() => {
+    this.storeManager.dispatch(
+      setStateValue({ key: 'scrollHash', value: generateRandomString(8) })
+    );
+  }, 10);
+
+  private setScrollUpdatedDebounced = debounce(() => {
+    this.storeManager.dispatch(
+      setStateValue({ key: 'scrollHash', value: generateRandomString(8) })
+    );
+  }, 10);
 }
 
 weblancerRegistry.registerManager<IAdjustmentManagerActions>(AdjustmentManager);

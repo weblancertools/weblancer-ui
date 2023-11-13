@@ -1,7 +1,4 @@
-import {
-  IComponentData,
-  IWeblancerComponentProps,
-} from '@weblancer-ui/prop-manager';
+import { IComponentData, IWeblancerComponentProps } from '@weblancer-ui/types';
 
 interface IChildrenContainerProps extends IWeblancerComponentProps {
   itemId: string;

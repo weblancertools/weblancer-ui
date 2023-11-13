@@ -25,6 +25,7 @@
         "libs/breakpoint-manager/src/index.ts"
       ],
       "@weblancer-ui/client-core": ["libs/client-core/src/index.ts"],
+      "@weblancer-ui/component-kit": ["libs/component-kit/src/index.ts"],
       "@weblancer-ui/component-manager": [
         "libs/component-manager/src/index.ts"
       ],
@@ -36,9 +37,11 @@
       ],
       "@weblancer-ui/layout-manager": ["libs/layout-manager/src/index.ts"],
       "@weblancer-ui/manager-registry": ["libs/manager-registry/src/index.ts"],
+      "@weblancer-ui/page-manager": ["libs/page-manager/src/index.ts"],
       "@weblancer-ui/prop-manager": ["libs/prop-manager/src/index.ts"],
       "@weblancer-ui/state-manager": ["libs/state-manager/src/index.ts"],
       "@weblancer-ui/store-manager": ["libs/store-manager/src/index.ts"],
+      "@weblancer-ui/tool-kit": ["libs/tool-kit/src/index.ts"],
       "@weblancer-ui/types": ["libs/types/src/index.ts"],
       "@weblancer-ui/undo-manager": ["libs/undo-manager/src/index.ts"],
       "@weblancer-ui/undo-plugin": ["libs/undo-plugin/src/index.ts"],

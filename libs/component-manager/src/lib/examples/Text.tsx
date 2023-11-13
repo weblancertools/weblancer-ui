@@ -1,5 +1,4 @@
-import { IWeblancerComponentProps } from '@weblancer-ui/prop-manager';
-import { PropTypes } from '@weblancer-ui/types';
+import { IWeblancerComponentProps, PropTypes } from '@weblancer-ui/types';
 import { ReactNode } from 'react';
 
 interface ITextProps {

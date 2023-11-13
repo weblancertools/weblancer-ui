@@ -1,24 +1,20 @@
-import { ChildrenContainer } from '@weblancer-ui/adjustment-manager';
 import {
   ComponentManager,
   IComponentManagerActions,
 } from '@weblancer-ui/component-manager';
 import { useWeblancerManager } from '@weblancer-ui/editor-core';
-import {
-  IComponentData,
-  IDefaultPropData,
-  IPropManagerActions,
-  PropManager,
-} from '@weblancer-ui/prop-manager';
+import { IPropManagerActions, PropManager } from '@weblancer-ui/prop-manager';
 import { useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import { WeblancerComponentRoot } from '../weblancerComponentRoot/weblancerComponentRoot';
+import { IComponentData, IDefaultPropData } from '@weblancer-ui/types';
 
 export interface IComponentRenderer {
   itemId: string;
+  [key: string]: unknown;
 }
 
-export const ComponentRenderer = ({ itemId }: IComponentRenderer) => {
+export const ComponentRenderer = ({ itemId, ...rest }: IComponentRenderer) => {
   const propManager = useWeblancerManager<IPropManagerActions>(PropManager);
   const componentManager =
     useWeblancerManager<IComponentManagerActions>(ComponentManager);
@@ -38,28 +34,15 @@ export const ComponentRenderer = ({ itemId }: IComponentRenderer) => {
     [itemId, propManager]
   );
 
-  const children = Object.values(componentData.childrenPropData ?? {});
+  const children = Object.values(componentData.children ?? {});
 
   return (
-    <WeblancerComponentRoot
-      itemId={itemId}
-      componentData={componentData}
-      defineProp={defineProp}
-    >
-      <Component defineProp={defineProp}>
-        {children.length > 0 && (
-          <ChildrenContainer
-            itemId={itemId}
-            componentData={componentData}
-            defineProp={defineProp}
-          >
-            {children.map(({ id: childItemId }) => {
-              return (
-                <ComponentRenderer key={childItemId} itemId={childItemId} />
-              );
-            })}
-          </ChildrenContainer>
-        )}
+    <WeblancerComponentRoot itemId={itemId} defineProp={defineProp}>
+      <Component defineProp={defineProp} itemId={itemId} {...rest}>
+        {children.length > 0 &&
+          children.map((childItemId) => {
+            return <ComponentRenderer key={childItemId} itemId={childItemId} />;
+          })}
       </Component>
     </WeblancerComponentRoot>
   );

@@ -1,5 +1,4 @@
-import { IComponentData } from '@weblancer-ui/prop-manager';
-import { DrawerState, IPosition } from '@weblancer-ui/types';
+import { DrawerState, IComponentData, IPosition } from '@weblancer-ui/types';
 import { TypedUseSelectorHook, useSelector } from 'react-redux';
 
 export const LayoutManagerService = 'LayoutManager';
@@ -28,4 +27,6 @@ export interface ILayoutManagerActions {
     itemId: string,
     data: IPosition & { node?: HTMLElement }
   ): void;
+  setClientDocument(document?: Document): void;
+  getClientDocument(): Document;
 }

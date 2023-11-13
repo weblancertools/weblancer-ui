@@ -3,8 +3,8 @@ import Frame from 'react-frame-component';
 import styles from './clientIFrame.module.scss';
 import { ClientIFrameContent } from './clientIFrameContent';
 import { useBreakpointManagerSelector } from '@weblancer-ui/breakpoint-manager';
-import { IFrameId } from './constants';
 import { WeblancerContextClientProvider } from '../../../../provider/weblancerClientContextProvider';
+import { IFrameId } from '@weblancer-ui/utils';
 
 export const ClientIFrame: FunctionComponent = () => {
   const width = useBreakpointManagerSelector(

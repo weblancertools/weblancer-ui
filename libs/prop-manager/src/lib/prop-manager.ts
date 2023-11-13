@@ -5,13 +5,7 @@ import {
   IStoreManagerActions,
   StoreManager,
 } from '@weblancer-ui/store-manager';
-import {
-  IComponentData,
-  IDefaultPropData,
-  IPropData,
-  IPropManagerActions,
-  IStoreRootState,
-} from './types';
+import { IPropManagerActions, IPropManagerStoreRootState } from './types';
 import propSlice, {
   addComponent,
   deepAssignComponentProp,
@@ -27,7 +21,12 @@ import {
   IBreakpointManagerActions,
 } from '@weblancer-ui/breakpoint-manager';
 import { getFirstUpperBreakpointOverrideInComponentData } from './helpers';
-import { IReduxSelector } from '@weblancer-ui/types';
+import {
+  IComponentData,
+  IDefaultPropData,
+  IPropData,
+  IReduxSelector,
+} from '@weblancer-ui/types';
 import { createDraftSafeSelector } from '@reduxjs/toolkit';
 import { shallowEqual } from 'react-redux';
 
@@ -59,15 +58,19 @@ export class PropManager
     this.injectSlice(storeManager);
   }
 
-  setPageData(pageData: IComponentData): void {
-    this.storeManager.dispatch(setPageData({ pageData }));
+  setPageData(
+    componentMap: Record<string, IComponentData>,
+    pageId: string
+  ): void {
+    this.storeManager.dispatch(setPageData({ componentMap, pageId }));
   }
 
   getPageData(): Omit<IComponentData, 'parentId'> {
     const pageId =
-      this.storeManager.getState<IStoreRootState>().PropManager.pageId;
+      this.storeManager.getState<IPropManagerStoreRootState>().PropManager
+        .pageId;
 
-    return this.storeManager.getState<IStoreRootState>().PropManager
+    return this.storeManager.getState<IPropManagerStoreRootState>().PropManager
       .componentMap[pageId];
   }
 
@@ -102,7 +105,12 @@ export class PropManager
     }
   }
 
-  updateComponentProp<TValue>(id: string, name: string, value: TValue): void {
+  updateComponentProp<TValue>(
+    id: string,
+    name: string,
+    value: TValue,
+    ignoreBreakpoint = false
+  ): void {
     this.storeManager.dispatch(
       updateComponentProp({
         id,
@@ -117,7 +125,8 @@ export class PropManager
   deepAssignComponentProp<TValue>(
     id: string,
     name: string,
-    value: TValue
+    value: TValue,
+    ignoreBreakpoint = false
   ): void {
     this.storeManager.dispatch(
       deepAssignComponentProp({
@@ -131,15 +140,13 @@ export class PropManager
   }
 
   getComponent(id: string): IComponentData {
-    return this.storeManager.getState<IStoreRootState>().PropManager
+    return this.storeManager.getState<IPropManagerStoreRootState>().PropManager
       .componentMap[id];
   }
 
   updateComponent(
     id: string,
-    newData: Partial<
-      Pick<IComponentData, 'parentId' | 'name' | 'childrenPropData'>
-    >
+    newData: Partial<Pick<IComponentData, 'parentId' | 'name' | 'children'>>
   ): void {
     this.storeManager.dispatch(updateComponent({ id, newData }));
   }
@@ -159,16 +166,17 @@ export class PropManager
 
   getComponentChangeSelector(id: string) {
     if (!id) {
-      return (state: IStoreRootState) => '';
+      return (state: IPropManagerStoreRootState) => '';
     }
 
     if (!this.selectorCache[id]) {
       this.selectorCache[id] = createDraftSafeSelector(
         [
-          (store: IStoreRootState) => store.PropManager.componentMap[id],
+          (store: IPropManagerStoreRootState) =>
+            store.PropManager.componentMap[id],
           createDraftSafeSelector(
             [
-              (store: IStoreRootState) => {
+              (store: IPropManagerStoreRootState) => {
                 const componentData = this.getComponent(id);
 
                 if (!componentData) return undefined;
@@ -198,11 +206,11 @@ export class PropManager
               },
             }
           ),
-          (store: IStoreRootState) => store.PropManager.componentMap[id],
-          (store: IStoreRootState) =>
-            Object.keys(
-              store.PropManager.componentMap[id]?.childrenPropData ?? {}
-            ).length,
+          (store: IPropManagerStoreRootState) =>
+            store.PropManager.componentMap[id],
+          (store: IPropManagerStoreRootState) =>
+            Object.keys(store.PropManager.componentMap[id]?.children ?? {})
+              .length,
         ],
         (componentData) => ({ ...componentData })
       );
@@ -213,25 +221,28 @@ export class PropManager
 
   getComponentPropChangeSelector(id: string, propName: string) {
     if (!id) {
-      return (state: IStoreRootState) => '';
+      return (state: IPropManagerStoreRootState) => '';
     }
 
     const key = `${id}_${propName}`;
     if (!this.selectorCache[key]) {
       this.selectorCache[key] = createDraftSafeSelector(
         [
-          (store: IStoreRootState) => {
+          (store: IPropManagerStoreRootState) => {
+            const componentData = this.getComponent(id);
+
+            if (!componentData) return;
+
             const availableBreakpoint =
               getFirstUpperBreakpointOverrideInComponentData(
-                this.getComponent(id),
+                componentData,
                 propName,
                 this.currentBreakpointId,
                 this.allBreakpoints
               );
-            return this.getComponent(id).props[propName][availableBreakpoint]
-              ?.value;
+            return componentData.props[propName]?.[availableBreakpoint]?.value;
           },
-          (store: IStoreRootState) => this.currentBreakpointId,
+          (store: IPropManagerStoreRootState) => this.currentBreakpointId,
         ],
         (value) => value
       );
@@ -244,8 +255,8 @@ export class PropManager
     if (!this.selectorCache[PageDataSelectorKey]) {
       this.selectorCache[PageDataSelectorKey] = createDraftSafeSelector(
         [
-          (store: IStoreRootState) => store.PropManager.pageId,
-          (store: IStoreRootState) => store.PropManager.componentMap,
+          (store: IPropManagerStoreRootState) => store.PropManager.pageId,
+          (store: IPropManagerStoreRootState) => store.PropManager.componentMap,
         ],
         (pageId, componentMap) => {
           return componentMap[pageId];
@@ -254,6 +265,11 @@ export class PropManager
     }
 
     return this.selectorCache[PageDataSelectorKey];
+  }
+
+  getComponentMap(): Record<string, IComponentData> {
+    return this.storeManager.getState<IPropManagerStoreRootState>().PropManager
+      .componentMap;
   }
 }
 
