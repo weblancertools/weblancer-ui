@@ -68,12 +68,33 @@ export class PageManager
   }
 
   getHomePage(): IPageInfo {
-    const homePageId =
+    let homePageId =
       this.storeManager.getState<IPageManagerStoreRootState>()[
         PageManagerService
       ].homePageId;
 
+    if (!homePageId) {
+      homePageId = Object.keys(this.getPages())[0];
+    }
+
     return this.getPages()[homePageId];
+  }
+
+  async loadFirstPage(): Promise<void> {
+    // Test
+    this.addPage({
+      id: 'page1',
+      name: 'page1',
+      componentMap: {
+        page1: {
+          id: 'page1',
+          componentKey: 'weblancer-component-kit-page',
+          parentId: 'none',
+          props: {},
+          children: [],
+        },
+      },
+    });
   }
 }
 

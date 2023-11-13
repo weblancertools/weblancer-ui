@@ -1,31 +1,10 @@
 import styles from './client-core.module.scss';
-import { useWeblancerManager } from '@weblancer-ui/editor-core';
-import { IPropManagerActions, PropManager } from '@weblancer-ui/prop-manager';
 import { ComponentRenderer } from './components/componentRenderer/componentRenderer';
-import { useSelector } from 'react-redux';
-import { memo, useEffect } from 'react';
-import { IComponentData } from '@weblancer-ui/types';
+import { memo } from 'react';
+import { useLoadPage } from './hooks/useLoadPage';
 
 export function ClientCoreComponent() {
-  const propManager = useWeblancerManager<IPropManagerActions>(PropManager);
-  const pageComponentData: IComponentData = useSelector(
-    propManager.getPageDataSelector()
-  );
-
-  useEffect(() => {
-    propManager.setPageData(
-      {
-        page1: {
-          id: 'page1',
-          componentKey: 'weblancer-component-kit-page',
-          parentId: 'none',
-          props: {},
-          children: [],
-        },
-      },
-      'page1'
-    );
-  }, [propManager]);
+  const pageComponentData = useLoadPage();
 
   return (
     <div className={styles.root}>

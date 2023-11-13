@@ -1,4 +1,3 @@
-import { useWeblancerEditorManager } from '@weblancer-ui/editor-core';
 import { useWeblancerCommonManager } from '@weblancer-ui/tool-kit';
 import { IComponentData } from '@weblancer-ui/types';
 import { useSelector } from 'react-redux';
@@ -6,15 +5,11 @@ import { SectionIndexMap } from '../../types';
 import { SectionMapPropName } from '../../constants';
 import styles from './sectionAdd.module.scss';
 import { useAdjustmentVersion } from '@weblancer-ui/adjustment-manager';
-import { ISectionManagerActions } from '../../sectionManager/types';
-import { SectionManager } from '../../sectionManager/sectionManager';
 import { EditorAction } from '@weblancer-ui/undo-manager';
 import { AddSectionAction } from '../../sectionManager/actions/AddSectionAction';
 
 export const SectionAdd = () => {
   const { propManager } = useWeblancerCommonManager();
-  const sectionManager =
-    useWeblancerEditorManager<ISectionManagerActions>(SectionManager);
 
   const pageData: IComponentData = useSelector(
     propManager.getPageDataSelector()
@@ -37,14 +32,6 @@ export const SectionAdd = () => {
     EditorAction.getActionInstance(AddSectionAction)
       .prepare(index, sectionMap)
       .perform();
-    const newSectionMap = sectionManager.addSection(index, sectionMap);
-
-    propManager.updateComponentProp(
-      pageData.id,
-      SectionMapPropName,
-      newSectionMap,
-      true
-    );
   };
 
   return Object.values(sectionMap).map(({ id, index }) => {

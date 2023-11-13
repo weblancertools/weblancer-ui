@@ -15,6 +15,7 @@ import {
   LayoutManager,
 } from '@weblancer-ui/layout-manager';
 import { weblancerRegistry } from '@weblancer-ui/manager-registry';
+import { IPageManagerAction, PageManager } from '@weblancer-ui/page-manager';
 import { IPropManagerActions, PropManager } from '@weblancer-ui/prop-manager';
 import {
   IStateManagerActions,
@@ -28,6 +29,9 @@ import {
 export const useWeblancerCommonManager = () => {
   const propManager =
     weblancerRegistry.getManagerInstance<IPropManagerActions>(PropManager);
+
+  const pageManager =
+    weblancerRegistry.getManagerInstance<IPageManagerAction>(PageManager);
 
   const adjustmentManager =
     weblancerRegistry.getManagerInstance<IAdjustmentManagerActions>(
@@ -61,5 +65,6 @@ export const useWeblancerCommonManager = () => {
     layoutManager,
     stateManager,
     storeManager,
+    pageManager,
   };
 };
