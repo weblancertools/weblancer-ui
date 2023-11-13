@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { ReactNode, useCallback, useMemo } from 'react';
 import { IEditorUIPlugin, IReduxStore } from '@weblancer-ui/types';
-import { EditorAction, UndoManager } from '@weblancer-ui/undo-manager';
+import { UndoManager } from '@weblancer-ui/undo-manager';
 import { WeblancerContext } from '@weblancer-ui/editor-core';
 import { Weblancer } from '@weblancer-ui/manager-registry';
 import { BreakpointManager } from '@weblancer-ui/breakpoint-manager';
@@ -36,30 +36,19 @@ export const WeblancerContextProvider = ({
   plugins = [],
   children,
 }: IWeblancerContextProvider) => {
-  const getManager = useCallback(<TType,>(_class: unknown) => {
-    return Weblancer.getManagerInstance<TType>(_class);
-  }, []);
-
   const getPlugins = useCallback(() => {
     return plugins;
   }, [plugins]);
-
-  const callEditorAction = useCallback((action: EditorAction) => {
-    action.perform();
-  }, []);
 
   useMemo(() => {
     Weblancer.setStore(store);
 
     for (const _c of requiredManagers) {
-      getManager(_c);
+      Weblancer.getManagerInstance(_c);
     }
-  }, [store, getManager]);
+  }, [store]);
 
-  const value = useMemo(
-    () => ({ callEditorAction, getManager, getPlugins }),
-    [getManager, callEditorAction, getPlugins]
-  );
+  const value = useMemo(() => ({ getPlugins }), [getPlugins]);
 
   return (
     <WeblancerContext.Provider value={value}>
