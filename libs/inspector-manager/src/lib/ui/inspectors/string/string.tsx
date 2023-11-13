@@ -1,4 +1,4 @@
-import { useWeblancerEditorManager } from '@weblancer-ui/editor-core';
+import { useWeblancerManager } from '@weblancer-ui/editor-core';
 import {
   IPropManagerActions,
   PropManager,
@@ -12,8 +12,7 @@ import { useCallback } from 'react';
 import { EditorAction } from '@weblancer-ui/undo-manager';
 
 export const String = ({ itemId, propName }: IInspectorComponentProps) => {
-  const propManager =
-    useWeblancerEditorManager<IPropManagerActions>(PropManager);
+  const propManager = useWeblancerManager<IPropManagerActions>(PropManager);
 
   const value: string = useSelector(
     propManager.getComponentPropChangeSelector(itemId, propName)

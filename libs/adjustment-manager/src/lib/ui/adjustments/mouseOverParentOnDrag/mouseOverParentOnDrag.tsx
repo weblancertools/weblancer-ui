@@ -1,4 +1,4 @@
-import { useWeblancerEditorManager } from '@weblancer-ui/editor-core';
+import { useWeblancerManager } from '@weblancer-ui/editor-core';
 import { IAdjustmentManagerActions } from '../../../types';
 import { AdjustmentManager } from '../../../adjustment-manager';
 import styles from './mouseOverParentOnDrag.module.scss';
@@ -7,7 +7,7 @@ import { useAdjustmentVersion } from '../../../hooks/useAdjustmentVersion';
 
 export const MouseOverParentOnDrag = () => {
   const adjustmentManager =
-    useWeblancerEditorManager<IAdjustmentManagerActions>(AdjustmentManager);
+    useWeblancerManager<IAdjustmentManagerActions>(AdjustmentManager);
 
   const { draggingItemId, hoveredContainerId, version } =
     useAdjustmentVersion();

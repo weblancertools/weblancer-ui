@@ -1,13 +1,13 @@
-import { useWeblancerEditorManager } from '@weblancer-ui/editor-core';
 import { IAdjustmentManagerActions } from '../../../types';
 import { AdjustmentManager } from '../../../adjustment-manager';
 import styles from './mouseOver.module.scss';
 import { useEffect, useState } from 'react';
 import { useAdjustmentVersion } from '../../../hooks/useAdjustmentVersion';
+import { useWeblancerManager } from '@weblancer-ui/editor-core';
 
 export const MouseOver = () => {
   const adjustmentManager =
-    useWeblancerEditorManager<IAdjustmentManagerActions>(AdjustmentManager);
+    useWeblancerManager<IAdjustmentManagerActions>(AdjustmentManager);
 
   const { draggingItemId, mouseOverItemId, version } = useAdjustmentVersion();
 

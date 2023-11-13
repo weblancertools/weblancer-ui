@@ -1,4 +1,4 @@
-import { useWeblancerEditorManager } from '@weblancer-ui/editor-core';
+import { useWeblancerManager } from '@weblancer-ui/editor-core';
 import { IInspectorManagerActions } from '../../../types';
 import { InspectorManager } from '../../../inspector-manager';
 import { IPropManagerActions, PropManager } from '@weblancer-ui/prop-manager';
@@ -11,9 +11,8 @@ interface IInspectorViewProps {
 
 export const InspectorView = ({ itemId, propName }: IInspectorViewProps) => {
   const inspectorManager =
-    useWeblancerEditorManager<IInspectorManagerActions>(InspectorManager);
-  const propManager =
-    useWeblancerEditorManager<IPropManagerActions>(PropManager);
+    useWeblancerManager<IInspectorManagerActions>(InspectorManager);
+  const propManager = useWeblancerManager<IPropManagerActions>(PropManager);
 
   const propData = propManager.getComponentProp(itemId, propName);
 

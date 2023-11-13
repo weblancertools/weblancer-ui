@@ -1,7 +1,7 @@
 import { FunctionComponent, PropsWithChildren } from 'react';
 import { IBreakpoint, IBreakpointManagerActions } from '../../../types';
 import styles from './breakpointIcon.module.scss';
-import { useWeblancerEditorManager } from '@weblancer-ui/editor-core';
+import { useWeblancerManager } from '@weblancer-ui/editor-core';
 import { BreakpointManager } from '../../../breakpoint-manager';
 import classNames from 'classnames';
 
@@ -16,7 +16,7 @@ export const BreakpointIcon: FunctionComponent<IBreakpointIconProps> = ({
   selected,
 }) => {
   const breakpointManager =
-    useWeblancerEditorManager<IBreakpointManagerActions>(BreakpointManager);
+    useWeblancerManager<IBreakpointManagerActions>(BreakpointManager);
 
   const handleOnClick = () => {
     breakpointManager.setCurrentBreakpoint(breakpoint.bottom);

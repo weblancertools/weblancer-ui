@@ -1,4 +1,4 @@
-import { useWeblancerEditorManager } from '@weblancer-ui/editor-core';
+import { useWeblancerManager } from '@weblancer-ui/editor-core';
 import styles from './layoutDrawer.module.scss';
 import { TreeView } from '@mui/x-tree-view/TreeView';
 import {
@@ -18,10 +18,9 @@ import { useSelector } from 'react-redux';
 import { IComponentData, IEditorDrawerProps } from '@weblancer-ui/types';
 
 export const LayoutDrawer = ({ onClose }: IEditorDrawerProps) => {
-  const propManager =
-    useWeblancerEditorManager<IPropManagerActions>(PropManager);
+  const propManager = useWeblancerManager<IPropManagerActions>(PropManager);
   const adjustmentManager =
-    useWeblancerEditorManager<IAdjustmentManagerActions>(AdjustmentManager);
+    useWeblancerManager<IAdjustmentManagerActions>(AdjustmentManager);
 
   const pageData: Omit<IComponentData, 'parentId'> = useSelector(
     propManager.getPageDataSelector()
@@ -49,8 +48,7 @@ export const LayoutDrawer = ({ onClose }: IEditorDrawerProps) => {
 };
 
 const RenderLeaf = ({ itemId }: { itemId: string }) => {
-  const propManager =
-    useWeblancerEditorManager<IPropManagerActions>(PropManager);
+  const propManager = useWeblancerManager<IPropManagerActions>(PropManager);
 
   const componentData: IComponentData = useSelector(
     propManager.getComponentChangeSelector(itemId)

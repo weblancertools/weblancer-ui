@@ -2,15 +2,14 @@ import {
   AdjustmentManagerService,
   useAdjustmentManagerSelector,
 } from '@weblancer-ui/adjustment-manager';
-import { useWeblancerEditorManager } from '@weblancer-ui/editor-core';
+import { useWeblancerManager } from '@weblancer-ui/editor-core';
 import { IPropManagerActions, PropManager } from '@weblancer-ui/prop-manager';
 import styles from './inspectorDrawer.module.scss';
 import { InspectorView } from '../components/inspectorView/inspectorView';
 import { IEditorDrawerProps } from '@weblancer-ui/types';
 
 export const InspectorDrawer = ({ onClose }: IEditorDrawerProps) => {
-  const propManager =
-    useWeblancerEditorManager<IPropManagerActions>(PropManager);
+  const propManager = useWeblancerManager<IPropManagerActions>(PropManager);
 
   const selectedItemId = useAdjustmentManagerSelector(
     (state) => state[AdjustmentManagerService].selectedItemId

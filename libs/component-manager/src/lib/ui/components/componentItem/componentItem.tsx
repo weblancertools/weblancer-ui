@@ -1,10 +1,7 @@
 import classNames from 'classnames';
 import styles from './componentItem.module.scss';
 import { IComponentManagerActions } from '../../../types';
-import {
-  useWeblancerContext,
-  useWeblancerEditorManager,
-} from '@weblancer-ui/editor-core';
+import { useWeblancerManager } from '@weblancer-ui/editor-core';
 import { EditorAction } from '@weblancer-ui/undo-manager';
 import { CreateItemAction } from '../../../actions/CreateItemAction';
 import { useComponentDrawerContext } from '../../context/componentDrawerContext';
@@ -21,15 +18,13 @@ interface IComponentItemProps {
 }
 
 export const ComponentItem = ({ component }: IComponentItemProps) => {
-  const { callEditorAction } = useWeblancerContext();
   const { onClose } = useComponentDrawerContext();
 
   const adjustmentManager =
-    useWeblancerEditorManager<IAdjustmentManagerActions>(AdjustmentManager);
-  const propManager =
-    useWeblancerEditorManager<IPropManagerActions>(PropManager);
+    useWeblancerManager<IAdjustmentManagerActions>(AdjustmentManager);
+  const propManager = useWeblancerManager<IPropManagerActions>(PropManager);
   const componentManager =
-    useWeblancerEditorManager<IComponentManagerActions>(ComponentManager);
+    useWeblancerManager<IComponentManagerActions>(ComponentManager);
 
   const handleClick = () => {
     const selectedItemId = adjustmentManager.getSelectedItemId();
@@ -49,11 +44,9 @@ export const ComponentItem = ({ component }: IComponentItemProps) => {
       y: parentRect.top,
     };
 
-    const createItemAction = EditorAction.getActionInstance(
-      CreateItemAction
-    ).prepare(component.key, parentId, position);
-
-    callEditorAction(createItemAction);
+    EditorAction.getActionInstance(CreateItemAction)
+      .prepare(component.key, parentId, position)
+      .perform();
 
     onClose();
   };
