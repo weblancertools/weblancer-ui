@@ -6,7 +6,7 @@ import { inspectorPlugin } from '@weblancer-ui/inspector-manager';
 import { layoutPlugin } from '@weblancer-ui/layout-manager';
 import { undoPlugin } from '@weblancer-ui/undo-plugin';
 
-export function getWeblancerDefaultPlugin() {
+export function getWeblancerDefaultPlugins() {
   return [
     breakpointUiPlugin,
     adjustmentPlugin,
