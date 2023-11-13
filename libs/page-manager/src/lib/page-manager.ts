@@ -41,8 +41,10 @@ export class PageManager
     this.injectSlice(storeManager);
   }
 
-  setPageLoader(pageLoader: PageLoader): void {
-    this.pageLoader = pageLoader;
+  public static setPageLoader(pageLoader: PageLoader): void {
+    const instance =
+      Weblancer.getManagerInstance<IPageManagerAction>(PageManager);
+    instance.pageLoader = pageLoader;
   }
 
   addPage(pageInfo: IPageInfo): void {

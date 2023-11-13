@@ -1,23 +1,39 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { ReactNode, useCallback, useMemo } from 'react';
 import { IEditorUIPlugin, IReduxStore } from '@weblancer-ui/types';
-import { EditorAction } from '@weblancer-ui/undo-manager';
+import { EditorAction, UndoManager } from '@weblancer-ui/undo-manager';
 import { WeblancerContext } from '@weblancer-ui/editor-core';
 import { Weblancer } from '@weblancer-ui/manager-registry';
+import { BreakpointManager } from '@weblancer-ui/breakpoint-manager';
+import { StateManager } from '@weblancer-ui/state-manager';
+import { PropManager } from '@weblancer-ui/prop-manager';
+import { ComponentManager } from '@weblancer-ui/component-manager';
+import { AdjustmentManager } from '@weblancer-ui/adjustment-manager';
+import { InspectorManager } from '@weblancer-ui/inspector-manager';
+import { LayoutManager } from '@weblancer-ui/layout-manager';
 
 export interface IWeblancerContextProvider {
   store: IReduxStore;
   contextType?: 'editor' | 'client';
   plugins?: IEditorUIPlugin[];
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  initialManagers?: any | any[];
   children?: ReactNode;
 }
+
+const requiredManagers = [
+  BreakpointManager,
+  StateManager,
+  PropManager,
+  ComponentManager,
+  AdjustmentManager,
+  InspectorManager,
+  LayoutManager,
+  ComponentManager,
+  UndoManager,
+];
 
 export const WeblancerContextProvider = ({
   store,
   plugins = [],
-  initialManagers = [],
   children,
 }: IWeblancerContextProvider) => {
   const getManager = useCallback(<TType,>(_class: unknown) => {
@@ -35,15 +51,10 @@ export const WeblancerContextProvider = ({
   useMemo(() => {
     Weblancer.setStore(store);
 
-    if (!Array.isArray(initialManagers)) {
-      getManager(initialManagers);
-      return;
-    }
-
-    for (const _c of initialManagers) {
+    for (const _c of requiredManagers) {
       getManager(_c);
     }
-  }, [store, initialManagers, getManager]);
+  }, [store, getManager]);
 
   const value = useMemo(
     () => ({ callEditorAction, getManager, getPlugins }),

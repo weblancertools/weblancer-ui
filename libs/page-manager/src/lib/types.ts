@@ -22,7 +22,6 @@ export interface IPageInfo {
 
 export interface IPageManagerAction {
   pageLoader: PageLoader;
-  setPageLoader(pageLoader: PageLoader): void;
   addPage(pageInfo: IPageInfo): void;
   removePage(pageId: string): void;
   updatePage(pageId: string, pageInfo: Partial<Omit<IPageInfo, 'id'>>): void;

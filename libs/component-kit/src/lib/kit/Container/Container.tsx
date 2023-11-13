@@ -4,7 +4,6 @@ import { ComponentChildStyle } from '@weblancer-ui/adjustment-manager';
 import { Weblancer } from '@weblancer-ui/manager-registry';
 
 export const Container = ({
-  defineProp,
   children,
   rootProps,
   onMouseDown,
