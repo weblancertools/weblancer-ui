@@ -11,11 +11,14 @@ import { InjectableStore } from './types';
 
 export const createReducer = (
   staticReducers: Reducer | ReducersMapObject = {},
-  asyncReducers: Reducer | ReducersMapObject = {}
+  asyncReducers: Reducer | ReducersMapObject = {},
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  preloadedState: any = {}
 ) => {
   return combineReducers({
     ...asyncReducers,
     ...staticReducers,
+    preloadedState,
   });
 };
 
@@ -52,8 +55,6 @@ export const configureStore = (options: ConfigureStoreOptions) => {
 export const configureMockStore = <TRootState>(preloadedState: TRootState) => {
   const store = reduxConfigureStore({
     reducer: createReducer({}),
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    preloadedState: preloadedState as any,
   }) as Store & InjectableStore;
 
   store.asyncReducers = {};

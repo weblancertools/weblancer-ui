@@ -3,8 +3,10 @@ import { inject, injectable } from 'inversify';
 import { IUndoManagerActions } from '../types';
 import { UndoManager } from '../undo-manager';
 import { Weblancer } from '@weblancer-ui/manager-registry';
+import { importManager } from '@weblancer-ui/utils';
 
 @injectable()
+@importManager(UndoManager)
 export abstract class EditorAction {
   public abstract subject: string;
   public abstract get description(): string;

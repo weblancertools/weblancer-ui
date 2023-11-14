@@ -18,17 +18,19 @@ interface IEditorTestProviderProps<TStoreRootState> {
   requiredManagers?: any[];
 }
 
-export function EditorTestProvider<TStoreRootState = unknown>({
+export function WeblancerContextProvider<TStoreRootState = unknown>({
   preloadedState,
   plugins = [],
   children,
   requiredManagers = [],
 }: IEditorTestProviderProps<TStoreRootState>) {
-  const store = preloadedState
-    ? configureMockStore(preloadedState)
-    : configureStore({
-        reducer: {},
-      });
+  const store = useMemo(() => {
+    return preloadedState
+      ? configureMockStore(preloadedState)
+      : configureStore({
+          reducer: {},
+        });
+  }, [preloadedState]);
 
   useMemo(() => {
     Weblancer.setStore(store);
@@ -59,12 +61,12 @@ export function getTestWrapper<TStoreRootState = unknown>({
   requiredManagers = [],
 }: IEditorTestProviderProps<TStoreRootState>) {
   return ({ children }: PropsWithChildren) => (
-    <EditorTestProvider
+    <WeblancerContextProvider
       preloadedState={preloadedState}
       plugins={plugins}
       requiredManagers={requiredManagers}
     >
       {children}
-    </EditorTestProvider>
+    </WeblancerContextProvider>
   );
 }

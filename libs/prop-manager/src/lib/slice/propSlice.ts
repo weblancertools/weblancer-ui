@@ -62,6 +62,8 @@ export const propSlice = createSlice({
       if (componentData.parentId) {
         const parentComponentData = state.componentMap[componentData.parentId];
 
+        if (!parentComponentData) return;
+
         const indexToDelete = parentComponentData.children!.indexOf(
           componentData.id
         );

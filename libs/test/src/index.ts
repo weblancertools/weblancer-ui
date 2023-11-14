@@ -1,1 +1,1 @@
-export * from './lib/providers/editorTestProvider';
+export * from './lib/providers/testProvider';

@@ -6,38 +6,42 @@ import {
   IManager,
   WeblancerComponent,
 } from '@weblancer-ui/types';
-import { weblancerContainer } from './container/container';
+import { weblancerManagerContainer } from './containers/managerContainer';
 import { Store } from '@reduxjs/toolkit';
 import { StoreService } from './manager-registry/storeService';
 
 export class Weblancer {
   private static componentMap: IComponentMap = {};
+  private static store?: Store;
 
   public static registerManager<TActions>(managerClass: any) {
-    if (weblancerContainer.isBound(managerClass)) return;
+    if (weblancerManagerContainer.isBound(managerClass)) return;
 
     bindDependencies(managerClass);
-
-    return weblancerContainer
+    weblancerManagerContainer
       .bind<TActions>(managerClass)
       .to(managerClass)
       .inSingletonScope();
   }
 
   public static getManagerInstance<TClass>(_class: any) {
-    return weblancerContainer.get<TClass>(_class);
+    return weblancerManagerContainer.get<TClass>(_class);
   }
 
-  public static bindHandler(_handlerClass: any) {
-    bindDependencies(_handlerClass);
+  public static bindHandler(handlerClass: any) {
+    if (weblancerManagerContainer.isBound(handlerClass)) return;
 
-    weblancerContainer.bind(_handlerClass).toSelf();
+    bindDependencies(handlerClass);
+
+    weblancerManagerContainer.bind(handlerClass).toSelf();
   }
 
-  public static getHandlerInstance<Type>(_handlerClass: {
+  public static getHandlerInstance<Type>(handlerClass: {
     new (...args: any[]): Type;
   }) {
-    return weblancerContainer.get<Type>(_handlerClass);
+    Weblancer.bindHandler(handlerClass);
+
+    return weblancerManagerContainer.get<Type>(handlerClass);
   }
 
   public static registerComponent(
@@ -56,19 +60,19 @@ export class Weblancer {
     return Weblancer.componentMap;
   }
 
-  private static store: Store;
-
   public static setStore(store: Store) {
     Weblancer.store = store;
 
-    if (!weblancerContainer.isBound(StoreService))
-      weblancerContainer
+    if (!weblancerManagerContainer.isBound(StoreService))
+      weblancerManagerContainer
         .bind(StoreService)
         .toDynamicValue(() => Weblancer.store);
   }
 
-  public static clear() {
-    weblancerContainer.unbindAll();
+  public static async clear() {
+    weblancerManagerContainer.unbindAll();
+    Weblancer.componentMap = {};
+    Weblancer.store = undefined;
   }
 }
 

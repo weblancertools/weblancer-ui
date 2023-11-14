@@ -1,5 +1,5 @@
 import { Weblancer } from '@weblancer-ui/manager-registry';
-import { EditorTestProvider, getTestWrapper } from '@weblancer-ui/test';
+import { WeblancerContextProvider, getTestWrapper } from '@weblancer-ui/test';
 import { AdjustmentManager } from '../adjustment-manager';
 import {
   AdjustmentManagerService,
@@ -15,7 +15,7 @@ describe('adjustment manager test', () => {
   });
 
   it('constructor', () => {
-    render(<EditorTestProvider requiredManagers={[AdjustmentManager]} />);
+    render(<WeblancerContextProvider requiredManagers={[AdjustmentManager]} />);
 
     expect(() => {
       Weblancer.getManagerInstance(AdjustmentManager);
@@ -23,7 +23,7 @@ describe('adjustment manager test', () => {
   });
 
   it('add item root', () => {
-    render(<EditorTestProvider requiredManagers={[AdjustmentManager]} />);
+    render(<WeblancerContextProvider requiredManagers={[AdjustmentManager]} />);
 
     const adjustmentManager =
       Weblancer.getManagerInstance<IAdjustmentManagerActions>(
