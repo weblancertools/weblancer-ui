@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { ReactNode, useCallback, useMemo } from 'react';
 import { IEditorUIPlugin, IReduxStore } from '@weblancer-ui/types';
-import { EditorAction, UndoManager } from '@weblancer-ui/undo-manager';
+import { UndoManager } from '@weblancer-ui/undo-manager';
 import { WeblancerContext } from '@weblancer-ui/editor-core';
 import { Weblancer } from '@weblancer-ui/manager-registry';
 import { BreakpointManager } from '@weblancer-ui/breakpoint-manager';
@@ -11,8 +11,9 @@ import { ComponentManager } from '@weblancer-ui/component-manager';
 import { AdjustmentManager } from '@weblancer-ui/adjustment-manager';
 import { InspectorManager } from '@weblancer-ui/inspector-manager';
 import { LayoutManager } from '@weblancer-ui/layout-manager';
+import { PageManager } from '@weblancer-ui/page-manager';
 
-export interface IWeblancerContextProvider {
+export interface IUnitTestProvider {
   store: IReduxStore;
   contextType?: 'editor' | 'client';
   plugins?: IEditorUIPlugin[];
@@ -29,37 +30,28 @@ const requiredManagers = [
   LayoutManager,
   ComponentManager,
   UndoManager,
+  PageManager,
 ];
 
-export const WeblancerContextProvider = ({
+export const UnitTestProvider = ({
   store,
   plugins = [],
   children,
-}: IWeblancerContextProvider) => {
-  const getManager = useCallback(<TType,>(_class: unknown) => {
-    return Weblancer.getManagerInstance<TType>(_class);
-  }, []);
-
+}: IUnitTestProvider) => {
   const getPlugins = useCallback(() => {
     return plugins;
   }, [plugins]);
-
-  const callEditorAction = useCallback((action: EditorAction) => {
-    action.perform();
-  }, []);
 
   useMemo(() => {
     Weblancer.setStore(store);
 
     for (const _c of requiredManagers) {
-      getManager(_c);
+      Weblancer.registerManager(_c);
+      Weblancer.getManagerInstance(_c);
     }
-  }, [store, getManager]);
+  }, [store]);
 
-  const value = useMemo(
-    () => ({ callEditorAction, getManager, getPlugins }),
-    [getManager, callEditorAction, getPlugins]
-  );
+  const value = useMemo(() => ({ getPlugins }), [getPlugins]);
 
   return (
     <WeblancerContext.Provider value={value}>

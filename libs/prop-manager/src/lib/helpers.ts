@@ -11,7 +11,7 @@ export const removeComponentsRecursively = (
   const componentData = componentMap[id];
   delete componentMap[id];
 
-  if (componentData.children)
+  if (componentData && componentData.children)
     componentData.children.forEach((childId) => {
       removeComponentsRecursively(childId, componentMap);
     });

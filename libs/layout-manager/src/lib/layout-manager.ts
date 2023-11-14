@@ -2,7 +2,6 @@
 import { IComponentData, IManager, IPosition } from '@weblancer-ui/types';
 import { inject, injectable } from 'inversify';
 import { ILayoutManagerActions, LayoutManagerService } from './types';
-import { Weblancer } from '@weblancer-ui/manager-registry';
 import { IPropManagerActions, PropManager } from '@weblancer-ui/prop-manager';
 import {
   AdjustmentManager,
@@ -10,8 +9,11 @@ import {
   IAdjustmentManagerActions,
   IChildTransform,
 } from '@weblancer-ui/adjustment-manager';
+import { importManager } from '@weblancer-ui/utils';
 
+// integration test
 @injectable()
+@importManager([PropManager, AdjustmentManager])
 export class LayoutManager extends IManager implements ILayoutManagerActions {
   public name = LayoutManagerService;
   private document?: Document;
@@ -112,13 +114,6 @@ export class LayoutManager extends IManager implements ILayoutManagerActions {
 
     const parentRect = parentRootDiv.getBoundingClientRect();
 
-    console.log(
-      'setPositionInParent',
-      data.y,
-      parentRect.top,
-      parentRootDiv.scrollTop
-    );
-
     this.propManager.deepAssignComponentProp<IChildTransform>(
       itemId,
       ComponentChildStyle,
@@ -133,5 +128,3 @@ export class LayoutManager extends IManager implements ILayoutManagerActions {
     );
   }
 }
-
-Weblancer.registerManager<ILayoutManagerActions>(LayoutManager);

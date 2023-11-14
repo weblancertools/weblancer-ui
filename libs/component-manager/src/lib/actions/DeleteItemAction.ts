@@ -13,7 +13,10 @@ import {
   AdjustmentManager,
   IAdjustmentManagerActions,
 } from '@weblancer-ui/adjustment-manager';
+import { importManager } from '@weblancer-ui/utils';
 
+// TODO integration test
+@importManager([UndoManager, ComponentManager, AdjustmentManager, PropManager])
 export class DeleteItemAction extends EditorAction {
   public subject = 'Delete Item';
 
@@ -68,5 +71,3 @@ export class DeleteItemAction extends EditorAction {
     );
   }
 }
-
-EditorAction.bindAction(DeleteItemAction);

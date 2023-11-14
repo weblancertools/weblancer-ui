@@ -9,7 +9,7 @@ import {
   IPageManagerStoreRootState,
   PageManagerService,
 } from './types';
-import { inject } from 'inversify';
+import { inject, injectable } from 'inversify';
 import pageSlice, {
   addPage,
   removePage,
@@ -21,7 +21,10 @@ import { Weblancer } from '@weblancer-ui/manager-registry';
 import { PageLoader } from './pageLoader.ts/pageLoader';
 import { DefaultPageLoader } from './pageLoader.ts/defaultPageLoader';
 import { IUndoManagerActions, UndoManager } from '@weblancer-ui/undo-manager';
+import { importManager } from '@weblancer-ui/utils';
 
+@injectable()
+@importManager([StoreManager, PropManager, UndoManager])
 export class PageManager
   extends IManagerWithStore
   implements IPageManagerAction
@@ -115,5 +118,3 @@ export class PageManager
     });
   }
 }
-
-Weblancer.registerManager<IPageManagerAction>(PageManager);

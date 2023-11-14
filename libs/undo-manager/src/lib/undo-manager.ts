@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { Weblancer } from '@weblancer-ui/manager-registry';
 import { inject, injectable } from 'inversify';
 import { IUndoManagerActions } from './types';
 import { UndoManagerService } from './constants';
@@ -10,8 +9,10 @@ import {
   StoreManager,
 } from '@weblancer-ui/store-manager';
 import undoSlice, { setRedo, setUndo } from './slice/undoSlice';
+import { importManager } from '@weblancer-ui/utils';
 
 @injectable()
+@importManager([StoreManager])
 export class UndoManager
   extends IManagerWithStore
   implements IUndoManagerActions
@@ -88,5 +89,3 @@ export class UndoManager
     this.setRedo(false);
   }
 }
-
-Weblancer.registerManager<IUndoManagerActions>(UndoManager);

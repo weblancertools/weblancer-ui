@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { ReactNode, useCallback, useMemo } from 'react';
+import { ReactNode, useMemo } from 'react';
 import { Weblancer } from '@weblancer-ui/manager-registry';
 import { useFrame } from 'react-frame-component';
 import { WeblancerClientContext } from '@weblancer-ui/editor-core';
@@ -15,20 +15,17 @@ export interface IWeblancerContextClientProviderProps {
 export const WeblancerContextClientProvider: React.FC<
   IWeblancerContextClientProviderProps
 > = ({ children }) => {
-  const getManager = useCallback(<TType,>(_class: unknown) => {
-    return Weblancer.getManagerInstance<TType>(_class);
-  }, []);
   const { document: iFrameDocument, window: iFrameWindow } = useFrame();
+
   const layoutManager =
     Weblancer.getManagerInstance<ILayoutManagerActions>(LayoutManager);
 
   const value = useMemo(
     () => ({
-      getManager,
       document: iFrameDocument ?? document,
       window: iFrameWindow ?? window,
     }),
-    [getManager, iFrameDocument, iFrameWindow]
+    [iFrameDocument, iFrameWindow]
   );
 
   layoutManager.setClientDocument(iFrameDocument);

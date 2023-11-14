@@ -1,11 +1,5 @@
-import {
-  IManagerWithStore,
-  IStoreManagerActions,
-  StoreManager,
-} from '@weblancer-ui/store-manager';
 import { inject, injectable } from 'inversify';
 import { IComponentManagerActions } from './types';
-import componentSlice from './slice/componentSlice';
 import { ComponentManagerService } from './constants';
 import { Weblancer } from '@weblancer-ui/manager-registry';
 import { IPropManagerActions, PropManager } from '@weblancer-ui/prop-manager';
@@ -15,32 +9,31 @@ import {
 } from '@weblancer-ui/layout-manager';
 import {
   generateRandomString,
+  importManager,
   waitForComponentPropsDefined,
 } from '@weblancer-ui/utils';
 import {
   IComponentHolder,
   IComponentMap,
   IComponentMetadata,
+  IManager,
   WeblancerComponent,
 } from '@weblancer-ui/types';
 
 @injectable()
+@importManager([PropManager, LayoutManager])
 export class ComponentManager
-  extends IManagerWithStore
+  extends IManager
   implements IComponentManagerActions
 {
-  public sliceReducer = componentSlice;
   public name = ComponentManagerService;
 
   constructor(
-    @inject(StoreManager) private readonly storeManager: IStoreManagerActions,
     @inject(PropManager) private readonly propManager: IPropManagerActions,
     @inject(LayoutManager)
     private readonly layoutManager: ILayoutManagerActions
   ) {
     super();
-
-    this.injectSlice(storeManager);
   }
 
   private getRandomId(): string {
@@ -116,5 +109,3 @@ export class ComponentManager
       ?.componentMetadata;
   }
 }
-
-Weblancer.registerManager<IComponentManagerActions>(ComponentManager);

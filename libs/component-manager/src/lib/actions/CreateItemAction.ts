@@ -11,7 +11,9 @@ import {
   AdjustmentManager,
   IAdjustmentManagerActions,
 } from '@weblancer-ui/adjustment-manager';
+import { importManager } from '@weblancer-ui/utils';
 
+@importManager([UndoManager, ComponentManager, AdjustmentManager])
 export class CreateItemAction extends EditorAction {
   public subject = 'Create Item';
 
@@ -20,7 +22,7 @@ export class CreateItemAction extends EditorAction {
   }
 
   constructor(
-    @inject(UndoManager) public override undoManager: IUndoManagerActions,
+    @inject(UndoManager) public undoManager: IUndoManagerActions,
     @inject(ComponentManager) public componentManager: IComponentManagerActions,
     @inject(AdjustmentManager)
     public adjustmentManager: IAdjustmentManagerActions
@@ -42,13 +44,12 @@ export class CreateItemAction extends EditorAction {
 
   public override execute(): void {
     this.oldSelectedItemId = this.adjustmentManager.getSelectedItemId();
-    this.componentManager.createItem(
+    this.itemId = this.componentManager.createItem(
       this.componentKey,
       this.parentId,
       this.position,
       this.itemId,
       (itemId) => {
-        this.itemId = itemId;
         this.adjustmentManager.setSelectedItemId(itemId);
       }
     );
@@ -59,5 +60,3 @@ export class CreateItemAction extends EditorAction {
     this.adjustmentManager.setSelectedItemId(this.oldSelectedItemId ?? null);
   }
 }
-
-EditorAction.bindAction(CreateItemAction);

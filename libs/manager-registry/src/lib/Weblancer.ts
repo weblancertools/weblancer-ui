@@ -1,36 +1,47 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import 'reflect-metadata';
 import {
   IComponentMap,
   IComponentRegisterMetadata,
+  IManager,
   WeblancerComponent,
 } from '@weblancer-ui/types';
-import { weblancerContainer } from './container/container';
+import { weblancerManagerContainer } from './containers/managerContainer';
 import { Store } from '@reduxjs/toolkit';
 import { StoreService } from './manager-registry/storeService';
 
 export class Weblancer {
-  private static hasStore = false;
   private static componentMap: IComponentMap = {};
+  private static store?: Store;
 
   public static registerManager<TActions>(managerClass: any) {
-    return weblancerContainer
+    if (weblancerManagerContainer.isBound(managerClass)) return;
+
+    bindDependencies(managerClass);
+    weblancerManagerContainer
       .bind<TActions>(managerClass)
       .to(managerClass)
       .inSingletonScope();
   }
 
   public static getManagerInstance<TClass>(_class: any) {
-    return weblancerContainer.get<TClass>(_class);
+    return weblancerManagerContainer.get<TClass>(_class);
   }
 
-  public static bindHandler(_handlerClass: any) {
-    weblancerContainer.bind(_handlerClass).toSelf();
+  public static bindHandler(handlerClass: any) {
+    if (weblancerManagerContainer.isBound(handlerClass)) return;
+
+    bindDependencies(handlerClass);
+
+    weblancerManagerContainer.bind(handlerClass).toSelf();
   }
 
-  public static getHandlerInstance<Type>(_handlerClass: {
+  public static getHandlerInstance<Type>(handlerClass: {
     new (...args: any[]): Type;
   }) {
-    return weblancerContainer.get<Type>(_handlerClass);
+    Weblancer.bindHandler(handlerClass);
+
+    return weblancerManagerContainer.get<Type>(handlerClass);
   }
 
   public static registerComponent(
@@ -50,9 +61,36 @@ export class Weblancer {
   }
 
   public static setStore(store: Store) {
-    if (Weblancer.hasStore) return;
+    Weblancer.store = store;
 
-    Weblancer.hasStore = true;
-    weblancerContainer.bind(StoreService).toDynamicValue(() => store);
+    if (!weblancerManagerContainer.isBound(StoreService))
+      weblancerManagerContainer
+        .bind(StoreService)
+        .toDynamicValue(() => Weblancer.store);
+  }
+
+  public static async clear() {
+    weblancerManagerContainer.unbindAll();
+    Weblancer.componentMap = {};
+    Weblancer.store = undefined;
+  }
+}
+
+function bindDependencies(_class: any) {
+  const dependencies:
+    | (new (...args: any[]) => IManager)
+    | (new (...args: any[]) => IManager)[] = Reflect.getOwnMetadata(
+    'dependencies',
+    _class
+  );
+
+  if (!dependencies) return;
+
+  if (Array.isArray(dependencies)) {
+    for (const _d of dependencies) {
+      Weblancer.registerManager(_d);
+    }
+  } else {
+    Weblancer.registerManager(dependencies);
   }
 }
