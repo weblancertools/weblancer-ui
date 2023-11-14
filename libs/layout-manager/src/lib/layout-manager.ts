@@ -11,6 +11,7 @@ import {
 } from '@weblancer-ui/adjustment-manager';
 import { importManager } from '@weblancer-ui/utils';
 
+// integration test
 @injectable()
 @importManager([PropManager, AdjustmentManager])
 export class LayoutManager extends IManager implements ILayoutManagerActions {

@@ -1,5 +1,5 @@
 import { Weblancer } from '@weblancer-ui/manager-registry';
-import { WeblancerContextProvider, getTestWrapper } from '@weblancer-ui/test';
+import { UnitTestProvider, getTestWrapper } from '@weblancer-ui/test';
 import { renderHook, act, render } from '@testing-library/react';
 import { BreakpointManager } from '../breakpoint-manager';
 import {
@@ -15,7 +15,7 @@ describe('breakpoint manager test', () => {
   });
 
   it('constructor', () => {
-    render(<WeblancerContextProvider requiredManagers={[BreakpointManager]} />);
+    render(<UnitTestProvider requiredManagers={[BreakpointManager]} />);
 
     expect(() => {
       Weblancer.getManagerInstance(BreakpointManager);

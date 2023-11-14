@@ -1,5 +1,5 @@
 import { Weblancer } from '@weblancer-ui/manager-registry';
-import { WeblancerContextProvider } from '@weblancer-ui/test';
+import { UnitTestProvider } from '@weblancer-ui/test';
 import { act, render } from '@testing-library/react';
 import { ComponentManager } from '../component-manager';
 import { IComponentManagerActions } from '../types';
@@ -34,7 +34,7 @@ describe('component manager test', () => {
     });
 
     render(
-      <WeblancerContextProvider<IPropManagerStoreRootState>
+      <UnitTestProvider<IPropManagerStoreRootState>
         requiredManagers={[ComponentManager, PageManager]}
       />
     );

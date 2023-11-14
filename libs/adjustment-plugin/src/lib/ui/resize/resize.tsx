@@ -1,6 +1,10 @@
 import styles from './resize.module.scss';
 import { useEffect, useRef, useState } from 'react';
-import { UpdateComponentPropAction } from '@weblancer-ui/prop-manager';
+import {
+  IPropManagerActions,
+  PropManager,
+  UpdateComponentPropAction,
+} from '@weblancer-ui/prop-manager';
 import { useSelector } from 'react-redux';
 import {
   allSides,
@@ -10,24 +14,38 @@ import {
 import { ResizeHandler } from './resizeHandler';
 import { ResizeData } from './types';
 import {
+  AdjustmentManager,
   ComponentChildStyle,
+  IAdjustmentManagerActions,
   IChildTransform,
   useAdjustmentVersion,
 } from '@weblancer-ui/adjustment-manager';
-import { SetPositionAction } from '@weblancer-ui/layout-manager';
+import {
+  ILayoutManagerActions,
+  LayoutManager,
+  SetPositionAction,
+} from '@weblancer-ui/layout-manager';
 import classNames from 'classnames';
 import { BatchAction, EditorAction } from '@weblancer-ui/undo-manager';
-import {} from '@weblancer-ui/component-manager';
+import {
+  ComponentManager,
+  IComponentManagerActions,
+} from '@weblancer-ui/component-manager';
 import { IComponentData } from '@weblancer-ui/types';
-import { useWeblancerCommonManager } from '@weblancer-ui/tool-kit';
+import { useWeblancerManager } from '@weblancer-ui/editor-core';
 
 export const Resize = () => {
   const [resizing, setResizing] = useState(false);
 
   const rootRef = useRef<HTMLDivElement>(null);
 
-  const { adjustmentManager, componentManager, propManager, layoutManager } =
-    useWeblancerCommonManager();
+  const adjustmentManager =
+    useWeblancerManager<IAdjustmentManagerActions>(AdjustmentManager);
+  const componentManager =
+    useWeblancerManager<IComponentManagerActions>(ComponentManager);
+  const propManager = useWeblancerManager<IPropManagerActions>(PropManager);
+  const layoutManager =
+    useWeblancerManager<ILayoutManagerActions>(LayoutManager);
 
   const { draggingItemId, selectedItemId, version } = useAdjustmentVersion();
 

@@ -2,7 +2,9 @@ import { Weblancer } from '@weblancer-ui/manager-registry';
 import { EditorAction } from './EditorAction';
 import { UndoManager } from '../undo-manager';
 import { IUndoManagerActions } from '../types';
+import { importManager } from '@weblancer-ui/utils';
 
+@importManager(UndoManager)
 export class BatchAction extends EditorAction {
   public subject = 'Batch Action';
 

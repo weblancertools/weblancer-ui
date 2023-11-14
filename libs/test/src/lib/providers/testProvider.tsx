@@ -18,7 +18,7 @@ interface IEditorTestProviderProps<TStoreRootState> {
   requiredManagers?: any[];
 }
 
-export function WeblancerContextProvider<TStoreRootState = unknown>({
+export function UnitTestProvider<TStoreRootState = unknown>({
   preloadedState,
   plugins = [],
   children,
@@ -61,12 +61,12 @@ export function getTestWrapper<TStoreRootState = unknown>({
   requiredManagers = [],
 }: IEditorTestProviderProps<TStoreRootState>) {
   return ({ children }: PropsWithChildren) => (
-    <WeblancerContextProvider
+    <UnitTestProvider
       preloadedState={preloadedState}
       plugins={plugins}
       requiredManagers={requiredManagers}
     >
       {children}
-    </WeblancerContextProvider>
+    </UnitTestProvider>
   );
 }

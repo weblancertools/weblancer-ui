@@ -13,7 +13,7 @@ import { InspectorManager } from '@weblancer-ui/inspector-manager';
 import { LayoutManager } from '@weblancer-ui/layout-manager';
 import { PageManager } from '@weblancer-ui/page-manager';
 
-export interface IWeblancerContextProvider {
+export interface IUnitTestProvider {
   store: IReduxStore;
   contextType?: 'editor' | 'client';
   plugins?: IEditorUIPlugin[];
@@ -33,11 +33,11 @@ const requiredManagers = [
   PageManager,
 ];
 
-export const WeblancerContextProvider = ({
+export const UnitTestProvider = ({
   store,
   plugins = [],
   children,
-}: IWeblancerContextProvider) => {
+}: IUnitTestProvider) => {
   const getPlugins = useCallback(() => {
     return plugins;
   }, [plugins]);
