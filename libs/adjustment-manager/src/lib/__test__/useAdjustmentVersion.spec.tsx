@@ -5,12 +5,12 @@ import { act, renderHook } from '@testing-library/react';
 import { useAdjustmentVersion } from '../hooks/useAdjustmentVersion';
 import { IAdjustmentManagerActions } from '../types';
 
-describe('adjustment manager test', () => {
+describe('useAdjustmentVersion hook', () => {
   beforeEach(() => {
     Weblancer.clear();
   });
 
-  it('constructor', () => {
+  it('update the version', () => {
     const { result } = renderHook(() => useAdjustmentVersion(), {
       wrapper: getTestWrapper({ requiredManagers: [AdjustmentManager] }),
     });
