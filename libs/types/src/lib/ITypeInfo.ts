@@ -1,6 +1,7 @@
 export interface ITypeInfo<TValue = unknown> {
   typeName: string;
+  subTypeName?: string;
   isRequired?: boolean;
   defaultValue?: TValue;
-  properties?: ITypeInfo[];
+  properties?: Record<string, ITypeInfo>;
 }
