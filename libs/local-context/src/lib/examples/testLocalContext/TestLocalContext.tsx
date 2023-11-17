@@ -40,22 +40,22 @@ export const useTestContext = () => useContext(TestContext);
 
 // Register it to the Weblancer local context
 // Put this registration on the plugin definition file or importer of your module
-LocalContext.register({
-  Provider: TestLocalContextProvider,
-  key: 'test-context',
-  label: 'Test Context',
-  defaultValue: {
-    test: 'test',
-  },
-  typeInfo: {
-    typeName: PropTypes.Object,
-    isRequired: true,
-    properties: {
-      test: {
-        typeName: PropTypes.String,
-        defaultValue: 'test',
-        isRequired: true,
-      },
-    },
-  },
-});
+// LocalContext.register({
+//   Provider: TestLocalContextProvider,
+//   key: 'test-context',
+//   label: 'Test Context',
+//   defaultValue: {
+//     test: 'test',
+//   },
+//   typeInfo: {
+//     typeName: PropTypes.Object,
+//     isRequired: true,
+//     properties: {
+//       test: {
+//         typeName: PropTypes.String,
+//         defaultValue: 'test',
+//         isRequired: true,
+//       },
+//     },
+//   },
+// });

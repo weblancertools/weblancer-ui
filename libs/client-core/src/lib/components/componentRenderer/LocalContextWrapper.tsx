@@ -34,7 +34,7 @@ const RenderWrapper = ({
   );
 
   const initialValue = useLocalContextSelector(
-    (state) => state[LocalContextService].initialValues[localContextInfo.key]
+    (state) => state[LocalContextService].initialValues[localContextInfo?.key]
   );
 
   if (!localContexts.length) {

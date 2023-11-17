@@ -4,7 +4,7 @@ import { FunctionComponent } from 'react';
 import { IEditorUIPlugin, IReduxStore } from '@weblancer-ui/types';
 import { Provider } from 'react-redux';
 import { EditorUI } from './editorUI';
-import { UnitTestProvider } from './provider/UnitTestProvider';
+import { WeblancerContextProvider } from './provider/weblancerContextProvider';
 
 export interface EditorCoreProps {
   store: IReduxStore;
@@ -28,7 +28,7 @@ export const EditorCore: FunctionComponent<EditorCoreProps> = ({
   });
 
   return (
-    <UnitTestProvider store={store} plugins={plugins}>
+    <WeblancerContextProvider store={store} plugins={plugins}>
       <Provider store={store}>
         <EditorUI
           leftMenus={leftMenus}
@@ -36,7 +36,7 @@ export const EditorCore: FunctionComponent<EditorCoreProps> = ({
           rightMenus={rightMenus}
         />
       </Provider>
-    </UnitTestProvider>
+    </WeblancerContextProvider>
   );
 };
 

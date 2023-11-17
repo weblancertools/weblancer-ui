@@ -25,6 +25,7 @@ export class Weblancer {
   }
 
   public static getManagerInstance<TClass>(_class: any) {
+    Weblancer.registerManager(_class);
     return weblancerManagerContainer.get<TClass>(_class);
   }
 

@@ -12,8 +12,9 @@ import { AdjustmentManager } from '@weblancer-ui/adjustment-manager';
 import { InspectorManager } from '@weblancer-ui/inspector-manager';
 import { LayoutManager } from '@weblancer-ui/layout-manager';
 import { PageManager } from '@weblancer-ui/page-manager';
+import { LocalContext } from '@weblancer-ui/local-context';
 
-export interface IUnitTestProvider {
+export interface IWeblancerContextProvider {
   store: IReduxStore;
   contextType?: 'editor' | 'client';
   plugins?: IEditorUIPlugin[];
@@ -31,13 +32,14 @@ const requiredManagers = [
   ComponentManager,
   UndoManager,
   PageManager,
+  LocalContext
 ];
 
-export const UnitTestProvider = ({
+export const WeblancerContextProvider = ({
   store,
   plugins = [],
   children,
-}: IUnitTestProvider) => {
+}: IWeblancerContextProvider) => {
   const getPlugins = useCallback(() => {
     return plugins;
   }, [plugins]);
