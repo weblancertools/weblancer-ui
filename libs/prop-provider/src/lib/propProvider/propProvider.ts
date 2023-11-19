@@ -2,8 +2,9 @@
 import { Weblancer } from '@weblancer-ui/manager-registry';
 import { IPropManagerActions, PropManager } from '@weblancer-ui/prop-manager';
 import { importManager } from '@weblancer-ui/utils';
-import { inject } from 'inversify';
+import { inject, injectable } from 'inversify';
 
+@injectable()
 @importManager(PropManager)
 export abstract class PropProvider<TValue = unknown, TData = unknown> {
   abstract key: string;
@@ -32,6 +33,7 @@ export abstract class PropProvider<TValue = unknown, TData = unknown> {
   }
 
   public onProvide(value: TValue) {
+    console.log('onProvide', value);
     this.propManager.updateComponentProp(this.itemId, this.propName, value);
   }
 

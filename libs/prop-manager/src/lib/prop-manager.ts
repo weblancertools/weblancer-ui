@@ -80,6 +80,15 @@ export class PropManager
     pageId: string
   ): void {
     this.storeManager.dispatch(setPageData({ componentMap, pageId }));
+
+    Object.values(componentMap).forEach((componentData) => {
+      const itemId = componentData.id;
+      Object.keys(componentData.props).forEach((propName) => {
+        this.listeners.forEach((listener) =>
+          listener.onItemPropAdded(itemId, propName)
+        );
+      });
+    });
   }
 
   getPageData(): Omit<IComponentData, 'parentId'> {
@@ -115,7 +124,7 @@ export class PropManager
         );
 
         this.listeners.forEach((listener) => {
-          listener.onItemPropAdded(id, propData);
+          listener.onItemPropAdded(id, propData.name);
         });
       }, 0);
 
@@ -235,6 +244,7 @@ export class PropManager
                 if (!componentData) return undefined;
 
                 const values: unknown[] = [];
+                const providers: unknown[] = [];
                 Object.keys(componentData.props).forEach((propName) => {
                   const availableBreakpoint =
                     getFirstUpperBreakpointOverrideInComponentData(
@@ -247,9 +257,15 @@ export class PropManager
                   values.push(
                     componentData.props[propName][availableBreakpoint]?.value
                   );
+                  providers.push(
+                    ...Object.keys(
+                      componentData.props[propName][availableBreakpoint]
+                        ?.providers ?? {}
+                    )
+                  );
                 });
 
-                return values;
+                return [...values, ...providers];
               },
             ],
             (values) => values,

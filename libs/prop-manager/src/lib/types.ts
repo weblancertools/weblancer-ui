@@ -73,7 +73,7 @@ export interface IPropManagerActions {
 }
 
 export interface IPropManagerListener {
-  onItemPropAdded(itemId: string, propData: IPropData): void;
+  onItemPropAdded(itemId: string, propName: string): void;
 }
 
 export type UnsubscribeListener = () => void;

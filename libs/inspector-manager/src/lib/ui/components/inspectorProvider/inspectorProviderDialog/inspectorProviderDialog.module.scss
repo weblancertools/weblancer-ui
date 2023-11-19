@@ -7,6 +7,10 @@
   justify-content: center;
 
   background-color: rgba(0, 0, 0, 0.4);
+
+  * {
+    box-sizing: border-box;
+  }
 }
 
 .root {
@@ -24,28 +28,46 @@
 
 .header {
   width: 100%;
+  border-bottom: 1px solid gray;
+  padding-bottom: 4px;
 }
 
 .providers {
   display: flex;
   flex-direction: column;
+  border-bottom: 1px solid gray;
+
+  margin-top: 4px;
+  padding-bottom: 8px;
+}
+
+.title {
+  font-size: 0.95rem;
 }
 
 .providerRow {
   display: flex;
+  padding: 8px;
+
+  &:hover {
+    background-color: rgb(238, 238, 238)
+  }
 }
 
 .providerDetail {
   display: flex;
   flex-direction: column;
+  flex: 1;
 }
 
 .providerTitle {
   width: 100%;
+  font-size: 0.9rem;
 }
 
 .providerDesc {
   width: 100%;
+  font-size: 0.8rem;
 }
 
 .providerDelete {
@@ -55,8 +77,26 @@
 .factories {
   flex: 1;
   overflow-y: auto;
+  margin-top: 4px;
 }
 
-.factory {
+.factoryRow {
   width: 100%;
+  padding: 8px;
+
+  cursor: pointer;
+
+  border-radius: 4px;
+
+  &:hover {
+    background-color: rgb(225, 225, 225)
+  }
+}
+
+.factoryName {
+  font-size: 0.9rem;
+}
+
+.factoryDesc {
+  font-size: 0.8rem;
 }

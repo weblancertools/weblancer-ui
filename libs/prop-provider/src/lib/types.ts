@@ -31,6 +31,7 @@ export interface IProvider<TValue = unknown> {
 export interface IProviderFactory {
   key: string;
   name: string;
+  description?: string;
   component: ProviderFactoryComponent;
   propProviderClass: any;
 }

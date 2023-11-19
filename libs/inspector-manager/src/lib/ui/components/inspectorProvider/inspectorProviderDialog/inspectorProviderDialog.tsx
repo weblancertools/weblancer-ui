@@ -61,7 +61,6 @@ export const InspectorProviderDialog = ({
       .prepare(itemId, propName, factory.propProviderClass, factory.key, data)
       .perform();
 
-    onClose();
     setOpenProvider(undefined);
   };
 
@@ -73,9 +72,10 @@ export const InspectorProviderDialog = ({
         <div className={styles.root}>
           <div className={styles.header}>All Providers</div>
           <div className={styles.providers}>
+            <div className={styles.title}>Current providers</div>
             {providers.map((provider) => {
               return (
-                <div className={styles.providerRow}>
+                <div className={styles.providerRow} key={provider.id}>
                   <div className={styles.providerDetail}>
                     <div className={styles.providerTitle}>{provider.name}</div>
                     <div className={styles.providerDesc}>
@@ -91,28 +91,42 @@ export const InspectorProviderDialog = ({
                 </div>
               );
             })}
+            {providers.length === 0 && (
+              <div className={styles.title}>No provider added yet</div>
+            )}
           </div>
           <div className={styles.factories}>
+            <div className={styles.title}>Factories</div>
             {Object.values(allProviderFactories).map((providerFactory) => {
               return (
                 <div
+                  className={styles.factoryRow}
                   key={providerFactory.key}
-                  className={styles.factory}
                   onClick={() => handleFactoryClick(providerFactory)}
                 >
-                  {providerFactory.name}
+                  <div className={styles.factoryName}>
+                    {providerFactory.name}
+                  </div>
+                  {providerFactory.description && (
+                    <div className={styles.factoryDesc}>
+                      {providerFactory.description}
+                    </div>
+                  )}
                 </div>
               );
             })}
           </div>
+          <button className={styles.back} onClick={onClose}>
+            Back
+          </button>
         </div>
+        {FactoryComponent && (
+          <FactoryComponent
+            onClose={() => setOpenProvider(undefined)}
+            onProviderCreated={handleProviderCreated}
+          />
+        )}
       </div>
-      {FactoryComponent && (
-        <FactoryComponent
-          onClose={() => setOpenProvider(undefined)}
-          onProviderCreated={handleProviderCreated}
-        />
-      )}
     </Portal>
   );
 };

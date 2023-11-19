@@ -10,6 +10,7 @@ import { IEditorDrawerProps } from '@weblancer-ui/types';
 import { InspectorProvider } from '../components/inspectorProvider/inspectorProvider';
 import { IInspectorManagerActions } from '../../types';
 import { InspectorManager } from '../../inspector-manager';
+import { useSelector } from 'react-redux';
 
 export const InspectorDrawer = ({ onClose }: IEditorDrawerProps) => {
   const propManager = useWeblancerManager<IPropManagerActions>(PropManager);
@@ -19,6 +20,8 @@ export const InspectorDrawer = ({ onClose }: IEditorDrawerProps) => {
   const selectedItemId = useAdjustmentManagerSelector(
     (state) => state[AdjustmentManagerService].selectedItemId
   );
+
+  useSelector(propManager.getComponentChangeSelector(selectedItemId ?? ''));
 
   if (!selectedItemId) return <div className={styles.root}></div>; // TODO return blank screen and a message ("select an item to show its inspectors")
 

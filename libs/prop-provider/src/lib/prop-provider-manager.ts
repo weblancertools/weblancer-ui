@@ -24,32 +24,32 @@ export class PropProviderManager
   constructor(@inject(PropManager) private propManager: IPropManagerActions) {
     super();
 
-    propManager.addListener({
+    this.propManager.addListener({
       onItemPropAdded: this.onPropAdded,
     });
   }
 
-  private onPropAdded(itemId: string, propData: IPropData) {
+  private onPropAdded = (itemId: string, propName: string) => {
     const providerIds =
-      this.propManager.getComponentProp(itemId, propData.name).providers ?? {};
+      this.propManager.getComponentProp(itemId, propName).providers ?? {};
 
     Object.keys(providerIds).forEach((id) => {
-      if (!this.providerMap[id]) {
-        const info = providerIds[id];
-        this.providerMap[id] = PropProvider.createProvider(
-          this.providerFactories[info.key].propProviderClass,
-          {
-            id,
-            itemId,
-            propName: propData.name,
-            data: info.data,
-          }
-        );
-      }
+      this.providerMap[id].stop();
+
+      const info = providerIds[id];
+      this.providerMap[id] = PropProvider.createProvider(
+        this.providerFactories[info.key].propProviderClass,
+        {
+          id,
+          itemId,
+          propName,
+          data: info.data,
+        }
+      );
 
       this.providerMap[id].start();
     });
-  }
+  };
 
   addProvider(
     itemId: string,

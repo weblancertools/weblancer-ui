@@ -1,6 +1,5 @@
 import { IPropManagerActions, PropManager } from '@weblancer-ui/prop-manager';
-import { PropProvider } from '../propProvider/propProvider';
-import { inject } from 'inversify';
+import { inject, injectable } from 'inversify';
 import {
   IStateManagerRootState,
   StateManagerService,
@@ -11,12 +10,14 @@ import {
   StoreManager,
 } from '@weblancer-ui/store-manager';
 import { Unsubscribe } from '@reduxjs/toolkit';
+import { PropProvider } from '@weblancer/prop-provider';
 
-export const ProviderKey = 'StateManagerPropProvider';
-export const ProviderName = 'State manager prop provider';
+export const ProviderKey = 'StateProvider';
+export const ProviderName = 'State provider';
 
+@injectable()
 @importManager([PropManager, StoreManager])
-export class StateManagerPropProvider extends PropProvider<unknown, string> {
+export class StateProvider extends PropProvider<unknown, string> {
   key = ProviderKey;
   name = ProviderName;
   get description(): string {
@@ -32,6 +33,7 @@ export class StateManagerPropProvider extends PropProvider<unknown, string> {
 
   private subscription?: Unsubscribe;
   public listen(stateKey: string): void {
+    console.log('listen', stateKey);
     this.subscription = this.storeManager.listen<
       IStateManagerRootState,
       string
