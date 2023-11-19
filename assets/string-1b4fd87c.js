@@ -1,0 +1,1 @@
+import{u as c,b as p,g,r as u,E as l,U as i,j as C,I as h,h as x}from"./index-1178beb0.js";const d=({itemId:e,propName:a})=>{const n=c(p),r=g(n.getComponentPropChangeSelector(e,a)),o=u.useCallback(t=>{const s=t.target.value;l.createAction(i).prepare(e,a,s).perform()},[e,a]);return C.jsx("input",{value:r,onChange:o})};h.addInspector({key:x.String,node:d});export{d as String};
