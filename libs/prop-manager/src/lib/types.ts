@@ -2,6 +2,7 @@ import {
   IComponentData,
   IDefaultPropData,
   IPropData,
+  IPropProviderInfo,
   IReduxSelector,
 } from '@weblancer-ui/types';
 import { PropManagerService } from './constants';
@@ -58,4 +59,21 @@ export interface IPropManagerActions {
   ): ReturnType<IReduxSelector>;
   getPageDataSelector(): ReturnType<IReduxSelector>;
   getComponentMap(): Record<string, IComponentData>;
+  addPropProvider(
+    itemId: string,
+    propName: string,
+    providerInfo: IPropProviderInfo
+  ): void;
+  removePropProvider(
+    itemId: string,
+    propName: string,
+    providerId: string
+  ): void;
+  addListener(listener: IPropManagerListener): UnsubscribeListener;
 }
+
+export interface IPropManagerListener {
+  onItemPropAdded(itemId: string, propData: IPropData): void;
+}
+
+export type UnsubscribeListener = () => void;

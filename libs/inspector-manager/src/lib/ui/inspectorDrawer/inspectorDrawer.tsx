@@ -7,6 +7,7 @@ import { IPropManagerActions, PropManager } from '@weblancer-ui/prop-manager';
 import styles from './inspectorDrawer.module.scss';
 import { InspectorView } from '../components/inspectorView/inspectorView';
 import { IEditorDrawerProps } from '@weblancer-ui/types';
+import { InspectorProvider } from '../components/inspectorProvider/inspectorProvider';
 
 export const InspectorDrawer = ({ onClose }: IEditorDrawerProps) => {
   const propManager = useWeblancerManager<IPropManagerActions>(PropManager);
@@ -26,11 +27,14 @@ export const InspectorDrawer = ({ onClose }: IEditorDrawerProps) => {
     <div className={styles.root}>
       {componentDataProps.map((propName) => {
         return (
-          <InspectorView
-            key={propName}
-            itemId={selectedItemId}
-            propName={propName}
-          />
+          <div className={styles.row}>
+            <InspectorView
+              key={propName}
+              itemId={selectedItemId}
+              propName={propName}
+            />
+            <InspectorProvider itemId={selectedItemId} propName={propName} />
+          </div>
         );
       })}
     </div>

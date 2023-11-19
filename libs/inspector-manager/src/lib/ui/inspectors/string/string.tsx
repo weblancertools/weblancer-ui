@@ -22,7 +22,7 @@ export const String = ({ itemId, propName }: IInspectorComponentProps) => {
     (e: React.ChangeEvent<HTMLInputElement>) => {
       const newValue = e.target.value;
 
-      EditorAction.getActionInstance(UpdateComponentPropAction)
+      EditorAction.createAction(UpdateComponentPropAction)
         .prepare(itemId, propName, newValue)
         .perform();
     },

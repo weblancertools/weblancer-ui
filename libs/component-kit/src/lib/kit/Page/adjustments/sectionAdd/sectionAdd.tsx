@@ -29,7 +29,7 @@ export const SectionAdd = () => {
   }
 
   const addSection = (index: number) => {
-    EditorAction.getActionInstance(AddSectionAction)
+    EditorAction.createAction(AddSectionAction)
       .prepare(index, sectionMap)
       .perform();
   };

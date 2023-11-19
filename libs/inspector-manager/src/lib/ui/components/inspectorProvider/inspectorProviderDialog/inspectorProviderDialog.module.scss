@@ -1,0 +1,49 @@
+.root {
+  position: fixed;
+  z-index: 99999;
+  display: flex;
+  flex-direction: column;
+
+  width: 300px;
+  height: auto;
+  margin: 64px 0;
+}
+
+.header {
+  width: 100%;
+}
+
+.providers {
+  display: flex;
+  flex-direction: column;
+}
+
+.providerRow {
+  display: flex;
+}
+
+.providerDetail {
+  display: flex;
+  flex-direction: column;
+}
+
+.providerTitle {
+  width: 100%;
+}
+
+.providerDesc {
+  width: 100%;
+}
+
+.providerDelete {
+  cursor: pointer;
+}
+
+.factories {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.factory {
+  width: 100%;
+}

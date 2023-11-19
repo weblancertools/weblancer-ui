@@ -18,6 +18,13 @@ export interface IPropData<TPropType = unknown> {
   name: string;
   value?: TPropType;
   typeInfo?: ITypeInfo;
+  providers?: Record<string, IPropProviderInfo>;
+}
+
+export interface IPropProviderInfo<TData = unknown> {
+  id: string;
+  key: string;
+  data: TData;
 }
 
 export interface IDefaultPropData<TPropType = unknown> {

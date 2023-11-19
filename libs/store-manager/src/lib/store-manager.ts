@@ -1,5 +1,5 @@
 import { IManager } from '@weblancer-ui/types';
-import { Reducer, Store } from '@reduxjs/toolkit';
+import { Reducer, Store, Unsubscribe } from '@reduxjs/toolkit';
 import {
   IStoreManagerActions,
   InjectableStore,
@@ -8,6 +8,8 @@ import {
 import { inject, injectable } from 'inversify';
 import { StoreService } from '@weblancer-ui/manager-registry';
 import { freeze } from 'immer';
+import { EqualityFn } from 'react-redux';
+import { storeListener } from './helpers';
 
 @injectable()
 export class StoreManager extends IManager implements IStoreManagerActions {
@@ -28,5 +30,18 @@ export class StoreManager extends IManager implements IStoreManagerActions {
     sliceReducer: Reducer<TSliceState>
   ): void {
     this.store.injectReducer(key, sliceReducer);
+  }
+
+  public listen<TState = unknown, Selected = unknown>(
+    selector: (state: TState) => Selected,
+    callback: (selected: Selected) => void,
+    options?:
+      | {
+          equalityFn?: EqualityFn<Selected> | undefined;
+          callImmediately?: boolean | undefined;
+        }
+      | undefined
+  ): Unsubscribe {
+    return storeListener(this.store, selector, callback, options);
   }
 }

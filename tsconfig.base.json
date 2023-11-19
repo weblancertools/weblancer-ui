@@ -47,7 +47,8 @@
       "@weblancer-ui/types": ["libs/types/src/index.ts"],
       "@weblancer-ui/undo-manager": ["libs/undo-manager/src/index.ts"],
       "@weblancer-ui/undo-plugin": ["libs/undo-plugin/src/index.ts"],
-      "@weblancer-ui/utils": ["libs/utils/src/index.ts"]
+      "@weblancer-ui/utils": ["libs/utils/src/index.ts"],
+      "@weblancer/prop-provider": ["libs/prop-provider/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

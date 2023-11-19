@@ -44,7 +44,7 @@ export const ComponentItem = ({ component }: IComponentItemProps) => {
       y: parentRect.top,
     };
 
-    EditorAction.getActionInstance(CreateItemAction)
+    EditorAction.createAction(CreateItemAction)
       .prepare(component.key, parentId, position)
       .perform();
 

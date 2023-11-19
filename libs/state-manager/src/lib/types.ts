@@ -1,7 +1,7 @@
 import { IReduxSelector, ITypeInfo } from '@weblancer-ui/types';
 import { StateManagerService } from './constants';
 
-export interface IStoreRootState {
+export interface IStateManagerRootState {
   [StateManagerService]: IStateManagerSlice;
   [key: string]: unknown;
 }

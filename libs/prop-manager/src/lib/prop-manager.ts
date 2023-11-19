@@ -5,7 +5,12 @@ import {
   IStoreManagerActions,
   StoreManager,
 } from '@weblancer-ui/store-manager';
-import { IPropManagerActions, IPropManagerStoreRootState } from './types';
+import {
+  IPropManagerActions,
+  IPropManagerListener,
+  IPropManagerStoreRootState,
+  UnsubscribeListener,
+} from './types';
 import propSlice, {
   addComponent,
   deepAssignComponentProp,
@@ -14,6 +19,7 @@ import propSlice, {
   setPageData,
   updateComponent,
   updateComponentProp,
+  updatePropProviders,
 } from './slice/propSlice';
 import {
   BreakpointManager,
@@ -24,6 +30,7 @@ import {
   IComponentData,
   IDefaultPropData,
   IPropData,
+  IPropProviderInfo,
   IReduxSelector,
 } from '@weblancer-ui/types';
 import { createDraftSafeSelector } from '@reduxjs/toolkit';
@@ -40,6 +47,7 @@ export class PropManager
   public sliceReducer = propSlice;
 
   private selectorCache: Record<string, ReturnType<IReduxSelector>> = {};
+  private listeners: Set<IPropManagerListener> = new Set();
 
   private get currentBreakpointId() {
     return this.breakpointManager.getCurrentBreakpoint().id;
@@ -57,6 +65,14 @@ export class PropManager
     super();
 
     this.injectSlice(storeManager);
+  }
+
+  addListener(listener: IPropManagerListener): UnsubscribeListener {
+    this.listeners.add(listener);
+
+    return () => {
+      this.listeners.delete(listener);
+    };
   }
 
   setPageData(
@@ -97,6 +113,10 @@ export class PropManager
             biggestBreakpointId: this.allBreakpoints[0].id,
           })
         );
+
+        this.listeners.forEach((listener) => {
+          listener.onItemPropAdded(id, propData);
+        });
       }, 0);
 
       return propData.typeInfo.defaultValue as TPropType;
@@ -117,6 +137,38 @@ export class PropManager
         id,
         name,
         value,
+        currentBreakpointId: this.currentBreakpointId,
+        allBreakpoints: this.allBreakpoints,
+      })
+    );
+  }
+
+  addPropProvider(
+    itemId: string,
+    propName: string,
+    providerInfo: IPropProviderInfo
+  ): void {
+    this.storeManager.dispatch(
+      updatePropProviders({
+        id: itemId,
+        propName,
+        providerToAdd: providerInfo,
+        currentBreakpointId: this.currentBreakpointId,
+        allBreakpoints: this.allBreakpoints,
+      })
+    );
+  }
+
+  removePropProvider(
+    itemId: string,
+    propName: string,
+    providerId: string
+  ): void {
+    this.storeManager.dispatch(
+      updatePropProviders({
+        id: itemId,
+        propName,
+        providerToDelete: providerId,
         currentBreakpointId: this.currentBreakpointId,
         allBreakpoints: this.allBreakpoints,
       })
