@@ -27,12 +27,8 @@ export const InspectorDrawer = ({ onClose }: IEditorDrawerProps) => {
     <div className={styles.root}>
       {componentDataProps.map((propName) => {
         return (
-          <div className={styles.row}>
-            <InspectorView
-              key={propName}
-              itemId={selectedItemId}
-              propName={propName}
-            />
+          <div className={styles.row} key={propName}>
+            <InspectorView itemId={selectedItemId} propName={propName} />
             <InspectorProvider itemId={selectedItemId} propName={propName} />
           </div>
         );
