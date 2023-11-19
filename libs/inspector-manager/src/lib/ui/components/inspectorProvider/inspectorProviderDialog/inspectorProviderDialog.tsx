@@ -10,6 +10,7 @@ import {
 } from '@weblancer/prop-provider';
 import { useState } from 'react';
 import { EditorAction } from '@weblancer-ui/undo-manager';
+import { Portal } from '../../../utils/portal';
 
 interface IInspectorProviderDialogProps {
   itemId: string;
@@ -67,41 +68,43 @@ export const InspectorProviderDialog = ({
   const FactoryComponent = openProvider?.component;
 
   return (
-    <>
-      <div className={styles.root}>
-        <div className={styles.header}>All Providers</div>
-        <div className={styles.providers}>
-          {providers.map((provider) => {
-            return (
-              <div className={styles.providerRow}>
-                <div className={styles.providerDetail}>
-                  <div className={styles.providerTitle}>{provider.name}</div>
-                  <div className={styles.providerDesc}>
-                    {provider.description}
+    <Portal>
+      <div className={styles.background}>
+        <div className={styles.root}>
+          <div className={styles.header}>All Providers</div>
+          <div className={styles.providers}>
+            {providers.map((provider) => {
+              return (
+                <div className={styles.providerRow}>
+                  <div className={styles.providerDetail}>
+                    <div className={styles.providerTitle}>{provider.name}</div>
+                    <div className={styles.providerDesc}>
+                      {provider.description}
+                    </div>
+                  </div>
+                  <div
+                    className={styles.providerDelete}
+                    onClick={() => handleRemoveProvider(provider.id)}
+                  >
+                    x
                   </div>
                 </div>
+              );
+            })}
+          </div>
+          <div className={styles.factories}>
+            {Object.values(allProviderFactories).map((providerFactory) => {
+              return (
                 <div
-                  className={styles.providerDelete}
-                  onClick={() => handleRemoveProvider(provider.id)}
+                  key={providerFactory.key}
+                  className={styles.factory}
+                  onClick={() => handleFactoryClick(providerFactory)}
                 >
-                  x
+                  {providerFactory.name}
                 </div>
-              </div>
-            );
-          })}
-        </div>
-        <div className={styles.factories}>
-          {Object.values(allProviderFactories).map((providerFactory) => {
-            return (
-              <div
-                key={providerFactory.key}
-                className={styles.factory}
-                onClick={() => handleFactoryClick(providerFactory)}
-              >
-                {providerFactory.name}
-              </div>
-            );
-          })}
+              );
+            })}
+          </div>
         </div>
       </div>
       {FactoryComponent && (
@@ -110,6 +113,6 @@ export const InspectorProviderDialog = ({
           onProviderCreated={handleProviderCreated}
         />
       )}
-    </>
+    </Portal>
   );
 };
