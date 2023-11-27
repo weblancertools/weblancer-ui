@@ -3,38 +3,25 @@ import {
   IContextInfo,
   IItemContext,
   ILocalContextAction,
-  ILocalContextRootState,
   LocalContextProp,
   LocalContextService,
 } from './types';
 import { Weblancer } from '@weblancer-ui/manager-registry';
-import {
-  IManagerWithStore,
-  IStoreManagerActions,
-  StoreManager,
-} from '@weblancer-ui/store-manager';
-import localContextSlice from './slice/localContextSlice';
 import { inject, injectable } from 'inversify';
 import { importManager } from '@weblancer-ui/utils';
 import { IPropManagerActions, PropManager } from '@weblancer-ui/prop-manager';
+import { IManager } from '@weblancer-ui/types';
 
 @injectable()
-@importManager([StoreManager])
-export class LocalContext
-  extends IManagerWithStore
-  implements ILocalContextAction
-{
-  public sliceReducer = localContextSlice;
+@importManager([PropManager])
+export class LocalContext extends IManager implements ILocalContextAction {
   public name = LocalContextService;
   private contextMap: ContextMap = {};
 
   constructor(
-    @inject(StoreManager) private readonly storeManager: IStoreManagerActions,
     @inject(PropManager) private readonly propManager: IPropManagerActions
   ) {
     super();
-
-    this.injectSlice(storeManager);
   }
 
   getItemContextIds(itemId: string): string[] {
@@ -88,9 +75,17 @@ export class LocalContext
   }
 
   getItemContextInitialValue(itemId: string, contextKey: string): unknown {
-    return this.storeManager.getState<ILocalContextRootState>()[
-      LocalContextService
-    ].initialValues[itemId];
+    const currentLocalContexts = this.propManager.getComponentProp<
+      IItemContext[]
+    >(itemId, LocalContextProp);
+
+    const targetContext = (currentLocalContexts.value ?? []).find(
+      (c) => c.contextKey === contextKey
+    );
+
+    if (!targetContext) return;
+
+    return targetContext.initialValue;
   }
 
   updateItemContextInitialValue(
