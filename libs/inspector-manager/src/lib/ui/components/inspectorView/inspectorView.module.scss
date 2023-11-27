@@ -11,5 +11,12 @@
 }
 
 .title {
-  text-transform: capitalize;
+  > span {
+    font-size: 0.8rem;
+    color: gray;
+  }
+}
+
+.title:first-letter {
+  text-transform: uppercase
 }

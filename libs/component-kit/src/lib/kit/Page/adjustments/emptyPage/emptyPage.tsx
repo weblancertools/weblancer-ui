@@ -26,7 +26,7 @@ export const EmptyPage = () => {
   }
 
   const createNewSection = () => {
-    EditorAction.getActionInstance(AddSectionAction).prepare(0, {}).perform();
+    EditorAction.createAction(AddSectionAction).prepare(0, {}).perform();
   };
 
   return (

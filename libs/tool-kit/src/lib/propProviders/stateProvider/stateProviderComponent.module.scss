@@ -1,0 +1,53 @@
+.root {
+  width: 300px;
+  height: -webkit-fill-available;
+  margin: 64px 0;
+
+  background-color: white;
+
+  position: fixed;
+
+  border-radius: 4px;
+  padding: 12px;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.body{
+  flex: 1;
+  overflow-y: auto;
+}
+
+.title{
+  margin-bottom: 8px;
+}
+
+.back{
+
+}
+
+.stateRow {
+  display: flex;
+  flex-direction: column;
+
+  cursor: pointer;
+
+  padding: 8px;
+  border-radius: 4px;
+  border-bottom: 1px solid gray;
+
+  &:hover {
+    background-color: rgb(223, 223, 223);
+  }
+}
+
+.stateTitle {
+  font-size: 0.9rem;
+  margin-bottom: 4px;
+}
+
+.stateType {
+  font-size: 0.8rem;
+  color: gray;
+}

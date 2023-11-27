@@ -21,7 +21,7 @@ export abstract class EditorAction {
 
   public abstract prepare(...args: any[]): EditorAction;
 
-  public static getActionInstance<Type>(_actionClass: {
+  public static createAction<Type extends EditorAction>(_actionClass: {
     new (...args: any[]): Type;
   }) {
     return Weblancer.getHandlerInstance<Type>(_actionClass);

@@ -1,0 +1,15 @@
+.root{
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  margin: 8px;
+}
+
+.hasProvider {
+  background-color: rgb(191, 168, 212);
+}

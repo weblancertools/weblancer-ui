@@ -14,6 +14,7 @@ import {
   ILayoutManagerActions,
   LayoutManager,
 } from '@weblancer-ui/layout-manager';
+import { ILocalContextAction, LocalContext } from '@weblancer-ui/local-context';
 import { Weblancer } from '@weblancer-ui/manager-registry';
 import { IPageManagerAction, PageManager } from '@weblancer-ui/page-manager';
 import { IPropManagerActions, PropManager } from '@weblancer-ui/prop-manager';
@@ -51,6 +52,9 @@ export const useWeblancerCommonManager = () => {
   const storeManager =
     Weblancer.getManagerInstance<IStoreManagerActions>(StoreManager);
 
+  const localContextManager =
+    Weblancer.getManagerInstance<ILocalContextAction>(LocalContext);
+
   return {
     propManager,
     adjustmentManager,
@@ -60,5 +64,6 @@ export const useWeblancerCommonManager = () => {
     stateManager,
     storeManager,
     pageManager,
+    localContextManager,
   };
 };

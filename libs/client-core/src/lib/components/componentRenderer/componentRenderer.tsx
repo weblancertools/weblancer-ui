@@ -8,6 +8,7 @@ import { useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import { WeblancerComponentRoot } from '../weblancerComponentRoot/weblancerComponentRoot';
 import { IComponentData, IDefaultPropData } from '@weblancer-ui/types';
+import { LocalContextWrapper } from './LocalContextWrapper';
 
 export interface IComponentRenderer {
   itemId: string;
@@ -37,13 +38,17 @@ export const ComponentRenderer = ({ itemId, ...rest }: IComponentRenderer) => {
   const children = Object.values(componentData.children ?? {});
 
   return (
-    <WeblancerComponentRoot itemId={itemId} defineProp={defineProp}>
-      <Component defineProp={defineProp} itemId={itemId} {...rest}>
-        {children.length > 0 &&
-          children.map((childItemId) => {
-            return <ComponentRenderer key={childItemId} itemId={childItemId} />;
-          })}
-      </Component>
-    </WeblancerComponentRoot>
+    <LocalContextWrapper itemId={itemId}>
+      <WeblancerComponentRoot itemId={itemId} defineProp={defineProp}>
+        <Component defineProp={defineProp} itemId={itemId} {...rest}>
+          {children.length > 0 &&
+            children.map((childItemId) => {
+              return (
+                <ComponentRenderer key={childItemId} itemId={childItemId} />
+              );
+            })}
+        </Component>
+      </WeblancerComponentRoot>
+    </LocalContextWrapper>
   );
 };

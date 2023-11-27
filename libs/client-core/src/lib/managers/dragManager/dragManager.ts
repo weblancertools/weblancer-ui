@@ -148,7 +148,7 @@ export class DragManager extends IManager implements IDragManagerActions {
     const newParentId = this.adjustmentManager.getHoveredContainerId();
 
     if (newParentId && newParentId !== this.parentId) {
-      EditorAction.getActionInstance(DropItemAction)
+      EditorAction.createAction(DropItemAction)
         .prepare(this.itemId, newParentId, {
           x: !this.isRestrictedOnAxis('x')
             ? this.getAbsoluteX(data)
@@ -166,7 +166,7 @@ export class DragManager extends IManager implements IDragManagerActions {
   }
 
   private autoDockingOnStop(data: DraggableData) {
-    EditorAction.getActionInstance(SetPositionAction)
+    EditorAction.createAction(SetPositionAction)
       .prepare(this.itemId, {
         x: !this.isRestrictedOnAxis('x')
           ? this.getAbsoluteX(data)

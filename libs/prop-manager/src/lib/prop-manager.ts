@@ -5,7 +5,12 @@ import {
   IStoreManagerActions,
   StoreManager,
 } from '@weblancer-ui/store-manager';
-import { IPropManagerActions, IPropManagerStoreRootState } from './types';
+import {
+  IPropManagerActions,
+  IPropManagerListener,
+  IPropManagerStoreRootState,
+  UnsubscribeListener,
+} from './types';
 import propSlice, {
   addComponent,
   deepAssignComponentProp,
@@ -14,6 +19,7 @@ import propSlice, {
   setPageData,
   updateComponent,
   updateComponentProp,
+  updatePropProviders,
 } from './slice/propSlice';
 import {
   BreakpointManager,
@@ -24,6 +30,7 @@ import {
   IComponentData,
   IDefaultPropData,
   IPropData,
+  IPropProviderInfo,
   IReduxSelector,
 } from '@weblancer-ui/types';
 import { createDraftSafeSelector } from '@reduxjs/toolkit';
@@ -40,6 +47,7 @@ export class PropManager
   public sliceReducer = propSlice;
 
   private selectorCache: Record<string, ReturnType<IReduxSelector>> = {};
+  private listeners: Set<IPropManagerListener> = new Set();
 
   private get currentBreakpointId() {
     return this.breakpointManager.getCurrentBreakpoint().id;
@@ -59,11 +67,28 @@ export class PropManager
     this.injectSlice(storeManager);
   }
 
+  addListener(listener: IPropManagerListener): UnsubscribeListener {
+    this.listeners.add(listener);
+
+    return () => {
+      this.listeners.delete(listener);
+    };
+  }
+
   setPageData(
     componentMap: Record<string, IComponentData>,
     pageId: string
   ): void {
     this.storeManager.dispatch(setPageData({ componentMap, pageId }));
+
+    Object.values(componentMap).forEach((componentData) => {
+      const itemId = componentData.id;
+      Object.keys(componentData.props).forEach((propName) => {
+        this.listeners.forEach((listener) =>
+          listener.onItemPropAdded(itemId, propName)
+        );
+      });
+    });
   }
 
   getPageData(): Omit<IComponentData, 'parentId'> {
@@ -97,6 +122,10 @@ export class PropManager
             biggestBreakpointId: this.allBreakpoints[0].id,
           })
         );
+
+        this.listeners.forEach((listener) => {
+          listener.onItemPropAdded(id, propData.name);
+        });
       }, 0);
 
       return propData.typeInfo.defaultValue as TPropType;
@@ -117,6 +146,38 @@ export class PropManager
         id,
         name,
         value,
+        currentBreakpointId: this.currentBreakpointId,
+        allBreakpoints: this.allBreakpoints,
+      })
+    );
+  }
+
+  addPropProvider(
+    itemId: string,
+    propName: string,
+    providerInfo: IPropProviderInfo
+  ): void {
+    this.storeManager.dispatch(
+      updatePropProviders({
+        id: itemId,
+        propName,
+        providerToAdd: providerInfo,
+        currentBreakpointId: this.currentBreakpointId,
+        allBreakpoints: this.allBreakpoints,
+      })
+    );
+  }
+
+  removePropProvider(
+    itemId: string,
+    propName: string,
+    providerId: string
+  ): void {
+    this.storeManager.dispatch(
+      updatePropProviders({
+        id: itemId,
+        propName,
+        providerToDelete: providerId,
         currentBreakpointId: this.currentBreakpointId,
         allBreakpoints: this.allBreakpoints,
       })
@@ -183,6 +244,7 @@ export class PropManager
                 if (!componentData) return undefined;
 
                 const values: unknown[] = [];
+                const providers: unknown[] = [];
                 Object.keys(componentData.props).forEach((propName) => {
                   const availableBreakpoint =
                     getFirstUpperBreakpointOverrideInComponentData(
@@ -195,9 +257,15 @@ export class PropManager
                   values.push(
                     componentData.props[propName][availableBreakpoint]?.value
                   );
+                  providers.push(
+                    ...Object.keys(
+                      componentData.props[propName][availableBreakpoint]
+                        ?.providers ?? {}
+                    )
+                  );
                 });
 
-                return values;
+                return [...values, ...providers];
               },
             ],
             (values) => values,

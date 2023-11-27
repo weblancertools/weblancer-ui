@@ -8,6 +8,8 @@ import {
   configureStore as reduxConfigureStore,
 } from '@reduxjs/toolkit';
 import { InjectableStore } from './types';
+import { EqualityFn } from 'react-redux';
+import { freeze } from 'immer';
 
 export const createReducer = (
   staticReducers: Reducer | ReducersMapObject = {},
@@ -71,3 +73,37 @@ export const configureMockStore = <TRootState>(preloadedState: TRootState) => {
 
   return store as Store;
 };
+
+export function storeListener<TState = unknown, Selected = unknown>(
+  store: Store,
+  selector: (state: TState) => Selected,
+  callback: (selected: Selected) => void,
+  options: {
+    equalityFn?: EqualityFn<Selected> | undefined;
+    callImmediately?: boolean;
+  } = {}
+) {
+  const { equalityFn, callImmediately } = options;
+
+  let previousSelected: Selected = selector(store.getState());
+
+  const handleChange = () => {
+    const selected = selector(store.getState());
+    if (selected !== previousSelected) {
+      callback(freeze(selected));
+      previousSelected = selected;
+      return;
+    }
+
+    if (equalityFn && !equalityFn(selected, previousSelected)) {
+      callback(freeze(selected));
+      previousSelected = selected;
+    }
+  };
+
+  const unsubscribe = store.subscribe(handleChange);
+
+  if (callImmediately) callback(freeze(previousSelected));
+
+  return unsubscribe;
+}

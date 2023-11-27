@@ -1,19 +1,25 @@
 import 'reflect-metadata';
 
 import { FunctionComponent } from 'react';
-import { IEditorUIPlugin, IReduxStore } from '@weblancer-ui/types';
+import {
+  IEditorUIPlugin,
+  IReduxStore,
+  WeblancerModuleImportFunction,
+} from '@weblancer-ui/types';
 import { Provider } from 'react-redux';
 import { EditorUI } from './editorUI';
-import { UnitTestProvider } from './provider/UnitTestProvider';
+import { WeblancerContextProvider } from './provider/weblancerContextProvider';
 
 export interface EditorCoreProps {
   store: IReduxStore;
   plugins?: IEditorUIPlugin[];
+  toImports?: WeblancerModuleImportFunction[];
 }
 
 export const EditorCore: FunctionComponent<EditorCoreProps> = ({
   store,
   plugins = [],
+  toImports = [],
 }) => {
   const leftMenus = plugins.filter((plugin) => {
     return plugin.leftMenu;
@@ -28,7 +34,11 @@ export const EditorCore: FunctionComponent<EditorCoreProps> = ({
   });
 
   return (
-    <UnitTestProvider store={store} plugins={plugins}>
+    <WeblancerContextProvider
+      store={store}
+      plugins={plugins}
+      toImports={toImports}
+    >
       <Provider store={store}>
         <EditorUI
           leftMenus={leftMenus}
@@ -36,7 +46,7 @@ export const EditorCore: FunctionComponent<EditorCoreProps> = ({
           rightMenus={rightMenus}
         />
       </Provider>
-    </UnitTestProvider>
+    </WeblancerContextProvider>
   );
 };
 

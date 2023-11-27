@@ -5,4 +5,6 @@ export enum PropTypes {
   Number = 'Number',
   Boolean = 'Boolean',
   ClassName = 'ClassName', // create stylesheet and send class name
+  Object = 'Object',
+  LocalContext = 'LocalContext',
 }

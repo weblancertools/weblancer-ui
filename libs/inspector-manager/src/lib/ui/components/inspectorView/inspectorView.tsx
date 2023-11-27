@@ -3,6 +3,10 @@ import { IInspectorManagerActions } from '../../../types';
 import { InspectorManager } from '../../../inspector-manager';
 import { IPropManagerActions, PropManager } from '@weblancer-ui/prop-manager';
 import styles from './inspectorView.module.scss';
+import {
+  IPropProviderActions,
+  PropProviderManager,
+} from '@weblancer/prop-provider';
 
 interface IInspectorViewProps {
   itemId: string;
@@ -13,6 +17,8 @@ export const InspectorView = ({ itemId, propName }: IInspectorViewProps) => {
   const inspectorManager =
     useWeblancerManager<IInspectorManagerActions>(InspectorManager);
   const propManager = useWeblancerManager<IPropManagerActions>(PropManager);
+  const propProvider =
+    useWeblancerManager<IPropProviderActions>(PropProviderManager);
 
   const propData = propManager.getComponentProp(itemId, propName);
 
@@ -26,9 +32,14 @@ export const InspectorView = ({ itemId, propName }: IInspectorViewProps) => {
 
   const InspectorComponent = inspectorData.node;
 
+  const hasProvider =
+    propProvider.getItemPropProviders(itemId, propName).length > 0;
+
   return (
     <div className={styles.root}>
-      <span className={styles.title}>{propName}</span>
+      <span className={styles.title}>
+        {propName} {hasProvider && <span>{'(default value)'}</span>}
+      </span>
       <InspectorComponent itemId={itemId} propName={propData.name} />
     </div>
   );

@@ -6,7 +6,7 @@
   "scripts": {
     "test": "jest",
     "build": "tsc -p tsconfig.lib.json",
-    "pre-deploy-demo": "nx build demo --buildLibsFromSource --prod --baseHref=/weblancer-ui/",
+    "pre-deploy-demo": "nx build demo --buildLibsFromSource --prod --stats-json --baseHref=/weblancer-ui/",
     "deploy-demo": "npm run pre-deploy-demo && npx gh-pages -d dist/apps/demo"
   },
   "dependencies": {
@@ -22,6 +22,7 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-draggable": "^4.4.6",
+    "react-frame-component": "^5.2.6",
     "react-portal": "^4.2.2",
     "react-redux": "8.0.5",
     "react-testing-library": "^8.0.1",

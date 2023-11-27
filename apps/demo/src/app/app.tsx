@@ -6,15 +6,17 @@ import {
   sectionPlugin,
 } from '@weblancer-ui/component-kit';
 import { pagePlugin } from '@weblancer-ui/page-manager';
-import { getWeblancerDefaultPlugins } from '@weblancer-ui/tool-kit';
-
-importWeblancerComponentKit();
+import {
+  getWeblancerDefaultPlugins,
+  importWeblancerToolKit,
+} from '@weblancer-ui/tool-kit';
 
 export function App() {
   return (
     <EditorCore
       store={store}
       plugins={[...getWeblancerDefaultPlugins(), pagePlugin, sectionPlugin]}
+      toImports={[importWeblancerToolKit, importWeblancerComponentKit]}
     />
   );
 }

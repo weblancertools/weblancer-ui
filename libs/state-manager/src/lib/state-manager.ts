@@ -8,7 +8,7 @@ import { createDraftSafeSelector } from '@reduxjs/toolkit';
 import {
   IStateManagerActions,
   IStateManagerSlice,
-  IStoreRootState,
+  IStateManagerRootState,
 } from './types';
 import { inject, injectable } from 'inversify';
 import { Weblancer } from '@weblancer-ui/manager-registry';
@@ -59,7 +59,8 @@ export class StateManager
   public getStateSelector(key: string) {
     if (!this.selectorCache[key]) {
       this.selectorCache[key] = createDraftSafeSelector(
-        (store: IStoreRootState) => store[StateManagerService][key]?.value,
+        (store: IStateManagerRootState) =>
+          store[StateManagerService][key]?.value,
         (value) => value
       );
     }

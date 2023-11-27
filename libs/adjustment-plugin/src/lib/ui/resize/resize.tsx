@@ -102,7 +102,7 @@ export const Resize = () => {
     setResizing(false);
 
     const actions: EditorAction[] = [
-      EditorAction.getActionInstance(UpdateComponentPropAction).prepare(
+      EditorAction.createAction(UpdateComponentPropAction).prepare(
         selectedItemId,
         ComponentChildStyle,
         {
@@ -122,7 +122,7 @@ export const Resize = () => {
 
     if (!isRestrictedForPositioning(parentMetadata)) {
       actions.push(
-        EditorAction.getActionInstance(SetPositionAction).prepare(
+        EditorAction.createAction(SetPositionAction).prepare(
           selectedItemId,
           {
             x: lastResizeData.left,
