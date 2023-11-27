@@ -11,14 +11,12 @@ import {
   importWeblancerToolKit,
 } from '@weblancer-ui/tool-kit';
 
-importWeblancerComponentKit();
-importWeblancerToolKit();
-
 export function App() {
   return (
     <EditorCore
       store={store}
       plugins={[...getWeblancerDefaultPlugins(), pagePlugin, sectionPlugin]}
+      toImports={[importWeblancerToolKit, importWeblancerComponentKit]}
     />
   );
 }

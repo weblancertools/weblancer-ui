@@ -6,7 +6,7 @@
   "scripts": {
     "test": "jest",
     "build": "tsc -p tsconfig.lib.json",
-    "pre-deploy-demo": "nx build demo --buildLibsFromSource --prod --baseHref=/weblancer-ui/",
+    "pre-deploy-demo": "nx build demo --buildLibsFromSource --prod --stats-json --baseHref=/weblancer-ui/",
     "deploy-demo": "npm run pre-deploy-demo && npx gh-pages -d dist/apps/demo"
   },
   "dependencies": {

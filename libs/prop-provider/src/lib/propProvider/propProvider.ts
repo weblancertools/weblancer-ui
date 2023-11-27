@@ -33,7 +33,6 @@ export abstract class PropProvider<TValue = unknown, TData = unknown> {
   }
 
   public onProvide(value: TValue) {
-    console.log('onProvide', value);
     this.propManager.updateComponentProp(this.itemId, this.propName, value);
   }
 

@@ -1,3 +1,3 @@
-export const importWeblancerToolKit = () => {
-  import('./lib/propProviders/stateProvider/stateProviderComponent');
+export const importWeblancerToolKit = async () => {
+  await import('./lib/propProviders/stateProvider/stateProviderComponent');
 };
