@@ -3,9 +3,9 @@ import { ComponentType, PropsWithChildren } from 'react';
 import { TypedUseSelectorHook, useSelector } from 'react-redux';
 
 export const LocalContextService = 'LocalContext';
+export const LocalContextProp = 'localContexts';
 
 export interface ILocalContextSlice {
-  itemContextMap: ItemContextMap;
   initialValues: Record<string, unknown>;
 }
 
@@ -19,7 +19,12 @@ export interface ILocalContextAction {
   removeContextFromItem(itemId: string, contextKey: string): void;
   getItemContextIds(itemId: string): string[];
   getContextByKey<TValue = unknown>(contextKey: string): IContextInfo<TValue>;
-  updateContextInitialValue(contextKey: string, initialValue: unknown): void;
+  getItemContextInitialValue(itemId: string, contextKey: string): unknown;
+  updateItemContextInitialValue(
+    itemId: string,
+    contextKey: string,
+    initialValue: unknown
+  ): void;
   register<TValue>(context: IContextInfo<TValue>): void;
 }
 
@@ -29,6 +34,11 @@ export interface IContextInfo<TValue = unknown> {
   Provider: ComponentType<IProviderProps<TValue>>;
   defaultValue: TValue;
   typeInfo: ITypeInfo<TValue>;
+}
+
+export interface IItemContext<TValue = unknown> {
+  contextKey: string;
+  initialValue: TValue;
 }
 
 export interface IProviderProps<TValue> extends PropsWithChildren {

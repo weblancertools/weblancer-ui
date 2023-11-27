@@ -4,7 +4,6 @@ import type { PayloadAction } from '@reduxjs/toolkit';
 import { ILocalContextSlice, LocalContextService } from '../types';
 
 const initialState: ILocalContextSlice = {
-  itemContextMap: {},
   initialValues: {},
 };
 
@@ -12,32 +11,6 @@ export const localContextSlice = createSlice({
   name: LocalContextService,
   initialState,
   reducers: {
-    addContextToItem: (
-      state,
-      action: PayloadAction<{
-        itemId: string;
-        contextKey: string;
-      }>
-    ) => {
-      const { contextKey, itemId } = action.payload;
-      const itemContextKeys = state.itemContextMap[itemId] ?? [];
-
-      state.itemContextMap[itemId] = [...itemContextKeys, contextKey];
-    },
-    removeContextFromItem: (
-      state,
-      action: PayloadAction<{
-        itemId: string;
-        contextKey: string;
-      }>
-    ) => {
-      const { contextKey, itemId } = action.payload;
-      const itemContextKeys = state.itemContextMap[itemId] ?? [];
-
-      state.itemContextMap[itemId] = itemContextKeys.filter(
-        (key) => contextKey !== key
-      );
-    },
     setInitialValue: (
       state,
       action: PayloadAction<{
@@ -52,7 +25,6 @@ export const localContextSlice = createSlice({
   },
 });
 
-export const { addContextToItem, removeContextFromItem, setInitialValue } =
-  localContextSlice.actions;
+export const { setInitialValue } = localContextSlice.actions;
 
 export default localContextSlice.reducer;

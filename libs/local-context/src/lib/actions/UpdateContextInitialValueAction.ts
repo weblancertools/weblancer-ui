@@ -10,11 +10,11 @@ import { LocalContext } from '../local-context';
 
 @injectable()
 @importManager([UndoManager, LocalContext])
-export class AddLocalContextAction extends EditorAction {
-  public subject = 'Add Local Context';
+export class UpdateContextInitialValueAction extends EditorAction {
+  public subject = 'Update Context Initial Value';
 
   public get description() {
-    return 'Add Local Context';
+    return 'Update Context Initial Value';
   }
 
   constructor(
@@ -26,16 +26,37 @@ export class AddLocalContextAction extends EditorAction {
 
   private itemId!: string;
   private contextKey!: string;
-  public prepare(itemId: string, contextKey: string): EditorAction {
+  private initialValue!: unknown;
+  public prepare(
+    itemId: string,
+    contextKey: string,
+    initialValue: unknown
+  ): EditorAction {
     this.itemId = itemId;
     this.contextKey = contextKey;
+    this.initialValue = initialValue;
     return this;
   }
 
+  private oldInitialValue?: unknown;
   public execute(): void {
-    this.localContext.addContextToItem(this.itemId, this.contextKey);
+    this.oldInitialValue = this.localContext.getItemContextInitialValue(
+      this.itemId,
+      this.contextKey
+    );
+
+    this.localContext.updateItemContextInitialValue(
+      this.itemId,
+      this.contextKey,
+      this.initialValue
+    );
   }
+
   public undo(): void {
-    this.localContext.removeContextFromItem(this.itemId, this.contextKey);
+    this.localContext.updateItemContextInitialValue(
+      this.itemId,
+      this.contextKey,
+      this.oldInitialValue
+    );
   }
 }

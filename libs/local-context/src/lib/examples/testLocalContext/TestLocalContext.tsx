@@ -1,7 +1,5 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 import { IProviderProps } from '../../types';
-import { LocalContext } from '../../local-context';
-import { PropTypes } from '@weblancer-ui/types';
 
 // Define interface of context value
 interface ITestContext {
