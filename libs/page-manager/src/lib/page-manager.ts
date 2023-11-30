@@ -18,8 +18,8 @@ import pageSlice, {
 } from './slice/pageSlice';
 import { IPropManagerActions, PropManager } from '@weblancer-ui/prop-manager';
 import { Weblancer } from '@weblancer-ui/manager-registry';
-import { PageLoader } from './pageLoader.ts/pageLoader';
-import { DefaultPageLoader } from './pageLoader.ts/defaultPageLoader';
+import { PageLoader } from './pageLoader/pageLoader';
+import { DefaultPageLoader } from './pageLoader/defaultPageLoader';
 import { IUndoManagerActions, UndoManager } from '@weblancer-ui/undo-manager';
 import { importManager } from '@weblancer-ui/utils';
 
@@ -42,6 +42,8 @@ export class PageManager
     super();
 
     this.injectSlice(storeManager);
+
+    this.setDefaultPage();
   }
 
   public static setPageLoader(pageLoader: PageLoader): void {
@@ -67,10 +69,14 @@ export class PageManager
   }
 
   async changePage(pageId: string): Promise<void> {
+    if (this.propManager.getPageData()?.id === pageId) return;
+
     const pages = this.getPages();
     let componentMap = pages[pageId].componentMap;
     if (!componentMap) {
-      const loadedPage = await this.pageLoader.loadPage(pageId);
+      const loadedPage = await this.loadPage(pageId);
+
+      if (!loadedPage) throw new Error('page not found');
 
       componentMap = loadedPage.componentMap;
 
@@ -85,10 +91,32 @@ export class PageManager
     this.undoManager.clear();
   }
 
+  changePageSync(pageId: string) {
+    if (this.propManager.getPageData()?.id === pageId) return;
+
+    const pages = this.getPages();
+    const componentMap = pages[pageId].componentMap;
+
+    if (!componentMap) return;
+
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    this.propManager.setPageData(componentMap!, pageId);
+
+    this.undoManager.clear();
+  }
+
   getPages(): Record<string, IPageInfo> {
     return this.storeManager.getState<IPageManagerStoreRootState>()[
       PageManagerService
     ].pages;
+  }
+
+  getPageByRoute(route: string): IPageInfo | undefined {
+    return Object.values(this.getPages()).find((page) => page.route === route);
+  }
+
+  getPageById(pageId: string): IPageInfo | undefined {
+    return Object.values(this.getPages()).find((page) => page.id === pageId);
   }
 
   getHomePage(): IPageInfo {
@@ -104,10 +132,20 @@ export class PageManager
     return this.getPages()[homePageId];
   }
 
-  async loadFirstPage(): Promise<void> {
-    // TODO load first page by page loader
-    // Test
+  setDefaultPage(): void {
     this.addPage(this.pageLoader.getDefaultPageInfo('page1', 'page1'));
+  }
+
+  async loadPage(route?: string): Promise<IPageInfo | undefined> {
+    const loadedPage = route
+      ? await this.pageLoader.loadPage(route)
+      : this.getHomePage();
+
+    if (!loadedPage) return;
+
+    this.addPage(loadedPage);
+
+    return loadedPage;
   }
 
   saveCurrentPage(): void {

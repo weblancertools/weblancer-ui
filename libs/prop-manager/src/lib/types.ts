@@ -6,6 +6,7 @@ import {
   IReduxSelector,
 } from '@weblancer-ui/types';
 import { PropManagerService } from './constants';
+import { TypedUseSelectorHook, useSelector } from 'react-redux';
 
 export interface IPropManagerStoreRootState {
   [PropManagerService]: IPropManagerSlice;
@@ -77,3 +78,6 @@ export interface IPropManagerListener {
 }
 
 export type UnsubscribeListener = () => void;
+
+export const usePropManagerSelector: TypedUseSelectorHook<IPropManagerStoreRootState> =
+  useSelector;

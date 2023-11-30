@@ -9,6 +9,8 @@ export const useImportModules = (
 
   const load = useCallback(async () => {
     try {
+      setLoading(true);
+
       for (const toImport of toImports) {
         await toImport();
       }

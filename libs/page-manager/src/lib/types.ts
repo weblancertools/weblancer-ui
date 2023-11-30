@@ -1,6 +1,6 @@
 import { IComponentData } from '@weblancer-ui/types';
 import { TypedUseSelectorHook, useSelector } from 'react-redux';
-import { PageLoader } from './pageLoader.ts/pageLoader';
+import { PageLoader } from './pageLoader/pageLoader';
 
 export const PageManagerService = 'PageManager';
 
@@ -17,6 +17,7 @@ export interface IPageManagerSlice {
 export interface IPageInfo {
   id: string;
   name: string;
+  route: string;
   componentMap?: Record<string, IComponentData>;
 }
 
@@ -26,10 +27,14 @@ export interface IPageManagerAction {
   removePage(pageId: string): void;
   updatePage(pageId: string, pageInfo: Partial<Omit<IPageInfo, 'id'>>): void;
   changePage(pageId: string): Promise<void>;
+  changePageSync(pageId: string): void;
   setHomePage(pageId: string): void;
   getPages(): Record<string, IPageInfo>;
+  getPageByRoute(route: string): IPageInfo | undefined;
+  getPageById(pageId: string): IPageInfo | undefined;
   getHomePage(): IPageInfo;
-  loadFirstPage(): Promise<void>;
+  setDefaultPage(): void;
+  loadPage(route?: string): Promise<IPageInfo | undefined>;
   saveCurrentPage(): void;
 }
 

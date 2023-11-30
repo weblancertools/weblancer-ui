@@ -6,6 +6,7 @@ export class DefaultPageLoader extends PageLoader {
     return {
       id,
       name,
+      route: name,
       componentMap: {
         [id]: {
           id,
@@ -19,14 +20,15 @@ export class DefaultPageLoader extends PageLoader {
     };
   }
 
-  public async loadPage(pageId: string): Promise<IPageInfo> {
+  public async loadPage(route: string): Promise<IPageInfo> {
     return {
-      id: pageId,
-      name: pageId,
+      id: route,
+      name: route,
+      route: route,
       componentMap: {
         page1: {
-          id: pageId,
-          name: pageId,
+          id: route,
+          name: route,
           componentKey: 'weblancer-component-kit-page',
           parentId: 'none',
           props: {},

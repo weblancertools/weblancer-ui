@@ -11,8 +11,7 @@ export const useLoadPage = () => {
   );
 
   const loadHomePage = useCallback(async () => {
-    // TODO load page from a loader
-    await pageManager.loadFirstPage();
+    pageManager.setDefaultPage();
 
     const homePageId = pageManager.getHomePage().id;
 

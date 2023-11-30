@@ -29,14 +29,14 @@ export const PageController = () => {
     pageManager.changePage(pageId);
   };
 
-  const createNewPage = () => {
+  const createNewPage = async () => {
     const id = generateRandomString(8);
     const newPageInfo = pageManager.pageLoader.getDefaultPageInfo(id, id);
 
     pageManager.saveCurrentPage();
 
     pageManager.addPage(newPageInfo);
-    pageManager.changePage(id);
+    await pageManager.changePage(id);
   };
 
   return (
